@@ -21,25 +21,25 @@ struct MachOResourceViewer: View {
     var body: some View {
         List {
             if let parser = parser {
-                Section(header: Text("Binary Summary")) {
-                    InfoRow(label: "Name", value: url.lastPathComponent)
-                    InfoRow(label: "Path", value: url.path)
-                    InfoRow(label: "Size", value: formatSize(url))
+                Section(header: Text("二进制摘要")) {
+                    InfoRow(label: "名称", value: url.lastPathComponent)
+                    InfoRow(label: "路径", value: url.path)
+                    InfoRow(label: "大小", value: formatSize(url))
 
                     let archs = parser.architectures()
-                    InfoRow(label: "Architectures", value: archs.isEmpty ? "Unknown" : archs.joined(separator: ", "))
+                    InfoRow(label: "架构", value: archs.isEmpty ? "未知" : archs.joined(separator: ", "))
 
                     if let platform = parser.platformType() {
-                        InfoRow(label: "Platform", value: platform)
+                        InfoRow(label: "平台", value: platform)
                     }
 
                     if let minOS = parser.minimumOSVersion() {
-                        InfoRow(label: "Min OS Version", value: minOS)
+                        InfoRow(label: "最低系统版本", value: minOS)
                     }
 
                     InfoRow(
-                        label: "Encrypted (DRM)",
-                        value: parser.isEncrypted() ? "Yes" : "No",
+                        label: "已加密（DRM）",
+                        value: parser.isEncrypted() ? "是" : "否",
                         valueColor: parser.isEncrypted() ? .orange : .green
                     )
 
@@ -48,11 +48,11 @@ struct MachOResourceViewer: View {
                     }
 
                     if let teamID = parser.teamID() {
-                        InfoRow(label: "Team ID", value: teamID)
+                        InfoRow(label: "团队 ID", value: teamID)
                     }
 
                     if let entryOff = parser.entryPoint() {
-                        InfoRow(label: "Entry Point", value: String(format: "0x%llX", entryOff))
+                        InfoRow(label: "入口点", value: String(format: "0x%llX", entryOff))
                     }
 
                     let cdHashes = parser.getCDHashes()
@@ -63,17 +63,17 @@ struct MachOResourceViewer: View {
 
                 let x509Certs = parser.x509Certificates()
                 if !x509Certs.isEmpty {
-                    Section(header: Text("Signatures & Certificates (\(x509Certs.count))")) {
+                    Section(header: Text("签名与证书（\(x509Certs.count)）")) {
                         ForEach(Array(x509Certs.enumerated()), id: \.offset) { index, cert in
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(cert.name)
                                     .font(.subheadline)
                                     .foregroundColor(.primary)
-                                Text("Serial: \(cert.serialNumber)")
+                                Text("序列号：\(cert.serialNumber)")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                 if cert.expiryDate != Date.distantPast {
-                                    Text("Expires: \(formatDate(cert.expiryDate))")
+                                    Text("到期时间：\(formatDate(cert.expiryDate))")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -84,12 +84,12 @@ struct MachOResourceViewer: View {
                 }
 
                 if let ent = try? parser.entitlements(), !ent.isEmpty {
-                    Section(header: Text("Entitlements")) {
-                        NavigationLink(destination: ResourceTextViewer(title: "Entitlements", explicitContent: ent)) {
+                    Section(header: Text("权限")) {
+                        NavigationLink(destination: ResourceTextViewer(title: "权限", explicitContent: ent)) {
                             HStack {
                                 Image(systemName: "lock.doc.fill")
                                     .foregroundColor(.green)
-                                Text("Embedded Entitlements")
+                                Text("内嵌权限")
                                     .font(.subheadline)
                                 Spacer()
                                 Text("XML")
@@ -102,7 +102,7 @@ struct MachOResourceViewer: View {
 
                 let libs = parser.linkedLibraries()
                 if !libs.isEmpty {
-                    Section(header: Text("Linked Libraries (\(libs.count))")) {
+                    Section(header: Text("链接的库（\(libs.count)）")) {
                         ForEach(libs, id: \.self) { lib in
                             HStack(alignment: .top, spacing: 8) {
                                 Image(systemName: "cpu")
@@ -120,14 +120,14 @@ struct MachOResourceViewer: View {
 
                 let segs = parser.segments()
                 if !segs.isEmpty {
-                    Section(header: Text("Segments (\(segs.count))")) {
+                    Section(header: Text("段（\(segs.count)）")) {
                         ForEach(segs, id: \.name) { seg in
                             HStack {
                                 Text(seg.name)
                                     .font(.system(size: 13, design: .monospaced))
                                     .fontWeight(.medium)
                                 Spacer()
-                                Text("offset: \(String(format: "0x%llX", seg.offset))  size: \(ByteCountFormatter.string(fromByteCount: Int64(seg.size), countStyle: .file))")
+                                Text("偏移：\(String(format: "0x%llX", seg.offset))  大小：\(ByteCountFormatter.string(fromByteCount: Int64(seg.size), countStyle: .file))")
                                     .font(.system(size: 11, design: .monospaced))
                                     .foregroundColor(.secondary)
                             }
@@ -135,12 +135,12 @@ struct MachOResourceViewer: View {
                     }
                 }
 
-                Section(header: Text("Raw Dump")) {
-                    NavigationLink(destination: ResourceTextViewer(title: "Mach-O Dump", explicitContent: dumpText)) {
+                Section(header: Text("原始转储")) {
+                    NavigationLink(destination: ResourceTextViewer(title: "Mach-O 转储", explicitContent: dumpText)) {
                         HStack {
                             Image(systemName: "doc.plaintext.fill")
                                 .foregroundColor(.blue)
-                            Text("View Full Mach-O Dump")
+                            Text("查看完整 Mach-O 转储")
                                 .font(.subheadline)
                         }
                     }
@@ -150,9 +150,9 @@ struct MachOResourceViewer: View {
                     Image(systemName: "exclamationmark.triangle")
                         .font(.system(size: 44))
                         .foregroundColor(.orange)
-                    Text("Invalid Mach-O Binary")
+                    Text("Mach-O 二进制文件无效")
                         .font(.headline)
-                    Text("Could not parse \(url.lastPathComponent) as a valid Mach-O binary.")
+                    Text("无法将 \(url.lastPathComponent) 解析为有效的 Mach-O 二进制文件。")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -160,7 +160,7 @@ struct MachOResourceViewer: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ProgressView("Parsing Mach-O...")
+                ProgressView("正在解析 Mach-O...")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
@@ -199,25 +199,25 @@ struct MachOResourceViewer: View {
     }
 
     private func generateDumpText(_ p: MachOParser) -> String {
-        var info = "--- Mach-O Binary Info: \(url.lastPathComponent) ---\n"
-        info += "Path: \(url.path)\n"
-        info += "Size: \(formatSize(url))\n"
-        info += "Architectures: \(p.architectures().joined(separator: ", "))\n"
+        var info = "--- Mach-O 二进制信息：\(url.lastPathComponent) ---\n"
+        info += "路径：\(url.path)\n"
+        info += "大小：\(formatSize(url))\n"
+        info += "架构：\(p.architectures().joined(separator: ", "))\n"
         if let platform = p.platformType() {
-            info += "Platform: \(platform)\n"
+            info += "平台：\(platform)\n"
         }
         if let minOS = p.minimumOSVersion() {
-            info += "Min OS Version: \(minOS)\n"
+            info += "最低系统版本：\(minOS)\n"
         }
-        info += "Encrypted (DRM): \(p.isEncrypted() ? "Yes" : "No")\n"
+        info += "已加密（DRM）：\(p.isEncrypted() ? "是" : "否")\n"
         if let bundleID = p.bundleIdentifier() {
-            info += "Bundle ID: \(bundleID)\n"
+            info += "Bundle ID：\(bundleID)\n"
         }
         if let teamID = p.teamID() {
-            info += "Team ID: \(teamID)\n"
+            info += "团队 ID：\(teamID)\n"
         }
         if let entry = p.entryPoint() {
-            info += "Entry Point: \(String(format: "0x%llX", entry))\n"
+            info += "入口点：\(String(format: "0x%llX", entry))\n"
         }
         let cdHashes = p.getCDHashes()
         if !cdHashes.isEmpty {
@@ -229,16 +229,16 @@ struct MachOResourceViewer: View {
 
         let certs = p.certificates()
         if !certs.isEmpty {
-            info += "Certificates (\(certs.count)):\n"
+            info += "证书（\(certs.count)）：\n"
             for (index, cert) in certs.enumerated() {
-                let subject = X509Certificate(der: cert)?.name ?? "Certificate \(index + 1) (\(cert.count) bytes)"
+                let subject = X509Certificate(der: cert)?.name ?? "证书 \(index + 1)（\(cert.count) 字节）"
                 info += "  [\(index)] \(subject)\n"
             }
         }
 
         let libs = p.linkedLibraries()
         if !libs.isEmpty {
-            info += "Linked Libraries (\(libs.count)):\n"
+            info += "链接的库（\(libs.count)）：\n"
             for lib in libs {
                 info += "  - \(lib)\n"
             }
@@ -246,14 +246,14 @@ struct MachOResourceViewer: View {
 
         let segs = p.segments()
         if !segs.isEmpty {
-            info += "Segments (\(segs.count)):\n"
+            info += "段（\(segs.count)）：\n"
             for seg in segs {
-                info += "  - \(seg.name) (offset: \(String(format: "0x%llX", seg.offset)), size: \(ByteCountFormatter.string(fromByteCount: Int64(seg.size), countStyle: .file)))\n"
+                info += "  - \(seg.name)（偏移：\(String(format: "0x%llX", seg.offset))，大小：\(ByteCountFormatter.string(fromByteCount: Int64(seg.size), countStyle: .file))）\n"
             }
         }
 
         if let ent = try? p.entitlements(), !ent.isEmpty {
-            info += "\n--- Embedded Entitlements ---\n"
+            info += "\n--- 内嵌权限 ---\n"
             info += ent
             info += "\n"
         }

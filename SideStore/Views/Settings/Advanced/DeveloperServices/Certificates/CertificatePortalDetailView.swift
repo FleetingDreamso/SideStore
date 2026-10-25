@@ -23,55 +23,55 @@ struct CertificatePortalDetailView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Certificate Details")) {
-                InfoRow(label: "Name", value: certificate.name)
-                InfoRow(label: "Serial Number", value: certificate.serialNumber)
+            Section(header: Text("证书详情")) {
+                InfoRow(label: "名称", value: certificate.name)
+                InfoRow(label: "序列号", value: certificate.serialNumber)
                 if let identifier = certificate.identifier {
-                    InfoRow(label: "Certificate ID", value: identifier)
+                    InfoRow(label: "证书 ID", value: identifier)
                 }
                 if let certType = certificate.certificateType {
-                    InfoRow(label: "Certificate Type", value: certType)
+                    InfoRow(label: "证书类型", value: certType)
                 }
                 if let typeName = certificate.certificateTypeName {
-                    InfoRow(label: "Type Name", value: typeName)
+                    InfoRow(label: "类型名称", value: typeName)
                 }
                 if let managed = certificate.isManaged {
-                    InfoRow(label: "Managed", value: managed ? "Yes (Xcode Cloud)" : "No")
+                    InfoRow(label: "受管理", value: managed ? "是（Xcode Cloud）" : "否")
                 }
                 if let platform = certificate.platform {
-                    InfoRow(label: "Platform", value: platform)
+                    InfoRow(label: "平台", value: platform)
                 }
                 if let machineName = certificate.machineName {
-                    InfoRow(label: "Machine Name", value: machineName)
+                    InfoRow(label: "机器名称", value: machineName)
                 }
                 if let machineIdentifier = certificate.machineIdentifier {
-                    InfoRow(label: "Machine Identifier", value: machineIdentifier)
+                    InfoRow(label: "机器标识符", value: machineIdentifier)
                 }
                 if let createdBy = certificate.requesterFirstName {
-                    InfoRow(label: "Created By", value: createdBy)
+                    InfoRow(label: "创建者", value: createdBy)
                 }
                 if let email = certificate.requesterEmail {
-                    InfoRow(label: "Requester Email", value: email)
+                    InfoRow(label: "请求者邮箱", value: email)
                 }
                 if let teamName = viewModel.team?.name {
-                    InfoRow(label: "Team Name", value: teamName)
+                    InfoRow(label: "团队名称", value: teamName)
                 }
                 if let teamID = viewModel.team?.identifier {
-                    InfoRow(label: "Team Identifier", value: teamID)
+                    InfoRow(label: "团队标识符", value: teamID)
                 }
-                InfoRow(label: "Created Date", value: formatDate(certificate.creationDate))
-                InfoRow(label: "Expiration Date", value: formatDate(certificate.expiryDate), valueColor: isExpired ? .red : .primary)
-                InfoRow(label: "Status", value: isExpired ? "Expired" : "Active", valueColor: isExpired ? .red : .green)
+                InfoRow(label: "创建日期", value: formatDate(certificate.creationDate))
+                InfoRow(label: "到期日期", value: formatDate(certificate.expiryDate), valueColor: isExpired ? .red : .primary)
+                InfoRow(label: "状态", value: isExpired ? "已过期" : "已激活", valueColor: isExpired ? .red : .green)
             }
 
-            Section(footer: Text("Revoking a certificate permanently invalidates it on Apple's servers. Any provisioning profiles tied exclusively to this certificate may need to be re-generated.")) {
+            Section(footer: Text("吊销证书会在 Apple 的服务器上永久使其失效。仅与该证书绑定的任何描述文件可能需要重新生成。")) {
                 SwiftUI.Button(role: .destructive) {
                     showRevokeAlert = true
                 } label: {
                     HStack {
                         Spacer()
                         Image(systemName: "trash")
-                        Text("Revoke Certificate on Portal")
+                        Text("在门户上吊销证书")
                             .fontWeight(.semibold)
                         Spacer()
                     }
@@ -89,9 +89,9 @@ struct CertificatePortalDetailView: View {
         }
         .alert(isPresented: $showRevokeAlert) {
             Alert(
-                title: Text("Revoke Certificate?"),
-                message: Text("Are you sure you want to revoke '\(certificate.name)' on the Apple Developer Portal? This action cannot be undone."),
-                primaryButton: .destructive(Text("Revoke")) {
+                title: Text("吊销证书？"),
+                message: Text("确定要在 Apple 开发者门户上吊销“\(certificate.name)”吗？此操作无法撤销。"),
+                primaryButton: .destructive(Text("吊销")) {
                     Task {
                         let success = await viewModel.revokeCertificate(certificate, presentingViewController: presentingViewController)
                         if success {

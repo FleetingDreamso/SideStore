@@ -34,7 +34,7 @@ struct AppIDsListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Registered App IDs (\(viewModel.appIDs.count))")) {
+            Section(header: Text("已注册的 App ID（\(viewModel.appIDs.count)）")) {
                 if filteredAppIDs.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -44,7 +44,7 @@ struct AppIDsListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "No App IDs registered on Developer Portal." : "No matching App IDs found.")
+                        Text(searchText.isEmpty ? "开发者门户上没有已注册的 App ID。" : "未找到匹配的 App ID。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -57,7 +57,7 @@ struct AppIDsListView: View {
                                         .font(.headline)
                                     Spacer()
                                     if !appID.features.isEmpty {
-                                        Text("\(appID.features.count) features")
+                                        Text("\(appID.features.count) 项功能")
                                             .font(.caption2)
                                             .padding(.horizontal, 6)
                                             .padding(.vertical, 2)
@@ -70,12 +70,12 @@ struct AppIDsListView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                                 HStack {
-                                    Text("ID: \(appID.identifier)")
+                                    Text("ID：\(appID.identifier)")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                     Spacer()
                                     if let expiration = appID.expirationDate {
-                                        Text("Expires: \(formatDate(expiration))")
+                                        Text("到期时间：\(formatDate(expiration))")
                                             .font(.caption)
                                             .foregroundColor(expiration < Date() ? .red : .secondary)
                                     }
@@ -89,7 +89,7 @@ struct AppIDsListView: View {
                                 appIDToDelete = appID
                                 showDeleteConfirmation = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
                         }
                         #endif
@@ -98,7 +98,7 @@ struct AppIDsListView: View {
                                 appIDToDelete = appID
                                 showDeleteConfirmation = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
                         }
                     }
@@ -107,11 +107,11 @@ struct AppIDsListView: View {
         }
         #if !os(tvOS)
         .listStyle(InsetGroupedListStyle())
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search App IDs")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索 App ID")
         #else
         .listStyle(GroupedListStyle())
         #endif
-        .navigationTitle("App IDs")
+        .navigationTitle("App ID")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 SwiftUI.Button {
@@ -127,21 +127,21 @@ struct AppIDsListView: View {
         .sheet(isPresented: $showRegisterSheet) {
             NavigationView {
                 Form {
-                    Section(header: Text("App ID Information"), footer: Text("Bundle ID must match reverse-DNS format (e.g. com.example.myapp).")) {
-                        TextField("Name (e.g. My App)", text: $newAppIDName)
-                        TextField("Bundle Identifier", text: $newAppIDBundleID)
+                    Section(header: Text("App ID 信息"), footer: Text("Bundle ID 必须符合反向 DNS 格式（例如 com.example.myapp）。")) {
+                        TextField("名称（例如 My App）", text: $newAppIDName)
+                        TextField("Bundle ID", text: $newAppIDBundleID)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
                 }
-                .navigationTitle("Register App ID")
+                .navigationTitle("注册 App ID")
                 .navigationBarItems(
-                    leading: SwiftUI.Button("Cancel") {
+                    leading: SwiftUI.Button("取消") {
                         newAppIDName = ""
                         newAppIDBundleID = ""
                         showRegisterSheet = false
                     },
-                    trailing: SwiftUI.Button("Register") {
+                    trailing: SwiftUI.Button("注册") {
                         let name = newAppIDName.trimmingCharacters(in: .whitespacesAndNewlines)
                         let bundleID = newAppIDBundleID.trimmingCharacters(in: .whitespacesAndNewlines)
                         guard !name.isEmpty, !bundleID.isEmpty else { return }
@@ -162,9 +162,9 @@ struct AppIDsListView: View {
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
-                title: Text(viewModel.isPaidAccount ? "Delete App ID?" : "Warning: Delete App ID?"),
+                title: Text(viewModel.isPaidAccount ? "删除 App ID？" : "警告：删除 App ID？"),
                 message: Text(deleteAlertMessage),
-                primaryButton: .destructive(Text("Delete")) {
+                primaryButton: .destructive(Text("删除")) {
                     if let target = appIDToDelete {
                         Task {
                             _ = await viewModel.deleteAppID(target, presentingViewController: presentingViewController)
@@ -179,23 +179,23 @@ struct AppIDsListView: View {
 
     private var deleteAlertMessage: String {
         guard let appID = appIDToDelete else { return "" }
-        let name = appID.name.isEmpty ? "this App ID" : "'\(appID.name)'"
+        let name = appID.name.isEmpty ? "此 App ID" : "'\(appID.name)'"
         let bundleID = appID.bundleIdentifier.isEmpty ? "" : " (\(appID.bundleIdentifier))"
 
         if viewModel.isPaidAccount {
-            return "Are you sure you want to delete \(name)\(bundleID)? This will also remove any associated provisioning profiles."
+            return "确定要删除 \(name)\(bundleID) 吗？这还会移除所有关联的描述文件。"
         }
 
-        var expiryNotice = "until it expires automatically after the remaining days of its usual 7-day validity."
+        var expiryNotice = "在其通常 7 天有效期的剩余天数过后自动过期。"
         if let expiration = appID.expirationDate {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.day], from: Date(), to: expiration)
             if let days = components.day, days > 0 {
-                expiryNotice = "until it expires automatically in \(days) day\(days == 1 ? "" : "s") (from its usual 7-day validity)."
+                expiryNotice = "在其通常 7 天有效期的剩余 \(days) 天后自动过期。"
             }
         }
 
-        return "Warning: Deleting \(name)\(bundleID) does not free up an App ID slot.\n\nThis App ID will become reserved and will not be available for use \(expiryNotice)\n\nAre you sure you want to delete it?"
+        return "警告：删除 \(name)\(bundleID) 不会释放 App ID 名额。\n\n此 App ID 将被保留，并\(expiryNotice)\n\n确定要删除它吗？"
     }
 
     private func formatDate(_ date: Date) -> String {

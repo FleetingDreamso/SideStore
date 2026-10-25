@@ -76,7 +76,7 @@ public class FileOutputStream: OutputStream {
         if fileHandle == nil {
             let now = Date()
             if let lastFail = lastFailureTime, now.timeIntervalSince(lastFail) < 10.0 {
-                throw NSError(domain: "FileOutputStream", code: 1, userInfo: [NSLocalizedDescriptionKey: "Within 10-second cooldown window"])
+                throw NSError(domain: "FileOutputStream", code: 1, userInfo: [NSLocalizedDescriptionKey: "处于 10 秒冷却窗口内，暂不可用"])
             }
             
             if let provider = fileHandleProvider, let newHandle = provider() {
@@ -84,7 +84,7 @@ public class FileOutputStream: OutputStream {
                 lastFailureTime = nil
             } else {
                 lastFailureTime = Date()
-                throw NSError(domain: "FileOutputStream", code: 2, userInfo: [NSLocalizedDescriptionKey: "Failed to recreate file handle via provider"])
+                throw NSError(domain: "FileOutputStream", code: 2, userInfo: [NSLocalizedDescriptionKey: "无法通过 provider 重建文件句柄"])
             }
         }
     }

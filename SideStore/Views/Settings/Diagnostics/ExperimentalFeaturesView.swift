@@ -21,7 +21,7 @@ struct ExperimentalFeaturesView: View {
             VStack(alignment: .leading, spacing: 24) {
                 // Section 1: STANDALONE FEATURES
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("STANDALONE FEATURES")
+                    Text("独立功能")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)
@@ -30,7 +30,7 @@ struct ExperimentalFeaturesView: View {
                         if #available(iOS 26.0, *) {
                             NavigationLink(destination: WirelessPairView()) {
                                 HStack {
-                                    Text("Wireless Pairing")
+                                    Text("无线配对")
                                         .font(.system(size: 17, weight: .bold))
                                         .foregroundColor(.white)
                                     Spacer()
@@ -47,7 +47,7 @@ struct ExperimentalFeaturesView: View {
                         
                         NavigationLink(destination: CacheManagementView()) {
                             HStack {
-                                Text("Cache Management")
+                                Text("缓存管理")
                                     .font(.system(size: 17, weight: .bold))
                                     .foregroundColor(.white)
                                 Spacer()
@@ -71,7 +71,7 @@ struct ExperimentalFeaturesView: View {
                         .padding(.horizontal, 16)
                     
                     VStack(spacing: 0) {
-                        toggleRow(title: "Enable Minimuxer Backend Hotswap", isOn: Binding(
+                        toggleRow(title: "启用 Minimuxer 后端热切换", isOn: Binding(
                             get: { isMinimuxerBackendHotswapEnabled },
                             set: { newValue in
                                 isMinimuxerBackendHotswapEnabled = newValue
@@ -88,7 +88,7 @@ struct ExperimentalFeaturesView: View {
             .padding(.bottom, 32)
         }
         .background(Color(uiColor: .settingsBackground).ignoresSafeArea())
-        .navigationTitle("Experimental Features")
+        .navigationTitle("实验性功能")
         #if !os(tvOS)
         .navigationBarTitleDisplayMode(.large)
         #endif

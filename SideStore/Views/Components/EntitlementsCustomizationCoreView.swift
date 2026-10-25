@@ -82,13 +82,13 @@ public struct EntitlementsCustomizationCoreView: View {
                     hideKeyboard()
                 }
             )
-            .navigationTitle("Customize Entitlements")
+            .navigationTitle("自定义权限")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading: SwiftUI.Button("Cancel") {
+                leading: SwiftUI.Button("取消") {
                     viewModel.onCancel()
                 },
-                trailing: SwiftUI.Button("Proceed") {
+                trailing: SwiftUI.Button("继续") {
                     viewModel.handleProceed()
                 }
                 .font(.system(size: 16, weight: .bold))
@@ -96,7 +96,7 @@ public struct EntitlementsCustomizationCoreView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
-                    SwiftUI.Button("Done") {
+                    SwiftUI.Button("完成") {
                         hideKeyboard()
                     }
                 }
@@ -153,7 +153,7 @@ public struct EntitlementsCustomizationCoreView: View {
     private var dialogHeaderView: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 3) {
-                Text("Customize Entitlements")
+                Text("自定义权限")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.primary)
 
@@ -178,7 +178,7 @@ public struct EntitlementsCustomizationCoreView: View {
             SwiftUI.Button(action: {
                 viewModel.onCancel()
             }) {
-                Text("Cancel")
+                Text("取消")
                     .font(.system(size: 16, weight: .medium))
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
@@ -190,7 +190,7 @@ public struct EntitlementsCustomizationCoreView: View {
             SwiftUI.Button(action: {
                 viewModel.handleProceed()
             }) {
-                Text("Proceed")
+                Text("继续")
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
@@ -207,7 +207,7 @@ public struct EntitlementsCustomizationCoreView: View {
         HStack(spacing: 6) {
             Image(systemName: viewModel.teamType == .free ? "person.crop.circle" : "star.circle.fill")
                 .font(.system(size: 11, weight: .semibold))
-            Text(viewModel.teamType == .free ? "Free Account" : "Paid Developer")
+            Text(viewModel.teamType == .free ? "免费账号" : "付费开发者")
                 .font(.system(size: 11, weight: .semibold))
         }
         .foregroundColor(viewModel.teamType == .free ? Color.orange : Color.green)
@@ -274,7 +274,7 @@ public struct EntitlementsCustomizationCoreView: View {
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.primary)
 
-                            Text(viewModel.currentTarget?.isExtension == true ? "Extension" : "Main App")
+                            Text(viewModel.currentTarget?.isExtension == true ? "扩展" : "主应用")
                                 .font(.system(size: 10, weight: .semibold))
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
@@ -310,7 +310,7 @@ public struct EntitlementsCustomizationCoreView: View {
                 .foregroundColor(.secondary)
                 .font(.system(size: 14))
 
-            TextField("Search entitlements...", text: $viewModel.searchQuery)
+            TextField("搜索权限...", text: $viewModel.searchQuery)
                 .font(.system(size: 14))
                 .textFieldStyle(PlainTextFieldStyle())
 
@@ -334,7 +334,7 @@ public struct EntitlementsCustomizationCoreView: View {
     private var activeEntitlementsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("ACTIVE ENTITLEMENTS (\(viewModel.filteredActiveEntries.count))")
+                Text("当前权限（\(viewModel.filteredActiveEntries.count)）")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.secondary)
 
@@ -344,10 +344,10 @@ public struct EntitlementsCustomizationCoreView: View {
 
             if viewModel.filteredActiveEntries.isEmpty {
                 VStack(spacing: 6) {
-                    Text("No active entitlements")
+                    Text("没有当前权限")
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.secondary)
-                    Text("Select additional entitlements below or tap '+' to add one.")
+                    Text("在下方选择其他权限，或点按“+”添加一个。")
                         .font(.system(size: 12))
                         .foregroundColor(.secondary)
                 }
@@ -394,7 +394,7 @@ public struct EntitlementsCustomizationCoreView: View {
                             }
 
                         if entry.isAppDefault {
-                            Text("App Default")
+                            Text("应用默认")
                                 .font(.system(size: 9, weight: .bold))
                                 .foregroundColor(.blue)
                                 .padding(.horizontal, 6)
@@ -402,7 +402,7 @@ public struct EntitlementsCustomizationCoreView: View {
                                 .background(Color.blue.opacity(0.12))
                                 .clipShape(Capsule())
                         } else {
-                            Text("Added")
+                            Text("已添加")
                                 .font(.system(size: 9, weight: .bold))
                                 .foregroundColor(.green)
                                 .padding(.horizontal, 6)
@@ -412,7 +412,7 @@ public struct EntitlementsCustomizationCoreView: View {
                         }
 
                         if !isAllowed {
-                            Text("Unsupported on \(viewModel.teamType.displayName)")
+                            Text("在 \(viewModel.teamType.displayName) 上不受支持")
                                 .font(.system(size: 9, weight: .bold))
                                 .foregroundColor(.orange)
                                 .padding(.horizontal, 6)
@@ -449,7 +449,7 @@ public struct EntitlementsCustomizationCoreView: View {
             }
 
             if entry.type == .string || entry.type == .number {
-                TextField("Value", text: viewModel.bindingForString(entryID: entry.id))
+                TextField("值", text: viewModel.bindingForString(entryID: entry.id))
                     .font(.system(size: 13, design: .monospaced))
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
@@ -467,7 +467,7 @@ public struct EntitlementsCustomizationCoreView: View {
     private func arrayEditorView(entry: EntitlementEntry, isAllowed: Bool) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             if entry.arrayValue.isEmpty {
-                Text("No values (empty array)")
+                Text("没有值（空数组）")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.secondary)
             } else {
@@ -508,7 +508,7 @@ public struct EntitlementsCustomizationCoreView: View {
 
             if isAllowed {
                 HStack(spacing: 8) {
-                    TextField("Add item (e.g. group.id)", text: $viewModel.newArrayItemText)
+                    TextField("添加项目（例如 group.id）", text: $viewModel.newArrayItemText)
                         .font(.system(size: 12, design: .monospaced))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 5)
@@ -533,7 +533,7 @@ public struct EntitlementsCustomizationCoreView: View {
 
         return VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("AVAILABLE FOR YOUR ACCOUNT (\(available.count))")
+                Text("可用于你的账号（\(available.count)）")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.secondary)
 
@@ -542,7 +542,7 @@ public struct EntitlementsCustomizationCoreView: View {
             .padding(.horizontal, 16)
 
             if available.isEmpty {
-                Text("All permitted account entitlements have been added.")
+                Text("所有允许的账号权限均已添加。")
                     .font(.system(size: 13))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 16)
@@ -609,7 +609,7 @@ public struct EntitlementsCustomizationCoreView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "plus")
                         .font(.system(size: 12, weight: .bold))
-                    Text("Add")
+                    Text("添加")
                         .font(.system(size: 13, weight: .bold))
                 }
                 .foregroundColor(.white)
@@ -631,7 +631,7 @@ public struct EntitlementsCustomizationCoreView: View {
             HStack(spacing: 8) {
                 Image(systemName: "plus.circle.fill")
                     .font(.system(size: 16, weight: .semibold))
-                Text("Add Custom Entitlement Key")
+                Text("添加自定义权限键")
                     .font(.system(size: 15, weight: .semibold))
             }
             .frame(maxWidth: .infinity)
@@ -646,15 +646,15 @@ public struct EntitlementsCustomizationCoreView: View {
     private var addCustomKeySheet: some View {
         NavigationView {
             Form {
-                Section(header: Text("Entitlement Key")) {
-                    TextField("e.g. com.apple.security.application-groups", text: $viewModel.newCustomKey)
+                Section(header: Text("权限键")) {
+                    TextField("例如 com.apple.security.application-groups", text: $viewModel.newCustomKey)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .font(.system(size: 14, design: .monospaced))
                 }
 
-                Section(header: Text("Type")) {
-                    Picker("Value Type", selection: $viewModel.newCustomType) {
+                Section(header: Text("类型")) {
+                    Picker("值类型", selection: $viewModel.newCustomType) {
                         ForEach(EntitlementValueType.allCases) { type in
                             Text(type.rawValue).tag(type)
                         }
@@ -662,28 +662,28 @@ public struct EntitlementsCustomizationCoreView: View {
                     .pickerStyle(SegmentedPickerStyle())
                 }
 
-                Section(header: Text("Value")) {
+                Section(header: Text("值")) {
                     switch viewModel.newCustomType {
                     case .boolean:
-                        Toggle("Enabled", isOn: $viewModel.newCustomBool)
+                        Toggle("已启用", isOn: $viewModel.newCustomBool)
                     case .string, .number:
-                        TextField("Value", text: $viewModel.newCustomString)
+                        TextField("值", text: $viewModel.newCustomString)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     case .stringArray:
-                        TextField("Items (comma-separated)", text: $viewModel.newCustomArrayText)
+                        TextField("项目（以逗号分隔）", text: $viewModel.newCustomArrayText)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
                 }
             }
-            .navigationTitle("Add Entitlement")
+            .navigationTitle("添加权限")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading: SwiftUI.Button("Cancel") {
+                leading: SwiftUI.Button("取消") {
                     viewModel.isShowingAddCustomSheet = false
                 },
-                trailing: SwiftUI.Button("Add") {
+                trailing: SwiftUI.Button("添加") {
                     viewModel.commitCustomKey()
                     viewModel.isShowingAddCustomSheet = false
                 }

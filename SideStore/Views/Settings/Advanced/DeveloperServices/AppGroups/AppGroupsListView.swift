@@ -38,7 +38,7 @@ struct AppGroupsListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("App Groups (\(viewModel.appGroups.count))"), footer: Text("App Groups enable data sharing across multiple apps and extensions within the same developer team. Tap a group to edit its name or delete it.")) {
+            Section(header: Text("App 组（\(viewModel.appGroups.count)）"), footer: Text("App 组可在同一开发者团队内的多个应用和扩展之间共享数据。点按某个组可编辑其名称或将其删除。")) {
                 if filteredGroups.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -48,7 +48,7 @@ struct AppGroupsListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "No App Groups found on Developer Portal." : "No matching App Groups found.")
+                        Text(searchText.isEmpty ? "开发者门户上没有 App 组。" : "未找到匹配的 App 组。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -60,7 +60,7 @@ struct AppGroupsListView: View {
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
                                 HStack {
-                                    Text(group.name.isEmpty ? "App Group" : group.name)
+                                    Text(group.name.isEmpty ? "App 组" : group.name)
                                         .font(.headline)
                                         .foregroundColor(.primary)
                                     Spacer()
@@ -72,7 +72,7 @@ struct AppGroupsListView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                                 HStack {
-                                    Text("Group ID: \(group.identifier)")
+                                    Text("组 ID：\(group.identifier)")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                     Spacer()
@@ -86,14 +86,14 @@ struct AppGroupsListView: View {
                                 groupToDelete = group
                                 showDeleteConfirmation = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
 
                             SwiftUI.Button {
                                 editGroupName = group.name
                                 groupToEdit = group
                             } label: {
-                                Label("Edit", systemImage: "pencil")
+                                Label("编辑", systemImage: "pencil")
                             }
                             .tint(.blue)
                         }
@@ -103,20 +103,20 @@ struct AppGroupsListView: View {
                                 editGroupName = group.name
                                 groupToEdit = group
                             } label: {
-                                Label("Edit Name", systemImage: "pencil")
+                                Label("编辑名称", systemImage: "pencil")
                             }
                             #if !os(tvOS)
                             SwiftUI.Button {
                                 UIPasteboard.general.string = group.groupIdentifier
                             } label: {
-                                Label("Copy Identifier", systemImage: "doc.on.doc")
+                                Label("拷贝标识符", systemImage: "doc.on.doc")
                             }
                             #endif
                             SwiftUI.Button(role: .destructive) {
                                 groupToDelete = group
                                 showDeleteConfirmation = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
                         }
                     }
@@ -125,11 +125,11 @@ struct AppGroupsListView: View {
         }
         #if !os(tvOS)
         .listStyle(InsetGroupedListStyle())
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search App Groups")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索 App 组")
         #else
         .listStyle(GroupedListStyle())
         #endif
-        .navigationTitle("App Groups")
+        .navigationTitle("App 组")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 SwiftUI.Button {
@@ -147,19 +147,19 @@ struct AppGroupsListView: View {
         .sheet(isPresented: $showCreateSheet) {
             NavigationView {
                 Form {
-                    Section(header: Text("App Group Details"), footer: Text("Group identifier must start with 'group.' prefix (e.g. group.com.example.shared).")) {
-                        TextField("Name (e.g. Shared Storage)", text: $newGroupName)
-                        TextField("Group Identifier", text: $newGroupIdentifier)
+                    Section(header: Text("App 组详情"), footer: Text("组标识符必须以“group.”前缀开头（例如 group.com.example.shared）。")) {
+                        TextField("名称（例如 Shared Storage）", text: $newGroupName)
+                        TextField("组标识符", text: $newGroupIdentifier)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
                 }
-                .navigationTitle("Create App Group")
+                .navigationTitle("创建 App Group")
                 .navigationBarItems(
-                    leading: SwiftUI.Button("Cancel") {
+                    leading: SwiftUI.Button("取消") {
                         showCreateSheet = false
                     },
-                    trailing: SwiftUI.Button("Create") {
+                    trailing: SwiftUI.Button("创建") {
                         let name = newGroupName.trimmingCharacters(in: .whitespacesAndNewlines)
                         let groupID = newGroupIdentifier.trimmingCharacters(in: .whitespacesAndNewlines)
                         guard !name.isEmpty, !groupID.isEmpty else { return }
@@ -180,11 +180,11 @@ struct AppGroupsListView: View {
         .sheet(item: $groupToEdit) { group in
             NavigationView {
                 Form {
-                    Section(header: Text("Description"), footer: Text("You cannot use special characters such as @, &, *, ', \", -, .")) {
-                        TextField("Description", text: $editGroupName)
+                    Section(header: Text("描述"), footer: Text("不能使用 @、&、*、'、\"、-、. 等特殊字符。")) {
+                        TextField("描述", text: $editGroupName)
                     }
 
-                    Section(header: Text("Identifier")) {
+                    Section(header: Text("标识符")) {
                         Text(group.groupIdentifier)
                             .foregroundColor(.secondary)
                     }
@@ -196,19 +196,19 @@ struct AppGroupsListView: View {
                             HStack {
                                 Spacer()
                                 Image(systemName: "trash")
-                                Text("Remove App Group")
+                                Text("移除 App Group")
                                     .fontWeight(.semibold)
                                 Spacer()
                             }
                         }
                     }
                 }
-                .navigationTitle("Edit Identifier Configuration")
+                .navigationTitle("编辑标识符配置")
                 .navigationBarItems(
-                    leading: SwiftUI.Button("Cancel") {
+                    leading: SwiftUI.Button("取消") {
                         groupToEdit = nil
                     },
-                    trailing: SwiftUI.Button("Save") {
+                    trailing: SwiftUI.Button("保存") {
                         let trimmed = editGroupName.trimmingCharacters(in: .whitespacesAndNewlines)
                         guard !trimmed.isEmpty else { return }
                         Task {
@@ -224,9 +224,9 @@ struct AppGroupsListView: View {
                 )
                 .alert(isPresented: $showSheetDeleteConfirmation) {
                     Alert(
-                        title: Text("Delete App Group?"),
-                        message: Text("Are you sure you want to delete '\(group.name)' (\(group.groupIdentifier)) from Apple Developer Portal?"),
-                        primaryButton: .destructive(Text("Delete")) {
+                        title: Text("删除 App Group？"),
+                        message: Text("确定要从 Apple 开发者门户删除“\(group.name)”（\(group.groupIdentifier)）吗？"),
+                        primaryButton: .destructive(Text("删除")) {
                             Task {
                                 let success = await viewModel.deleteAppGroup(group, presentingViewController: presentingViewController)
                                 if success {
@@ -241,9 +241,9 @@ struct AppGroupsListView: View {
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
-                title: Text("Delete App Group?"),
-                message: Text("Are you sure you want to delete '\(groupToDelete?.name ?? "this App Group")' (\(groupToDelete?.groupIdentifier ?? "")) from Apple Developer Portal?"),
-                primaryButton: .destructive(Text("Delete")) {
+                title: Text("删除 App Group？"),
+                message: Text("确定要从 Apple 开发者门户删除“\(groupToDelete?.name ?? "此 App Group")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
+                primaryButton: .destructive(Text("删除")) {
                     if let target = groupToDelete {
                         Task {
                             _ = await viewModel.deleteAppGroup(target, presentingViewController: presentingViewController)

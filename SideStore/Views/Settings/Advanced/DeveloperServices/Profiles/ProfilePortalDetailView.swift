@@ -49,52 +49,52 @@ struct ProfilePortalDetailView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Profile Information"), footer: Text("You can edit the profile name and regenerate the profile with updated certificate or device associations.")) {
+            Section(header: Text("描述文件信息"), footer: Text("你可以编辑描述文件名称，并使用更新后的证书或设备关联重新生成描述文件。")) {
                 HStack {
-                    Text("Name")
+                    Text("名称")
                         .foregroundColor(.secondary)
                         .frame(width: 100, alignment: .leading)
-                    TextField("Profile Name", text: $editedName)
+                    TextField("描述文件名称", text: $editedName)
                 }
 
                 InfoRow(label: "UUID", value: profile.uuid.uuidString)
                 if let identifier = profile.identifier {
-                    InfoRow(label: "Identifier", value: identifier)
+                    InfoRow(label: "标识符", value: identifier)
                 }
                 if let profType = profile.profileType {
-                    InfoRow(label: "Type", value: profType.displayName)
+                    InfoRow(label: "类型", value: profType.displayName)
                 } else if let rawType = profile.type {
-                    InfoRow(label: "Type", value: rawType)
+                    InfoRow(label: "类型", value: rawType)
                 }
                 if let isTeam = profile.isTeamProfile {
-                    InfoRow(label: "Managed By", value: isTeam ? "Xcode (Team Profile)" : "Manual (Portal)")
+                    InfoRow(label: "管理者", value: isTeam ? "Xcode（团队描述文件）" : "手动（门户）")
                 }
-                InfoRow(label: "Status", value: isExpired ? "Expired" : (profile.status ?? "Active"), valueColor: isExpired ? .red : .primary)
-                InfoRow(label: "Expiration Date", value: formatDate(profile.dateExpire), valueColor: isExpired ? .red : .primary)
+                InfoRow(label: "状态", value: isExpired ? "已过期" : (profile.status ?? "已激活"), valueColor: isExpired ? .red : .primary)
+                InfoRow(label: "到期日期", value: formatDate(profile.dateExpire), valueColor: isExpired ? .red : .primary)
             }
 
-            Section(header: Text("App ID Association"), footer: Text("Choose from registered team App IDs or specify a custom App ID / identifier.")) {
+            Section(header: Text("App ID 关联"), footer: Text("从已注册的团队 App ID 中选择，或指定自定义的 App ID / 标识符。")) {
                 if !viewModel.appIDs.isEmpty {
-                    Picker("Team App ID", selection: $selectedAppIDId) {
-                        Text("Choose App ID").tag("")
+                    Picker("团队 App ID", selection: $selectedAppIDId) {
+                        Text("选择 App ID").tag("")
                         ForEach(viewModel.appIDs, id: \.identifier) { appID in
-                            Text("\(appID.name) (\(appID.bundleIdentifier))").tag(appID.identifier)
+                            Text("\(appID.name)（\(appID.bundleIdentifier)）").tag(appID.identifier)
                         }
                     }
                 }
 
                 HStack {
-                    Text("App ID ID")
+                    Text("App ID")
                         .foregroundColor(.secondary)
                         .frame(width: 100, alignment: .leading)
-                    TextField("App ID Identifier (e.g. R7V954WR9W)", text: $selectedAppIDId)
+                    TextField("App ID 标识符（例如 R7V954WR9W）", text: $selectedAppIDId)
                         .font(.system(.subheadline, design: .monospaced))
                 }
             }
 
-            Section(header: Text("Associated Certificates (\(selectedCertificateIDs.count))"), footer: Text("Select which certificates are authorized to sign with this profile, or add custom certificate IDs.")) {
+            Section(header: Text("关联的证书（\(selectedCertificateIDs.count)）"), footer: Text("选择获授权使用此描述文件签名的证书，或添加自定义证书 ID。")) {
                 if viewModel.certificates.isEmpty {
-                    Text("No certificates found on this team.")
+                    Text("此团队未找到证书。")
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                 } else {
@@ -112,12 +112,12 @@ struct ProfilePortalDetailView: View {
                                     Text(cert.commonName ?? cert.name)
                                         .font(.subheadline)
                                         .foregroundColor(.primary)
-                                    Text("Serial: \(cert.serialNumber)")
+                                    Text("序列号：\(cert.serialNumber)")
                                         .font(.caption2)
                                         .foregroundColor(.secondary)
                                     let hasKey = ProfileManager.shared.hasPrivateKey(for: cert)
                                     HStack(spacing: 4) {
-                                        Text("Type: \(hasKey ? "public + private" : "public only")")
+                                        Text("类型：\(hasKey ? "公钥 + 私钥" : "仅公钥")")
                                             .font(.caption2)
                                             .foregroundColor(hasKey ? .green : .secondary)
                                         if hasKey {
@@ -139,9 +139,9 @@ struct ProfilePortalDetailView: View {
                 }
 
                 HStack {
-                    TextField("Add Custom Certificate ID", text: $customCertInput)
+                    TextField("添加自定义证书 ID", text: $customCertInput)
                         .font(.system(.subheadline, design: .monospaced))
-                    SwiftUI.Button("Add") {
+                    SwiftUI.Button("添加") {
                         let trimmed = customCertInput.trimmingCharacters(in: .whitespacesAndNewlines)
                         if !trimmed.isEmpty {
                             selectedCertificateIDs.insert(trimmed)
@@ -153,10 +153,10 @@ struct ProfilePortalDetailView: View {
             }
 
             Section(header: HStack {
-                Text("Associated Devices (\(selectedDeviceIDs.count))")
+                Text("关联的设备（\(selectedDeviceIDs.count)）")
                 Spacer()
                 if !viewModel.devices.isEmpty {
-                    SwiftUI.Button(selectedDeviceIDs.count >= viewModel.devices.count ? "Deselect All" : "Select All") {
+                    SwiftUI.Button(selectedDeviceIDs.count >= viewModel.devices.count ? "取消全选" : "全选") {
                         if selectedDeviceIDs.count >= viewModel.devices.count {
                             selectedDeviceIDs.removeAll()
                         } else {
@@ -165,9 +165,9 @@ struct ProfilePortalDetailView: View {
                     }
                     .font(.caption)
                 }
-            }, footer: Text("Select devices allowed to run apps with this profile, or enter a custom Device ID / UDID.")) {
+            }, footer: Text("选择允许使用此描述文件运行应用的设备，或输入自定义的设备 ID / UDID。")) {
                 if viewModel.devices.isEmpty {
-                    Text("No registered devices found on this team.")
+                    Text("此团队未找到已注册的设备。")
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                 } else {
@@ -203,9 +203,9 @@ struct ProfilePortalDetailView: View {
                 }
 
                 HStack {
-                    TextField("Add Custom Device ID / UDID", text: $customDeviceInput)
+                    TextField("添加自定义设备 ID / UDID", text: $customDeviceInput)
                         .font(.system(.subheadline, design: .monospaced))
-                    SwiftUI.Button("Add") {
+                    SwiftUI.Button("添加") {
                         let trimmed = customDeviceInput.trimmingCharacters(in: .whitespacesAndNewlines)
                         if !trimmed.isEmpty {
                             selectedDeviceIDs.insert(trimmed)
@@ -240,7 +240,7 @@ struct ProfilePortalDetailView: View {
                                 ProgressView()
                             } else {
                                 Image(systemName: "arrow.triangle.2.circlepath")
-                                Text("Save Changes (Regenerate Profile)")
+                                Text("保存更改（重新生成描述文件）")
                                     .fontWeight(.bold)
                             }
                             Spacer()
@@ -270,7 +270,7 @@ struct ProfilePortalDetailView: View {
                             ProgressView()
                         } else {
                             Image(systemName: "arrow.down.doc")
-                            Text("Download Profile (.mobileprovision)")
+                            Text("下载描述文件（.mobileprovision）")
                                 .fontWeight(.semibold)
                         }
                         Spacer()
@@ -286,7 +286,7 @@ struct ProfilePortalDetailView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "trash")
-                        Text("Delete Profile from Portal")
+                        Text("从门户删除描述文件")
                             .fontWeight(.semibold)
                         Spacer()
                     }
@@ -318,9 +318,9 @@ struct ProfilePortalDetailView: View {
         }
         .alert(isPresented: $showDeleteAlert) {
             Alert(
-                title: Text("Delete Provisioning Profile?"),
-                message: Text("Are you sure you want to delete '\(profile.name)' from the Apple Developer Portal?"),
-                primaryButton: .destructive(Text("Delete")) {
+                title: Text("删除描述文件？"),
+                message: Text("确定要从 Apple 开发者门户删除“\(profile.name)”吗？"),
+                primaryButton: .destructive(Text("删除")) {
                     Task {
                         let success = await viewModel.deleteProfile(profile, presentingViewController: presentingViewController)
                         if success {

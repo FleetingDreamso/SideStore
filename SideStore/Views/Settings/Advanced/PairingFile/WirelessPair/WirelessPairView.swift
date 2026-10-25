@@ -95,7 +95,7 @@ struct WirelessPairView: View {
                             Image(systemName: "wifi")
                                 .font(.subheadline)
                                 .foregroundColor(.accentColor)
-                            Text("Ensure both devices are on the same Wi-Fi network.")
+                            Text("请确保两台设备连接到同一 Wi-Fi 网络。")
                                 .font(.footnote)
                                 .foregroundColor(.secondary)
                         }
@@ -118,10 +118,10 @@ struct WirelessPairView: View {
                 SwiftUI.Button(action: togglePairing) {
                     HStack {
                         if viewModel.isAdvertising {
-                            Text("Stop Pairing Server")
+                            Text("停止配对服务器")
                                 .transition(.scale.combined(with: .opacity))
                         } else {
-                            Text("Start Pairing Server")
+                            Text("启动配对服务器")
                                 .transition(.scale.combined(with: .opacity))
                         }
                     }
@@ -137,7 +137,7 @@ struct WirelessPairView: View {
                 .padding(.horizontal, 32)
                 .padding(.bottom, 32)
         }
-        .navigationTitle("Wireless Pairing")
+        .navigationTitle("无线配对")
         #if !os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -150,7 +150,7 @@ struct WirelessPairView: View {
                     Image(systemName: "bolt.horizontal.fill")
                         .font(.system(size: 16, weight: .medium))
                 }
-                .accessibilityLabel("Connect to Target Device")
+                .accessibilityLabel("连接到目标设备")
             }
         }
         .onAppear {
@@ -188,17 +188,17 @@ struct WirelessPairView: View {
                 }
             }
         }
-        .alert("Enter Pairing PIN", isPresented: $viewModel.isPinPromptPresented) {
-            TextField("6-digit PIN", text: $viewModel.enteredPin)
+        .alert("输入配对 PIN", isPresented: $viewModel.isPinPromptPresented) {
+            TextField("6 位 PIN", text: $viewModel.enteredPin)
                 .keyboardType(.numberPad)
-            SwiftUI.Button("Pair") {
+            SwiftUI.Button("配对") {
                 viewModel.submitEnteredPin()
             }
-            SwiftUI.Button("Cancel", role: .cancel) {
+            SwiftUI.Button("取消", role: .cancel) {
                 viewModel.cancelPinPrompt()
             }
         } message: {
-            Text("Enter the 6-digit code displayed on your Apple TV / device screen.")
+            Text("输入显示在 Apple TV / 设备屏幕上的 6 位代码。")
         }
         .sheet(isPresented: $viewModel.isShareSheetPresented) {
             if let fileURL = viewModel.shareSheetURL {
@@ -228,11 +228,11 @@ struct WirelessPairPinDialog: View {
                     .padding(.top, 24)
                 
                 VStack(spacing: 6) {
-                    Text("Pairing Code")
+                    Text("配对码")
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("Enter this 6-digit code on the connecting device to complete pairing.")
+                    Text("在发起连接的设备上输入此 6 位代码以完成配对。")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -281,8 +281,8 @@ struct ConnectionDetailsCard: View {
     let port: Int
     
     var rows: [(label: String, value: String)] {[
-        ("Device ID", serviceID),
-        ("Port", String(port))
+        ("设备 ID", serviceID),
+        ("端口", String(port))
     ]}
     
     var body: some View {
@@ -290,7 +290,7 @@ struct ConnectionDetailsCard: View {
             HStack{
                 Image(systemName: "network")
                     .foregroundColor(.accentColor)
-                Text("Connection Details")
+                Text("连接详情")
                     .font(.headline)
             }
             .padding(.horizontal, 16)
@@ -343,7 +343,7 @@ struct ConnectionDetailsCard: View {
                             UIPasteboard.general.string = value
                             #endif
                         } label: {
-                            Label("Copy \(label)", systemImage: "doc.on.doc")
+                            Label("拷贝\(label)", systemImage: "doc.on.doc")
                         }
                     }
                 }

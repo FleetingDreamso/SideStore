@@ -24,22 +24,22 @@ public struct DirectoryExplorerView: View {
     private var folderSummaryString: String {
         let items = viewModel.filteredAndSortedItems
         if items.isEmpty {
-            return "0 items (Zero KB)"
+            return "0 项（0 KB）"
         }
         let folders = items.filter { $0.isDirectory }
         let files = items.filter { !$0.isDirectory }
         let sizeStr = ByteCountFormatter.string(fromByteCount: viewModel.currentFolderSize, countStyle: .file)
         
         if !folders.isEmpty && !files.isEmpty {
-            let folderLabel = folders.count == 1 ? "1 Folder" : "\(folders.count) Folders"
-            let fileLabel = files.count == 1 ? "1 File" : "\(files.count) Files"
-            return "\(folderLabel), \(fileLabel) (\(sizeStr))"
+            let folderLabel = folders.count == 1 ? "1 个文件夹" : "\(folders.count) 个文件夹"
+            let fileLabel = files.count == 1 ? "1 个文件" : "\(files.count) 个文件"
+            return "\(folderLabel)，\(fileLabel)（\(sizeStr)）"
         } else if !folders.isEmpty {
-            let folderLabel = folders.count == 1 ? "1 Folder" : "\(folders.count) Folders"
-            return "\(folderLabel) (\(sizeStr))"
+            let folderLabel = folders.count == 1 ? "1 个文件夹" : "\(folders.count) 个文件夹"
+            return "\(folderLabel)（\(sizeStr)）"
         } else {
-            let fileLabel = files.count == 1 ? "1 File" : "\(files.count) Files"
-            return "\(fileLabel) (\(sizeStr))"
+            let fileLabel = files.count == 1 ? "1 个文件" : "\(files.count) 个文件"
+            return "\(fileLabel)（\(sizeStr)）"
         }
     }
     
@@ -52,7 +52,7 @@ public struct DirectoryExplorerView: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .scaleEffect(1.2)
-                    Text("Loading directory contents...")
+                    Text("正在加载目录内容...")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -68,11 +68,11 @@ public struct DirectoryExplorerView: View {
                         .foregroundColor(.secondary.opacity(0.7))
                     
                     VStack(spacing: 4) {
-                        Text("Empty Directory")
+                        Text("空目录")
                             .font(.title3.weight(.semibold))
                             .foregroundColor(.primary)
                         
-                        Text("No files or subfolders found in this directory.")
+                        Text("此目录中没有文件或子文件夹。")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -96,7 +96,7 @@ public struct DirectoryExplorerView: View {
                 #else
                 .listStyle(.grouped)
                 #endif
-                .searchable(text: $viewModel.searchText, prompt: "Search files & folders")
+                .searchable(text: $viewModel.searchText, prompt: "搜索文件和文件夹")
             }
             
             // Bottom Status & Storage Information Bar + Selection Actions Bar
@@ -142,9 +142,9 @@ public struct DirectoryExplorerView: View {
         switch alertType {
         case .confirmSingleDelete(let item):
             return Alert(
-                title: Text("Delete “\(item.name)”?"),
-                message: Text("This item will be permanently removed."),
-                primaryButton: .destructive(Text("Delete")) {
+                title: Text("删除“\(item.name)”？"),
+                message: Text("此项将被永久移除。"),
+                primaryButton: .destructive(Text("删除")) {
                     vm.delete(item: item)
                 },
                 secondaryButton: .cancel()
@@ -152,18 +152,18 @@ public struct DirectoryExplorerView: View {
         case .confirmBulkDelete:
             let count = vm.selectedURLs.count
             return Alert(
-                title: Text("Delete \(count) Selected Items?"),
-                message: Text("Are you sure you want to permanently delete these \(count) items?"),
-                primaryButton: .destructive(Text("Delete All")) {
+                title: Text("删除所选的 \(count) 项？"),
+                message: Text("确定要永久删除这 \(count) 项吗？"),
+                primaryButton: .destructive(Text("全部删除")) {
                     vm.bulkDeleteSelected()
                 },
                 secondaryButton: .cancel()
             )
         case .rename(let item):
             return Alert(
-                title: Text("Rename “\(item.name)”"),
-                message: Text("Enter a new name for this item:"),
-                primaryButton: .default(Text("Rename")) {
+                title: Text("重命名“\(item.name)”"),
+                message: Text("请输入此项的新名称："),
+                primaryButton: .default(Text("重命名")) {
                     vm.rename(item: item, to: vm.renameInput)
                 },
                 secondaryButton: .cancel()
@@ -172,29 +172,29 @@ public struct DirectoryExplorerView: View {
             let count = vm.selectedURLs.count
             let input = vm.renameInput
             return Alert(
-                title: Text(count == 1 ? "Rename Item" : "Bulk Rename \(count) Items"),
-                message: Text(count == 1 ? "Enter a new name:" : "Enter a base name (items will be renamed Name_1, Name_2...):"),
-                primaryButton: .default(Text("Rename")) {
+                title: Text(count == 1 ? "重命名项目" : "批量重命名 \(count) 项"),
+                message: Text(count == 1 ? "请输入新名称：" : "请输入基础名称（项目将被重命名为 Name_1、Name_2...）："),
+                primaryButton: .default(Text("重命名")) {
                     vm.bulkRenameSelected(to: input)
                 },
                 secondaryButton: .cancel()
             )
         case .pasteConflict(let conflict):
             return Alert(
-                title: Text("File Already Exists"),
-                message: Text("An item named “\(conflict.existingName)” already exists in this folder. Enter a new name to copy:"),
-                primaryButton: .default(Text("Copy as New Name")) {
+                title: Text("文件已存在"),
+                message: Text("此文件夹中已存在名为“\(conflict.existingName)”的项目。请输入新名称以拷贝："),
+                primaryButton: .default(Text("以新名称拷贝")) {
                     vm.resolveConflictWithNewName()
                 },
-                secondaryButton: .cancel(Text("Cancel All")) {
+                secondaryButton: .cancel(Text("全部取消")) {
                     vm.cancelRemainingConflicts()
                 }
             )
         case .error(let message):
             return Alert(
-                title: Text("Storage Explorer Error"),
+                title: Text("存储浏览器错误"),
                 message: Text(message),
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("好"))
             )
         }
     }
@@ -218,25 +218,25 @@ private struct DirectoryItemListSectionView: View {
         
         Group {
             if !folders.isEmpty && !files.isEmpty {
-                Section("Folders (\(folders.count))") {
+                Section("文件夹（\(folders.count)）") {
                     ForEach(folders) { item in
                         renderRow(item: item)
                     }
                 }
                 
-                Section("Files (\(files.count))") {
+                Section("文件（\(files.count)）") {
                     ForEach(files) { item in
                         renderRow(item: item)
                     }
                 }
             } else if !folders.isEmpty {
-                Section("Folders (\(folders.count))") {
+                Section("文件夹（\(folders.count)）") {
                     ForEach(folders) { item in
                         renderRow(item: item)
                     }
                 }
             } else {
-                Section("Files (\(files.count))") {
+                Section("文件（\(files.count)）") {
                     ForEach(files) { item in
                         renderRow(item: item)
                     }
@@ -319,11 +319,11 @@ private struct SelectionActionBarView: View {
     
     var body: some View {
         let count = selectedURLs.count
-        let copyTitle = count > 0 ? "Copy (\(count))" : "Copy"
-        let renameTitle = count > 0 ? "Rename (\(count))" : "Rename"
-        let deleteTitle = count > 0 ? "Delete (\(count))" : "Delete"
+        let copyTitle = count > 0 ? "拷贝（\(count)）" : "拷贝"
+        let renameTitle = count > 0 ? "重命名（\(count)）" : "重命名"
+        let deleteTitle = count > 0 ? "删除（\(count)）" : "删除"
         let isAllSelected = count > 0 && count == filteredCount
-        let selectTitle = isAllSelected ? "Deselect All" : "Select All"
+        let selectTitle = isAllSelected ? "取消全选" : "全选"
         
         HStack(spacing: 6) {
             SwiftUI.Button {
@@ -419,7 +419,7 @@ private struct BottomInformationBarView: View {
     @State private var freeDiskSpaceString: String = ""
     @State private var isSelectionMode: Bool = false
     @State private var hasCopiedItems: Bool = false
-    @State private var pasteLabelText: String = "Paste"
+    @State private var pasteLabelText: String = "粘贴"
     
     var body: some View {
         HStack {
@@ -427,7 +427,7 @@ private struct BottomInformationBarView: View {
                 Text(folderSummaryString)
                     .font(.caption)
                     .foregroundColor(.primary)
-                Text("Available Space: \(freeDiskSpaceString)")
+                Text("可用空间：\(freeDiskSpaceString)")
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
@@ -489,12 +489,12 @@ private struct TrailingToolbarMenuView: View {
                 viewModel.isSelectionMode.toggle()
                 if !viewModel.isSelectionMode { viewModel.selectedURLs.removeAll() }
             } label: {
-                Label(isSelectionMode ? "Done Selecting" : "Select", systemImage: "checkmark.circle")
+                Label(isSelectionMode ? "完成选择" : "选择", systemImage: "checkmark.circle")
             }
             
             Divider()
             
-            Menu("Sort By") {
+            Menu("排序方式") {
                 ForEach(StorageSortOption.allCases) { option in
                     SwiftUI.Button {
                         if viewModel.sortOption == option {
@@ -505,7 +505,7 @@ private struct TrailingToolbarMenuView: View {
                         }
                     } label: {
                         if sortOption == option {
-                            Label("\(option.rawValue) (\(sortAscending ? "Ascending" : "Descending"))", systemImage: sortAscending ? "arrow.up" : "arrow.down")
+                            Label("\(option.rawValue)（\(sortAscending ? "升序" : "降序")）", systemImage: sortAscending ? "arrow.up" : "arrow.down")
                         } else {
                             Text(option.rawValue)
                         }
@@ -514,11 +514,11 @@ private struct TrailingToolbarMenuView: View {
             }
             
             Toggle(isOn: Binding(get: { groupFoldersFirst }, set: { viewModel.groupFoldersFirst = $0 })) {
-                Text("Folders First")
+                Text("文件夹优先")
             }
             
             Toggle(isOn: Binding(get: { isTextWrapEnabled }, set: { viewModel.isTextWrapEnabled = $0 })) {
-                Text("Wrap File Names")
+                Text("文件名换行")
             }
         } label: {
             Image(systemName: "ellipsis.circle")
@@ -535,13 +535,13 @@ private struct TrailingToolbarMenuView: View {
         } label: {
             Image(systemName: "ellipsis.circle")
         }
-        .confirmationDialog("Options", isPresented: $showTvMenu) {
-            SwiftUI.Button(isSelectionMode ? "Done Selecting" : "Select") {
+        .confirmationDialog("选项", isPresented: $showTvMenu) {
+            SwiftUI.Button(isSelectionMode ? "完成选择" : "选择") {
                 viewModel.isSelectionMode.toggle()
                 if !viewModel.isSelectionMode { viewModel.selectedURLs.removeAll() }
             }
             ForEach(StorageSortOption.allCases) { option in
-                SwiftUI.Button("Sort: \(option.rawValue)") {
+                SwiftUI.Button("排序：\(option.rawValue)") {
                     if viewModel.sortOption == option {
                         viewModel.sortAscending.toggle()
                     } else {
@@ -550,10 +550,10 @@ private struct TrailingToolbarMenuView: View {
                     }
                 }
             }
-            SwiftUI.Button(groupFoldersFirst ? "Don't Group Folders First" : "Group Folders First") {
+            SwiftUI.Button(groupFoldersFirst ? "不将文件夹分组在前" : "将文件夹分组在前") {
                 viewModel.groupFoldersFirst.toggle()
             }
-            SwiftUI.Button(isTextWrapEnabled ? "Disable Text Wrap" : "Enable Text Wrap") {
+            SwiftUI.Button(isTextWrapEnabled ? "禁用文本换行" : "启用文本换行") {
                 viewModel.isTextWrapEnabled.toggle()
             }
         }
@@ -586,7 +586,7 @@ private struct ItemContextMenuView: View {
             SwiftUI.Button {
                 viewModel.copyToClipboard(item: item)
             } label: {
-                Label("Copy", systemImage: "doc.on.doc")
+                Label("拷贝", systemImage: "doc.on.doc")
             }
             
             SwiftUI.Button {
@@ -594,21 +594,21 @@ private struct ItemContextMenuView: View {
                 viewModel.itemToRename = item
                 viewModel.activeAlert = .rename(item)
             } label: {
-                Label("Rename", systemImage: "pencil")
+                Label("重命名", systemImage: "pencil")
             }
             
             if !item.isDirectory {
                 SwiftUI.Button {
                     viewModel.shareURL = item.url
                 } label: {
-                    Label("Share", systemImage: "square.and.arrow.up")
+                    Label("分享", systemImage: "square.and.arrow.up")
                 }
             }
             
             SwiftUI.Button(role: .destructive) {
                 viewModel.activeAlert = .confirmSingleDelete(item)
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("删除", systemImage: "trash")
             }
         }
     }
@@ -619,7 +619,7 @@ private struct EmptyAreaContextMenuView: View {
     let clipboard: StorageExplorerClipboard
     
     @State private var hasCopiedItems: Bool = false
-    @State private var pasteLabelText: String = "Paste"
+    @State private var pasteLabelText: String = "粘贴"
     
     var body: some View {
         if hasCopiedItems {
@@ -666,7 +666,7 @@ private struct ItemRow: View {
                 
                 HStack(spacing: 6) {
                     if item.isDirectory {
-                        Text("\(item.itemCount) items")
+                        Text("\(item.itemCount) 项")
                         Text("•")
                         Text(item.formattedSize)
                     } else {

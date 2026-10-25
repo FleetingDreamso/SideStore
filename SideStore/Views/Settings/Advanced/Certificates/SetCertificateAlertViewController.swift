@@ -38,7 +38,7 @@ final class SetCertificateAlertViewController: UIViewController {
         
         let currentName = currentCertObj?.name ?? "N/A"
         let currentMachine = currentCertObj?.machineName ?? "N/A"
-        let currentSerial = currentCertObj?.serialNumber ?? appCertSerial ?? "None"
+        let currentSerial = currentCertObj?.serialNumber ?? appCertSerial ?? "无"
         let currentEmail = currentCertObj?.requesterEmail ?? "N/A"
         let currentBrief = getBriefInfo(for: currentCertObj?.data)
         let currentType = currentBrief?.type ?? "N/A"
@@ -57,24 +57,24 @@ final class SetCertificateAlertViewController: UIViewController {
         debugLog("[SetCertAlert] targetCert serial: '\(targetSerial)', name: '\(targetName)', machine: '\(targetMachine)', email: '\(targetEmail)'")
         
         let details = """
-          • App: \(installedApp.name)
-          • Bundle ID: \(installedApp.resignedBundleIdentifier)
+          • 应用：\(installedApp.name)
+          • Bundle ID：\(installedApp.resignedBundleIdentifier)
 
-        [CURRENT APP CERTIFICATE]
-          • Name: \(currentName)
-          • Machine: \(currentMachine)
-          • Serial: \(currentSerial)
-          • Type: \(currentType)
-          • Validity: \(currentValidity)
-          • Email: \(currentEmail)
+        [当前应用证书]
+          • 名称：\(currentName)
+          • 机器：\(currentMachine)
+          • 序列号：\(currentSerial)
+          • 类型：\(currentType)
+          • 有效期：\(currentValidity)
+          • 邮箱：\(currentEmail)
 
-        [TARGET CERTIFICATE]
-          • Name: \(targetName)
-          • Machine: \(targetMachine)
-          • Serial: \(targetSerial)
-          • Type: \(targetType)
-          • Validity: \(targetValidity)
-          • Email: \(targetEmail)
+        [目标证书]
+          • 名称：\(targetName)
+          • 机器：\(targetMachine)
+          • 序列号：\(targetSerial)
+          • 类型：\(targetType)
+          • 有效期：\(targetValidity)
+          • 邮箱：\(targetEmail)
         """
         
         let detailsLabel = UILabel()

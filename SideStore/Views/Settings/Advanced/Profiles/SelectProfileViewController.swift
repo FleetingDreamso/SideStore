@@ -55,22 +55,22 @@ struct ProfileRowItemView: View {
 
             HStack(spacing: 8) {
                 if isExpired {
-                    Label("Expired", systemImage: "xmark.octagon.fill")
+                    Label("已过期", systemImage: "xmark.octagon.fill")
                         .font(.caption2)
                         .foregroundColor(.red)
                 } else if matchingCert != nil {
-                    Label("Ready to Sign", systemImage: "checkmark.seal.fill")
+                    Label("可以签名", systemImage: "checkmark.seal.fill")
                         .font(.caption2)
                         .foregroundColor(.green)
                 } else {
-                    Label("Missing .p12", systemImage: "exclamationmark.triangle.fill")
+                    Label("缺少 .p12", systemImage: "exclamationmark.triangle.fill")
                         .font(.caption2)
                         .foregroundColor(.orange)
                 }
 
                 Spacer()
 
-                Text("Expires: \(expirationString)")
+                Text("到期时间：\(expirationString)")
                     .font(.caption2)
                     .foregroundColor(isExpired ? .red : .secondary)
             }
@@ -80,7 +80,7 @@ struct ProfileRowItemView: View {
                     Image(systemName: "key.fill")
                         .font(.system(size: 9))
                         .foregroundColor(.secondary)
-                    Text("Cert: \(cert.name)")
+                    Text("证书：\(cert.name)")
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
                         .lineLimit(1)
@@ -113,7 +113,7 @@ final class SelectProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = NSLocalizedString("Select Provisioning Profile", comment: "")
+        self.title = NSLocalizedString("选择描述文件", comment: "")
         self.profiles = ProfileManager.shared.getAllLocalProfiles().filter {
             Self.isProfileCompatible($0, for: self.installedApp)
         }
@@ -159,11 +159,11 @@ final class SelectProfileViewController: UITableViewController {
 
         guard !compatibleProfiles.isEmpty else {
             let alert = UIAlertController(
-                title: NSLocalizedString("No Compatible Profiles", comment: ""),
-                message: String(format: NSLocalizedString("No unexpired provisioning profiles matching '%@' with an imported signing certificate (.p12) were found locally.\n\nPlease go to Settings -> Profiles Management to import and configure a profile with its matching certificate.", comment: ""), self.installedApp.bundleIdentifier),
+                title: NSLocalizedString("没有兼容的描述文件", comment: ""),
+                message: String(format: NSLocalizedString("本地未找到未过期、与“%@”匹配且已导入签名证书（.p12）的描述文件。\n\n请前往“设置 -> 描述文件管理”导入并配置描述文件及其匹配的证书。", comment: ""), self.installedApp.bundleIdentifier),
                 preferredStyle: .alert
             )
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default))
             presentingViewController.present(alert, animated: true)
             return
         }
@@ -198,7 +198,7 @@ final class SelectProfileViewController: UITableViewController {
             }
         } else {
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.text = "\(profile.name)\(isCurrent ? " (Current)" : "")\nBundle ID: \(profile.bundleIdentifier)\nExpires: \(profile.expirationDate)"
+            cell.textLabel?.text = "\(profile.name)\(isCurrent ? "（当前）" : "")\nBundle ID：\(profile.bundleIdentifier)\n到期时间：\(profile.expirationDate)"
             cell.accessoryType = isCurrent ? .checkmark : .none
         }
 
@@ -212,18 +212,18 @@ final class SelectProfileViewController: UITableViewController {
 
         let contentVC = SetProfileAlertViewController(installedApp: self.installedApp, profile: profile, certificate: matchingCert)
         let confirmAlert = UIAlertController(
-            title: NSLocalizedString("Set Profile Confirmation", comment: ""),
-            message: NSLocalizedString("Confirm applying this provisioning profile:", comment: ""),
+            title: NSLocalizedString("设置描述文件确认", comment: ""),
+            message: NSLocalizedString("确认应用此描述文件：", comment: ""),
             preferredStyle: .alert
         )
         confirmAlert.setValue(contentVC, forKey: "contentViewController")
 
-        let setAction = UIAlertAction(title: NSLocalizedString("Set & Resign", comment: ""), style: .default) { [weak self] _ in
+        let setAction = UIAlertAction(title: NSLocalizedString("设置并重签", comment: ""), style: .default) { [weak self] _ in
             self?.dismiss(animated: true) {
                 self?.onSelectProfile?(profile)
             }
         }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel)
 
         confirmAlert.addAction(cancelAction)
         confirmAlert.addAction(setAction)

@@ -24,7 +24,7 @@ class CoreDataHelper{
 
         // Locate the bundle containing the Core Data model
         guard let bundle = Bundle(identifier: COREDATA_BUNDLE_ID) else {
-            let errorDescription = "AltStoreCore bundle not found"
+            let errorDescription = "找不到 AltStoreCore 资源包"
             throw getCoreDataError(code: 1, localizedDescription: errorDescription)
         }
         
@@ -32,7 +32,7 @@ class CoreDataHelper{
         guard let modelURL = bundle.url(forResource: STORE_XCMODELD_NAME, withExtension: "momd"),
               let _ = NSManagedObjectModel(contentsOf: modelURL) else {
             
-            let errorDescription = "Failed to load model \(STORE_XCMODELD_NAME) from AltStoreCore bundle"
+            let errorDescription = "无法从 AltStoreCore 资源包加载模型 \(STORE_XCMODELD_NAME)"
             throw getCoreDataError(code: 2, localizedDescription: errorDescription)
         }
         
@@ -77,12 +77,12 @@ class CoreDataHelper{
         
         // Check for load errors
         if let error = loadError {
-            let errorDescription = "Failed to load persistent store: \(error.localizedDescription)"
+            let errorDescription = "无法加载持久化存储：\(error.localizedDescription)"
             throw getCoreDataError(code: 3, localizedDescription: errorDescription)
         }
                 
         guard let storeURL = container.persistentStoreCoordinator.persistentStores.first?.url else {
-            let errorDescription = "Persistent store URL not found"
+            let errorDescription = "找不到持久化存储的 URL"
             throw getCoreDataError(code: 4, localizedDescription: errorDescription)
         }
 
@@ -154,7 +154,7 @@ class CoreDataHelper{
             return destinationURL
             
         } catch {
-            let errorDescription = "Failed to copy Core Data files: \(error.localizedDescription)"
+            let errorDescription = "拷贝 Core Data 文件失败：\(error.localizedDescription)"
             throw getCoreDataError(code: 6, localizedDescription: errorDescription)
         }
     }

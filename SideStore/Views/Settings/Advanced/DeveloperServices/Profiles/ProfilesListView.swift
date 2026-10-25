@@ -33,7 +33,7 @@ struct ProfilesListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Provisioning Profiles (\(viewModel.profiles.count))"), footer: Text("Deleting profiles on the developer portal allows Apple to issue fresh profiles with updated certificates and unflagged UUIDs.")) {
+            Section(header: Text("描述文件（\(viewModel.profiles.count)）"), footer: Text("在开发者门户上删除描述文件，可让 Apple 签发包含更新证书和已取消标记的 UUID 的全新描述文件。")) {
                 if filteredProfiles.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -43,7 +43,7 @@ struct ProfilesListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "No Provisioning Profiles found on Developer Portal." : "No matching Provisioning Profiles found.")
+                        Text(searchText.isEmpty ? "开发者门户上没有描述文件。" : "未找到匹配的描述文件。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -58,7 +58,7 @@ struct ProfilesListView: View {
                                 profileToDelete = profile
                                 showDeleteConfirmation = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
                         }
                         #endif
@@ -67,7 +67,7 @@ struct ProfilesListView: View {
                                 profileToDelete = profile
                                 showDeleteConfirmation = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
                         }
                     }
@@ -82,7 +82,7 @@ struct ProfilesListView: View {
                         HStack {
                             Spacer()
                             Image(systemName: "trash")
-                            Text("Delete All Profiles on Portal")
+                            Text("删除门户上的所有描述文件")
                                 .fontWeight(.semibold)
                             Spacer()
                         }
@@ -92,11 +92,11 @@ struct ProfilesListView: View {
         }
         #if !os(tvOS)
         .listStyle(InsetGroupedListStyle())
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search Profiles")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索描述文件")
         #else
         .listStyle(GroupedListStyle())
         #endif
-        .navigationTitle("Profiles")
+        .navigationTitle("描述文件")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 SwiftUI.Button {
@@ -114,9 +114,9 @@ struct ProfilesListView: View {
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
-                title: Text("Delete Provisioning Profile?"),
-                message: Text("Are you sure you want to delete '\(profileToDelete?.name ?? "this profile")' from the Apple Developer Portal?"),
-                primaryButton: .destructive(Text("Delete")) {
+                title: Text("删除描述文件？"),
+                message: Text("确定要从 Apple 开发者门户删除“\(profileToDelete?.name ?? "此描述文件")”吗？"),
+                primaryButton: .destructive(Text("删除")) {
                     if let target = profileToDelete {
                         Task {
                             _ = await viewModel.deleteProfile(target, presentingViewController: presentingViewController)
@@ -126,15 +126,15 @@ struct ProfilesListView: View {
                 secondaryButton: .cancel()
             )
         }
-        .alert("Purge All Profiles?", isPresented: $showPurgeAllConfirmation) {
-            SwiftUI.Button("Delete All (\(viewModel.profiles.count))", role: .destructive) {
+        .alert("清除所有描述文件？", isPresented: $showPurgeAllConfirmation) {
+            SwiftUI.Button("全部删除（\(viewModel.profiles.count)）", role: .destructive) {
                 Task {
                     _ = await viewModel.deleteAllProfiles(presentingViewController: presentingViewController)
                 }
             }
-            SwiftUI.Button("Cancel", role: .cancel) {}
+            SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("This will permanently delete all \(viewModel.profiles.count) provisioning profile(s) for team '\(viewModel.team?.name ?? "")' on Apple's developer portal. SideStore will automatically generate fresh profiles on next app install or refresh.")
+            Text("这将在 Apple 开发者门户上永久删除团队“\(viewModel.team?.name ?? "")”的所有 \(viewModel.profiles.count) 个描述文件。SideStore 将在下次安装或刷新应用时自动生成新的描述文件。")
         }
         .developerServicesToast(viewModel: viewModel)
     }
@@ -162,7 +162,7 @@ private struct ProfileRow: View {
                     .font(.headline)
                 Spacer()
                 if isExpired {
-                    Text("Expired")
+                    Text("已过期")
                         .font(.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, 6)
@@ -171,7 +171,7 @@ private struct ProfileRow: View {
                         .foregroundColor(.red)
                         .cornerRadius(6)
                 }
-                Text("Expires: \(formatDate(profile.dateExpire))")
+                Text("到期时间：\(formatDate(profile.dateExpire))")
                     .font(.caption)
                     .foregroundColor(isExpired ? .red : .secondary)
             }
@@ -194,7 +194,7 @@ private struct ProfileRow: View {
                         .cornerRadius(6)
                 }
                 if let isTeam = profile.isTeamProfile {
-                    Text(isTeam ? "Xcode Managed" : "Manual")
+                    Text(isTeam ? "Xcode 管理" : "手动")
                         .font(.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, 6)

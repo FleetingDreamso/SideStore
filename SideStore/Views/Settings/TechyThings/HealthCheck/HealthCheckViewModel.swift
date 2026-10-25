@@ -109,11 +109,11 @@ final class HealthCheckViewModel: ObservableObject {
         let protocolStr: String
         switch pairingType {
         case .rppairing:
-            protocolStr = "Remote Pairing"
+            protocolStr = "远程配对"
         case .lockdown:
             protocolStr = "Lockdown"
         case .unknown:
-            protocolStr = "Unknown"
+            protocolStr = "未知"
         }
         
         let targetIp = mode == .localVPN ? (overrideTunnelPeerEffective ? overrideTunnelPeerIp : (ConnectionConfig.shared.tunnelPeerIp ?? "")) : remoteServerIp
@@ -198,7 +198,7 @@ final class HealthCheckViewModel: ObservableObject {
     ) -> CoreRequirementStatuses {
         let netSat = m.wifi
         let vpnSat = m.utun
-        let isRp = m.protocolStr == "Remote Pairing"
+        let isRp = m.protocolStr == "远程配对"
         let ipsecSat = isRp ? nil : m.ipsec
 
         switch m.readyResult {

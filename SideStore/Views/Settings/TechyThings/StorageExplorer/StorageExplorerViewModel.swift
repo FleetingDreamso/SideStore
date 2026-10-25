@@ -25,11 +25,11 @@ public final class StorageExplorerClipboard: ObservableObject {
     
     public var pasteLabelText: String {
         if copiedURLs.count == 1, let first = copiedURLs.first {
-            return "Paste “\(first.lastPathComponent)”"
+            return "粘贴“\(first.lastPathComponent)”"
         } else if copiedURLs.count > 1 {
-            return "Paste \(copiedURLs.count) Items"
+            return "粘贴 \(copiedURLs.count) 项"
         }
-        return "Paste"
+        return "粘贴"
     }
     
     public func setCopied(urls: [URL]) {
@@ -86,10 +86,10 @@ public struct StorageExplorerItem: Identifiable, Hashable {
 // MARK: - Sorting & Grouping Enums
 
 public enum StorageSortOption: String, CaseIterable, Identifiable {
-    case name = "Name"
-    case date = "Date Modified"
-    case size = "Size"
-    case type = "Type"
+    case name = "名称"
+    case date = "修改日期"
+    case size = "大小"
+    case type = "类型"
     
     public var id: String { rawValue }
 }
@@ -174,7 +174,7 @@ public final class StorageExplorerViewModel: ObservableObject {
             }
             #endif
         } catch {}
-        return "Unknown"
+        return "未知"
     }
     
     private var loadTask: Task<Void, Never>?
@@ -313,7 +313,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                 }
             } catch {
                 Task { @MainActor in
-                    self.activeAlert = .error("Failed to delete \(item.name): \(error.localizedDescription)")
+                    self.activeAlert = .error("删除 \(item.name) 失败：\(error.localizedDescription)")
                 }
             }
         }
@@ -327,7 +327,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                 do {
                     try FileManager.default.removeItem(at: item.url)
                 } catch {
-                    errors.append("\(item.name): \(error.localizedDescription)")
+                    errors.append("\(item.name)：\(error.localizedDescription)")
                 }
             }
             Task { @MainActor in
@@ -335,7 +335,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                 self.isSelectionMode = false
                 self.loadContents()
                 if !errors.isEmpty {
-                    self.activeAlert = .error("Errors deleting items:\n" + errors.joined(separator: "\n"))
+                    self.activeAlert = .error("删除项目时出错：\n" + errors.joined(separator: "\n"))
                 }
             }
         }
@@ -353,7 +353,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                 }
             } catch {
                 Task { @MainActor in
-                    self.activeAlert = .error("Failed to rename \(item.name): \(error.localizedDescription)")
+                    self.activeAlert = .error("重命名 \(item.name) 失败：\(error.localizedDescription)")
                 }
             }
         }
@@ -385,7 +385,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                 do {
                     try FileManager.default.moveItem(at: item.url, to: destinationURL)
                 } catch {
-                    errors.append("\(item.name): \(error.localizedDescription)")
+                    errors.append("\(item.name)：\(error.localizedDescription)")
                 }
                 index += 1
             }
@@ -395,7 +395,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                 self.isSelectionMode = false
                 self.loadContents()
                 if !errors.isEmpty {
-                    self.activeAlert = .error("Errors renaming items:\n" + errors.joined(separator: "\n"))
+                    self.activeAlert = .error("重命名项目时出错：\n" + errors.joined(separator: "\n"))
                 }
             }
         }
@@ -434,7 +434,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                     do {
                         try fileManager.copyItem(at: sourceURL, to: destURL)
                     } catch {
-                        copyErrors.append("\(sourceURL.lastPathComponent): \(error.localizedDescription)")
+                        copyErrors.append("\(sourceURL.lastPathComponent)：\(error.localizedDescription)")
                     }
                 }
             }
@@ -445,7 +445,7 @@ public final class StorageExplorerViewModel: ObservableObject {
                     self.pendingConflicts = conflicts
                     self.presentNextConflict()
                 } else if !copyErrors.isEmpty {
-                    self.activeAlert = .error("Errors copying items:\n" + copyErrors.joined(separator: "\n"))
+                    self.activeAlert = .error("拷贝项目时出错：\n" + copyErrors.joined(separator: "\n"))
                 }
             }
         }
@@ -471,7 +471,7 @@ public final class StorageExplorerViewModel: ObservableObject {
         let destURL = conflict.destinationDirectory.appendingPathComponent(trimmed)
         if FileManager.default.fileExists(atPath: destURL.path) {
             // Name still conflicts!
-            self.activeAlert = .error("A file named “\(trimmed)” already exists in this folder. Please choose a different name.")
+            self.activeAlert = .error("此文件夹中已存在名为“\(trimmed)”的文件。请选择其他名称。")
             return
         }
         

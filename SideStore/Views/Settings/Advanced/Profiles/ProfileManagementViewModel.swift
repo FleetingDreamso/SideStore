@@ -118,7 +118,7 @@ final class ProfileManagementViewModel: ObservableObject, @unchecked Sendable {
                 _ = try await DeveloperPortalProxy.shared.deleteProvisioningProfile(profileID: profileID)
             } catch {
                 await MainActor.run {
-                    self.errorMessage = "Deleted locally, but failed to delete from Developer Portal: \(error.localizedDescription)"
+                    self.errorMessage = "已在本地删除，但无法从开发者门户删除：\(error.localizedDescription)"
                 }
             }
         }
@@ -128,7 +128,7 @@ final class ProfileManagementViewModel: ObservableObject, @unchecked Sendable {
             self.remoteProfileUUIDs.remove(profile.uuid)
             self.remoteProfileIdMap.removeValue(forKey: profile.uuid)
             self.profiles = updatedLocal
-            self.showToast("Deleted profile '\(profile.name)'")
+            self.showToast("已删除描述文件“\(profile.name)”")
         }
     }
 

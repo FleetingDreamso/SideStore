@@ -40,7 +40,7 @@ public struct StorageExplorerView: View {
     public var body: some View {
         List {
             Section(
-                header: Text("App Storage Containers"),
+                header: Text("应用存储容器"),
                 footer: StorageExplorerFooterView(
                     appStorageUsedString: appStorageUsedString.isEmpty ? "Calculating..." : appStorageUsedString,
                     freeHardwareSpaceString: freeHardwareSpaceString,
@@ -58,7 +58,7 @@ public struct StorageExplorerView: View {
         #else
         .listStyle(.grouped)
         #endif
-        .navigationTitle("Storage Explorer")
+        .navigationTitle("存储浏览器")
         .onAppear {
             verboseLog("[StorageExplorerView] onAppear triggered")
             self.loadLocations()
@@ -88,7 +88,7 @@ public struct StorageExplorerView: View {
             // 1. Private Documents
             if let docsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
                 locs.append(StorageLocation(
-                    name: "Private Documents",
+                    name: "私有文稿",
                     subtitle: docsURL.path,
                     iconName: "folder.badge.gearshape",
                     url: docsURL
@@ -102,7 +102,7 @@ public struct StorageExplorerView: View {
                    !seenGroupPaths.contains(groupURL.path) {
                     seenGroupPaths.insert(groupURL.path)
                     locs.append(StorageLocation(
-                        name: "App Group Container (\(groupID))",
+                        name: "App 组容器（\(groupID)）",
                         subtitle: groupURL.path,
                         iconName: "shippingbox",
                         url: groupURL
@@ -113,7 +113,7 @@ public struct StorageExplorerView: View {
             // 3. App Backups Directory
             if let backupsURL = fileManager.appBackupsDirectory {
                 locs.append(StorageLocation(
-                    name: "App Backups Directory",
+                    name: "应用备份目录",
                     subtitle: backupsURL.path,
                     iconName: "archivebox",
                     url: backupsURL
@@ -123,7 +123,7 @@ public struct StorageExplorerView: View {
             // 4. Temporary Directory
             let tmpURL = fileManager.temporaryDirectory
             locs.append(StorageLocation(
-                name: "Temporary Directory (tmp)",
+                name: "临时目录（tmp）",
                 subtitle: tmpURL.path,
                 iconName: "trash.circle",
                 url: tmpURL
@@ -188,8 +188,8 @@ public struct StorageExplorerView: View {
                 return
             }
             
-            var hwTotalStr = "Unknown"
-            var hwFreeStr = "Unknown"
+            var hwTotalStr = "未知"
+            var hwFreeStr = "未知"
             #if !os(tvOS)
             do {
                 let values = try fileManager.temporaryDirectory.resourceValues(forKeys: [.volumeTotalCapacityKey, .volumeAvailableCapacityForImportantUsageKey, .volumeAvailableCapacityKey])
@@ -289,7 +289,7 @@ private struct StorageExplorerFooterView: View {
         VStack(alignment: .center, spacing: 5) {
             if !appStorageUsedString.isEmpty {
                 HStack(spacing: 4) {
-                    Text("App Storage Used:")
+                    Text("应用已用存储：")
                         .font(.footnote.weight(.semibold))
                         .foregroundColor(.secondary)
                     Text(appStorageUsedString)
@@ -299,7 +299,7 @@ private struct StorageExplorerFooterView: View {
             }
             if !freeHardwareSpaceString.isEmpty {
                 HStack(spacing: 4) {
-                    Text("Available Space:")
+                    Text("可用空间：")
                         .font(.footnote.weight(.semibold))
                         .foregroundColor(.secondary)
                     Text(freeHardwareSpaceString)
@@ -309,7 +309,7 @@ private struct StorageExplorerFooterView: View {
             }
             if !totalHardwareSpaceString.isEmpty {
                 HStack(spacing: 4) {
-                    Text("Total Space:")
+                    Text("总空间：")
                         .font(.footnote.weight(.semibold))
                         .foregroundColor(.secondary)
                     Text(totalHardwareSpaceString)

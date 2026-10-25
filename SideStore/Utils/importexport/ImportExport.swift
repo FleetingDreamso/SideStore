@@ -22,13 +22,13 @@ enum BackupEncryptionError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidPassword:
-            return "Invalid password."
+            return "密码无效。"
         case .decryptionFailed:
-            return "Incorrect password or corrupted backup file."
+            return "密码错误或备份文件已损坏。"
         case .exportPasswordMatchesApplePassword:
-            return "File password cannot be the same as Apple ID password stored in secure keychain."
+            return "文件密码不能与安全钥匙串中存储的 Apple ID 密码相同。"
         case .invalidDataFormat:
-            return "The backup file format is invalid."
+            return "备份文件格式无效。"
         }
     }
 }
@@ -68,7 +68,7 @@ class ImportExport {
               let activeCert = CertificateManager.shared.activeCertificate,
               let identifier = AnisetteConfigManager.shared.anisetteIdentifier,
               let adiPB = AnisetteConfigManager.shared.anisetteAdiBlob else {
-            throw OperationError.invalidParameters("Account or signing data is missing.")
+            throw OperationError.invalidParameters("缺少账户或签名数据。")
         }
         
         if let applePass = AuthManager.shared.password, password == applePass {
@@ -88,13 +88,13 @@ class ImportExport {
         var salt = Data(count: 16)
         let result = salt.withUnsafeMutableBytes { SecRandomCopyBytes(kSecRandomDefault, 16, $0.baseAddress!) }
         guard result == errSecSuccess else {
-            throw OperationError.invalidParameters("Failed to generate random salt.")
+            throw OperationError.invalidParameters("无法生成随机盐值。")
         }
         
         let key = deriveKey(password: password, salt: salt)
         let sealedBox = try AES.GCM.seal(jsonData, using: key)
         guard let combinedData = sealedBox.combined else {
-            throw OperationError.invalidParameters("Encryption payload failed.")
+            throw OperationError.invalidParameters("加密载荷失败。")
         }
         
         var finalData = Data()
@@ -192,7 +192,7 @@ class ImportExport {
         } else if documentPickerURL.pathExtension.lowercased() == "zip" {
             try fileManager.unzipArchive(at: documentPickerURL, to: backupURL)
         } else {
-            throw OperationError.invalidParameters("Unsupported backup format: \(documentPickerURL.lastPathComponent)")
+            throw OperationError.invalidParameters("不支持的备份格式：\(documentPickerURL.lastPathComponent)")
         }
     }
     
@@ -201,7 +201,7 @@ class ImportExport {
                                     isZip: Bool = false,
                                     completionHandler: @escaping (Result<Void, Error>) -> Void){
         guard let backupURL = FileManager.default.backupDirectoryURL(for: installedApp) else {
-            return completionHandler(.failure(OperationError.invalidParameters("Error: Backup directory URL not found.")))
+            return completionHandler(.failure(OperationError.invalidParameters("错误：找不到备份目录 URL。")))
         }
         
         let handleSelectedURL: (URL?) -> Void = { selectedURL in
@@ -215,7 +215,7 @@ class ImportExport {
             let isAllowedPath = selectedURL.resolvingSymlinksInPath().path.hasPrefix(appUserDataDir.path) || selectedURL.resolvingSymlinksInPath().path.hasPrefix(tempDir.path)
             guard isAllowedPath else {
                 return completionHandler(.failure(
-                    OperationError.forbidden(failureReason: "Selected backup data directory is not within the app's user data directory"))
+                    OperationError.forbidden(failureReason: "所选的备份数据目录不在应用的用户数据目录内"))
                 )
             }
             
@@ -250,7 +250,7 @@ class ImportExport {
         #else
         TVWebFileTransferManager.shared.startImport(
             acceptedExtensions: ["zip", "backup"],
-            title: "Import App Backup",
+            title: "导入应用备份",
             presentingVC: presentingViewController
         ) { selectedURL in
             handleSelectedURL(selectedURL)

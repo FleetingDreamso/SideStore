@@ -16,7 +16,7 @@ class ImportAccountAlertViewController: UIViewController {
         super.viewDidLoad()
 
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.placeholder = NSLocalizedString("File Password", comment: "")
+        passwordTextField.placeholder = NSLocalizedString("文件密码", comment: "")
         passwordTextField.borderStyle = .none
         #if !os(tvOS)
         passwordTextField.backgroundColor = .tertiarySystemFill
@@ -59,14 +59,14 @@ class ImportAccountAlertController: UIAlertController {
         presentingViewController: UIViewController
     ) -> UIAlertController {
         let alert = UIAlertController(
-            title: NSLocalizedString("Import Account", comment: ""),
-            message: NSLocalizedString("An account configuration file was found. Enter password to import.", comment: ""),
+            title: NSLocalizedString("导入账号", comment: ""),
+            message: NSLocalizedString("找到账号配置文件。请输入密码以导入。", comment: ""),
             preferredStyle: .alert
         )
         let alertVC = ImportAccountAlertViewController()
         alert.setValue(alertVC, forKey: "contentViewController")
         
-        let importAction = UIAlertAction(title: NSLocalizedString("Import", comment: ""), style: .default) { [weak presentingViewController, weak alertVC] _ in
+        let importAction = UIAlertAction(title: NSLocalizedString("导入", comment: ""), style: .default) { [weak presentingViewController, weak alertVC] _ in
             guard let presentingVC = presentingViewController,
                   let password = alertVC?.passwordTextField.text,
                   !password.isEmpty else { return }
@@ -75,14 +75,14 @@ class ImportAccountAlertController: UIAlertController {
                     let account = try await ImportExport.importAccount(data, filePassword: password)
                     UserDefaults.standard.acctFileChecksum = checksum
                     let toastView = ToastView(
-                        text: NSLocalizedString("Successfully imported '\(account.email)'!", comment: ""),
-                        detailText: "SideStore should be fully operational!"
+                        text: NSLocalizedString("已成功导入“\(account.email)”！", comment: ""),
+                        detailText: "SideStore 应已完全可用！"
                     )
                     toastView.show(in: presentingVC)
                 } catch {
                     debugLog("[ImportAccountAlertController] Failed to import account configuration: \(error)")
                     let toastView = ToastView(
-                        text: NSLocalizedString("Failed to import account configuration!", comment: ""),
+                        text: NSLocalizedString("导入账号配置失败！", comment: ""),
                         detailText: error.localizedDescription
                     )
                     toastView.show(in: presentingVC)
@@ -90,7 +90,7 @@ class ImportAccountAlertController: UIAlertController {
             }
         }
         
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel)
         alert.addAction(importAction)
         alert.addAction(cancelAction)
         

@@ -96,12 +96,12 @@ class SideSignConfigurationViewModel: ObservableObject {
         let headers = buildHeadersFromState()
         await SideSignConfigManager.shared.saveConfig(headers)
         updateRawEditableJSON()
-        showToast(text: "Saved SideSign headers successfully.")
+        showToast(text: "已成功保存 SideSign 请求头。")
     }
 
     func saveRawJSON() async {
         guard let data = rawEditableJSON.data(using: .utf8) else {
-            showToast(text: "Encoding Failed", detailText: "Unable to encode JSON as UTF-8.")
+            showToast(text: "编码失败", detailText: "无法将 JSON 编码为 UTF-8。")
             return
         }
 
@@ -109,9 +109,9 @@ class SideSignConfigurationViewModel: ObservableObject {
             let headers = try JSONDecoder().decode(SideSignHeaders.self, from: data)
             applyHeadersToState(headers)
             await SideSignConfigManager.shared.saveConfig(headers)
-            showToast(text: "SideSign JSON configuration saved successfully!")
+            showToast(text: "SideSign JSON 配置已成功保存！")
         } catch {
-            showToast(text: "Invalid JSON Structure", error: error)
+            showToast(text: "JSON 结构无效", error: error)
         }
     }
 
@@ -119,7 +119,7 @@ class SideSignConfigurationViewModel: ObservableObject {
         let headers = SideSignConfigManager.shared.resetToDefaults()
         applyHeadersToState(headers)
         updateRawEditableJSON()
-        showToast(text: "Reset to default SideSign configuration.")
+        showToast(text: "已重置为默认的 SideSign 配置。")
     }
 
     func importJSON(url: URL) async {
@@ -137,9 +137,9 @@ class SideSignConfigurationViewModel: ObservableObject {
             let headers = try await SideSignConfigManager.shared.importFromFile(url: url)
             applyHeadersToState(headers)
             updateRawEditableJSON()
-            showToast(text: "Imported successfully", detailText: url.lastPathComponent)
+            showToast(text: "导入成功", detailText: url.lastPathComponent)
         } catch {
-            showToast(text: "Import Failed", error: error)
+            showToast(text: "导入失败", error: error)
         }
     }
 
@@ -150,7 +150,7 @@ class SideSignConfigurationViewModel: ObservableObject {
             try data.write(to: tempURL, options: .atomic)
             return tempURL
         } catch {
-            showToast(text: "Export Failed", error: error)
+            showToast(text: "导出失败", error: error)
             return nil
         }
     }
@@ -180,9 +180,9 @@ struct SideSignConfigurationView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Picker("View Mode", selection: $viewModel.viewMode) {
-                    Text("Interactive").tag(0)
-                    Text("Raw JSON").tag(1)
+                Picker("查看模式", selection: $viewModel.viewMode) {
+                    Text("交互式").tag(0)
+                    Text("原始 JSON").tag(1)
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal, 16)
@@ -191,11 +191,11 @@ struct SideSignConfigurationView: View {
                 if viewModel.viewMode == 0 {
                     // SECTION 1: GRANDSLAM AUTH (gsa.apple.com)
                     VStack(alignment: .leading, spacing: 8) {
-                        sectionHeader("GRANDSLAM AUTH (GSA)")
+                        sectionHeader("GRANDSLAM 认证（GSA）")
 
                         VStack(spacing: 0) {
                             headerFieldRow(
-                                title: "Service",
+                                title: "服务",
                                 headerKey: "svct",
                                 text: $viewModel.grandSlamService,
                                 placeholder: Constants.GrandSlam.service
@@ -204,7 +204,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "Header Version",
+                                title: "请求头版本",
                                 headerKey: "Header: Version",
                                 text: $viewModel.grandSlamHeaderVersion,
                                 placeholder: Constants.GrandSlam.headerVersion
@@ -213,7 +213,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "Auth App",
+                                title: "认证应用",
                                 headerKey: "X-Apple-App-Info",
                                 text: $viewModel.grandSlamAuthApp,
                                 placeholder: Constants.GrandSlam.authApp
@@ -222,7 +222,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "User Agent",
+                                title: "用户代理",
                                 headerKey: "User-Agent",
                                 text: $viewModel.grandSlamUserAgent,
                                 placeholder: Constants.GrandSlam.userAgent,
@@ -235,11 +235,11 @@ struct SideSignConfigurationView: View {
 
                     // SECTION 2: APPLE AUTH (idmsa.apple.com)
                     VStack(alignment: .leading, spacing: 8) {
-                        sectionHeader("APPLE AUTH (IDMSA)")
+                        sectionHeader("APPLE 认证（IDMSA）")
 
                         VStack(spacing: 0) {
                             headerFieldRow(
-                                title: "App ID Key",
+                                title: "App ID 键",
                                 headerKey: "appIdKey",
                                 text: $viewModel.appleAuthAppIDKey,
                                 placeholder: Constants.AppleAuth.appIDKey,
@@ -249,7 +249,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "User Agent",
+                                title: "用户代理",
                                 headerKey: "User-Agent",
                                 text: $viewModel.appleAuthUserAgent,
                                 placeholder: Constants.AppleAuth.userAgent,
@@ -262,11 +262,11 @@ struct SideSignConfigurationView: View {
 
                     // SECTION 3: DEVELOPER SERVICES (developerservices2.apple.com)
                     VStack(alignment: .leading, spacing: 8) {
-                        sectionHeader("DEVELOPER SERVICES")
+                        sectionHeader("开发者服务")
 
                         VStack(spacing: 0) {
                             headerFieldRow(
-                                title: "Client ID",
+                                title: "客户端 ID",
                                 headerKey: "clientId",
                                 text: $viewModel.developerServicesClientID,
                                 placeholder: Constants.DeveloperServices.clientID
@@ -275,7 +275,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "Protocol Version",
+                                title: "协议版本",
                                 headerKey: "protocolVersion",
                                 text: $viewModel.developerServicesProtocolVersion,
                                 placeholder: Constants.DeveloperServices.protocolVersion
@@ -284,7 +284,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "Services Version",
+                                title: "服务版本",
                                 headerKey: "servicesProtocolVersion",
                                 text: $viewModel.developerServicesServicesProtocolVersion,
                                 placeholder: Constants.DeveloperServices.servicesProtocolVersion
@@ -293,7 +293,7 @@ struct SideSignConfigurationView: View {
                             divider
 
                             headerFieldRow(
-                                title: "User Agent",
+                                title: "用户代理",
                                 headerKey: "User-Agent",
                                 text: $viewModel.developerServicesUserAgent,
                                 placeholder: Constants.DeveloperServices.userAgent
@@ -311,7 +311,7 @@ struct SideSignConfigurationView: View {
                     } label: {
                         HStack {
                             Spacer()
-                            Label("Save Overrides", systemImage: "checkmark.circle.fill")
+                            Label("保存覆盖值", systemImage: "checkmark.circle.fill")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(.white)
                             Spacer()
@@ -323,7 +323,7 @@ struct SideSignConfigurationView: View {
                 } else {
                     // RAW JSON VIEW
                     VStack(alignment: .leading, spacing: 8) {
-                        sectionHeader("RAW CONFIGURATION JSON")
+                        sectionHeader("原始配置 JSON")
 
                         VStack(spacing: 12) {
                             TextEditor(text: $viewModel.rawEditableJSON)
@@ -341,7 +341,7 @@ struct SideSignConfigurationView: View {
                             } label: {
                                 HStack {
                                     Spacer()
-                                    Label("Save Raw JSON", systemImage: "square.and.arrow.down.fill")
+                                    Label("保存原始 JSON", systemImage: "square.and.arrow.down.fill")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.white)
                                     Spacer()
@@ -360,7 +360,7 @@ struct SideSignConfigurationView: View {
 
                 // SECTION: ACTIONS
                 VStack(alignment: .leading, spacing: 8) {
-                    sectionHeader("ACTIONS")
+                    sectionHeader("操作")
 
                     VStack(spacing: 0) {
                         SwiftUI.Button {
@@ -370,7 +370,7 @@ struct SideSignConfigurationView: View {
                             if let topVC = UIApplication.shared.topViewController() {
                                 TVWebFileTransferManager.shared.startImport(
                                     acceptedExtensions: ["json"],
-                                    title: "Import SideSign Config JSON",
+                                    title: "导入 SideSign 配置 JSON",
                                     presentingVC: topVC
                                 ) { fileURL in
                                     guard let fileURL = fileURL else { return }
@@ -382,7 +382,7 @@ struct SideSignConfigurationView: View {
                             #endif
                         } label: {
                             HStack {
-                                Label("Import Config JSON", systemImage: "square.and.arrow.down")
+                                Label("导入配置 JSON", systemImage: "square.and.arrow.down")
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.white)
                                 Spacer()
@@ -404,7 +404,7 @@ struct SideSignConfigurationView: View {
                             }
                         } label: {
                             HStack {
-                                Label("Export Config JSON", systemImage: "square.and.arrow.up")
+                                Label("导出配置 JSON", systemImage: "square.and.arrow.up")
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.white)
                                 Spacer()
@@ -422,7 +422,7 @@ struct SideSignConfigurationView: View {
                             showingResetAlert = true
                         } label: {
                             HStack {
-                                Label("Reset to Defaults", systemImage: "arrow.circlepath")
+                                Label("重置为默认值", systemImage: "arrow.circlepath")
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.red)
                                 Spacer()
@@ -430,15 +430,15 @@ struct SideSignConfigurationView: View {
                             .padding(.horizontal, 16)
                             .frame(height: 50)
                         }
-                        .alert("Reset to Defaults?", isPresented: $showingResetAlert) {
-                            SwiftUI.Button("Reset", role: .destructive) {
+                        .alert("重置为默认值？", isPresented: $showingResetAlert) {
+                            SwiftUI.Button("重置", role: .destructive) {
                                 Task {
                                     await viewModel.reset()
                                 }
                             }
-                            SwiftUI.Button("Cancel", role: .cancel) {}
+                            SwiftUI.Button("取消", role: .cancel) {}
                         } message: {
-                            Text("This will restore the SideSign headers to their default recommended values.")
+                            Text("这会将 SideSign 请求头恢复为默认的推荐值。")
                         }
                     }
                     .background(Color.settingsRowBackground)
@@ -450,7 +450,7 @@ struct SideSignConfigurationView: View {
             .padding(.bottom, 32)
         }
         .background(Color(uiColor: .settingsBackground).ignoresSafeArea())
-        .navigationTitle("SideSign Config")
+        .navigationTitle("SideSign 配置")
         #if !os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -478,7 +478,7 @@ struct SideSignConfigurationView: View {
                     }
                 }
             case .failure(let error):
-                viewModel.showToast(text: "File Selection Failed", error: error)
+                viewModel.showToast(text: "文件选择失败", error: error)
             }
         }
         #endif

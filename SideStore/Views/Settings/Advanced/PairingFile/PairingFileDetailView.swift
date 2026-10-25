@@ -68,11 +68,11 @@ struct PairingFileDetailView: View {
     private var titleText: String {
         switch mode {
         case .rppairing:
-            return "Remote Pairing File"
+            return "远程配对文件"
         case .lockdown:
-            return "Lockdown Pairing File"
+            return "Lockdown 配对文件"
         case .unknown:
-            return "Pairing File"
+            return "配对文件"
         }
     }
 
@@ -94,11 +94,11 @@ struct PairingFileDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 if isEditing {
-                    SwiftUI.Button("Cancel") {
+                    SwiftUI.Button("取消") {
                         editedContent = rawContent
                         isEditing = false
                     }
-                    SwiftUI.Button("Save") {
+                    SwiftUI.Button("保存") {
                         saveEditedContent()
                     }
                     .font(.system(size: 17, weight: .bold))
@@ -113,17 +113,17 @@ struct PairingFileDetailView: View {
                         } label: {
                             Image(systemName: hasCopiedContent ? "checkmark" : "doc.on.doc")
                         }
-                        .accessibilityLabel("Copy XML")
+                        .accessibilityLabel("拷贝 XML")
 
-                        SwiftUI.Button("Edit") {
+                        SwiftUI.Button("编辑") {
                             requestEnterEditMode()
                         }
                     }
                 }
             }
         }
-        .alert("Invalid Property List", isPresented: $showingInvalidPlistAlert) {
-            SwiftUI.Button("OK", role: .cancel) { }
+        .alert("属性列表无效", isPresented: $showingInvalidPlistAlert) {
+            SwiftUI.Button("好", role: .cancel) { }
         } message: {
             Text(invalidPlistMessage)
         }
@@ -131,27 +131,27 @@ struct PairingFileDetailView: View {
 
     private var fileInfoSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("FILE INFORMATION")
+            Text("文件信息")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 4)
 
             VStack(spacing: 0) {
-                metadataRow(label: "File Name", value: fileName)
+                metadataRow(label: "文件名", value: fileName)
                 divider
-                metadataRow(label: "Protocol Type", value: mode == .rppairing ? "RPPairing (Tunnel)" : "Lockdown")
+                metadataRow(label: "协议类型", value: mode == .rppairing ? "RPPairing（隧道）" : "Lockdown")
                 divider
-                metadataRow(label: "Status", value: isInstalled ? "Installed" : "Not Found", valueColor: isInstalled ? .green : .red)
+                metadataRow(label: "状态", value: isInstalled ? "已安装" : "未找到", valueColor: isInstalled ? .green : .red)
                 if isInstalled {
                     divider
-                    metadataRow(label: "File Size", value: ByteCountFormatter.string(fromByteCount: fileSize, countStyle: .file))
+                    metadataRow(label: "文件大小", value: ByteCountFormatter.string(fromByteCount: fileSize, countStyle: .file))
                     if let created = creationDate {
                         divider
-                        metadataRow(label: "Date Created", value: formatDate(created))
+                        metadataRow(label: "创建日期", value: formatDate(created))
                     }
                     if let modified = modificationDate {
                         divider
-                        metadataRow(label: "Date Modified", value: formatDate(modified))
+                        metadataRow(label: "修改日期", value: formatDate(modified))
                     }
                 }
             }
@@ -163,13 +163,13 @@ struct PairingFileDetailView: View {
     private var xmlContentSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(isEditing ? "EDIT RAW XML" : "RAW XML CONTENT")
+                Text(isEditing ? "编辑原始 XML" : "原始 XML 内容")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(Color.white.opacity(0.6))
                 Spacer()
                 let displayed = isEditing ? editedContent : rawContent
                 if !displayed.isEmpty {
-                    Text("\(displayed.count) bytes")
+                    Text("\(displayed.count) 字节")
                         .font(.system(size: 12))
                         .foregroundColor(Color.white.opacity(0.4))
                 }
@@ -195,7 +195,7 @@ struct PairingFileDetailView: View {
                 .cornerRadius(12)
                 .frame(minHeight: 300, maxHeight: 500)
             } else {
-                Text("No pairing file installed.")
+                Text("未安装配对文件。")
                     .font(.system(size: 14))
                     .foregroundColor(Color.white.opacity(0.5))
                     .padding(16)
@@ -250,15 +250,15 @@ struct PairingFileDetailView: View {
         }
 
         let alert = UIAlertController(
-            title: NSLocalizedString("Warning", comment: ""),
-            message: NSLocalizedString("Editing manually may corrupt the pairing file. Are you sure you know what you are doing and want to continue?", comment: ""),
+            title: NSLocalizedString("警告", comment: ""),
+            message: NSLocalizedString("手动编辑可能会损坏配对文件。你确定清楚自己在做什么并要继续吗？", comment: ""),
             preferredStyle: .alert
         )
         let contentVC = PairingFileEditAlertViewController()
         alert.setValue(contentVC, forKey: "contentViewController")
 
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
-        let continueAction = UIAlertAction(title: NSLocalizedString("Continue", comment: ""), style: .destructive) { _ in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel, handler: nil)
+        let continueAction = UIAlertAction(title: NSLocalizedString("继续", comment: ""), style: .destructive) { _ in
             if contentVC.isChecked {
                 UserDefaults.standard.setPairingFileEditSuppressed(true, forHash: currentHash)
             }
@@ -273,7 +273,7 @@ struct PairingFileDetailView: View {
 
     private func saveEditedContent() {
         guard let data = editedContent.data(using: .utf8) else {
-            invalidPlistMessage = "Could not encode text as UTF-8."
+            invalidPlistMessage = "无法将文本编码为 UTF-8。"
             showingInvalidPlistAlert = true
             return
         }
@@ -281,7 +281,7 @@ struct PairingFileDetailView: View {
         do {
             _ = try PropertyListSerialization.propertyList(from: data, options: [], format: nil)
         } catch {
-            invalidPlistMessage = "The property list contains syntax errors: \(error.localizedDescription)"
+            invalidPlistMessage = "属性列表存在语法错误：\(error.localizedDescription)"
             showingInvalidPlistAlert = true
             return
         }
@@ -292,7 +292,7 @@ struct PairingFileDetailView: View {
             UserDefaults.standard.setPairingFileEditSuppressed(true, forHash: currentSHA256)
             isEditing = false
         } catch {
-            invalidPlistMessage = "Failed to save pairing file: \(error.localizedDescription)"
+            invalidPlistMessage = "保存配对文件失败：\(error.localizedDescription)"
             showingInvalidPlistAlert = true
         }
     }

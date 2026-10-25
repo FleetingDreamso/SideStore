@@ -19,7 +19,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     var showsDoItLater: Bool = false
     
     private lazy var navigationController: UINavigationController = {
-        let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
+        let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "navigationController") as! UINavigationController
         navigationController.isModalInPresentation = true
         return navigationController
@@ -43,7 +43,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     @MainActor
     func credentials() async throws -> (String, String) {
         guard let presentingViewController = self.presentingViewController else {
-            throw OperationError.invalidParameters("SignInFlowHandler: Cannot prompt for credentials because presentingViewController is nil")
+            throw OperationError.invalidParameters("SignInFlowHandler：无法弹出登录输入框，因为 presentingViewController 为空")
         }
         
         if let _ = self.presentedAuthVC {
@@ -55,7 +55,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         return try await withCheckedThrowingContinuation { continuation in
             self.credentialsContinuation = continuation
             
-            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
+            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
             let authVC = storyboard.instantiateViewController(withIdentifier: "authenticationViewController") as! AuthenticationViewController
             self.presentedAuthVC = authVC
             
@@ -109,7 +109,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     @MainActor
     func verificationCode(for request: TwoFactorRequest) async throws -> TwoFactorResponse {
         guard self.isPresenterAvailable else {
-            throw OperationError.invalidParameters("SignInFlowHandler: Cannot prompt for 2FA verification code because presenting view controller is unavailable")
+            throw OperationError.invalidParameters("SignInFlowHandler：无法弹出双重认证验证码输入框，因为当前没有可用的视图控制器")
         }
 
         let errorMessage: String? = request.error
@@ -134,7 +134,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
 
         case .trustedDevice:
             return try await promptCodeEntry(
-                title: NSLocalizedString("Please enter the 6-digit verification code that was sent to your Apple devices.", comment: ""),
+                title: NSLocalizedString("请输入发送到你 Apple 设备的 6 位验证码。", comment: ""),
                 phoneNumbers: [],
                 activePhoneID: "",
                 currentDeliveryMode: nil,
@@ -145,9 +145,9 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             let activePhone = phoneNumbers.first(where: { $0.id == activeID })
             let title: String
             if let activePhone, !activePhone.number.isEmpty {
-                title = String(format: NSLocalizedString("Please enter the 6-digit verification code sent via SMS to %@.", comment: ""), activePhone.number)
+                title = String(format: NSLocalizedString("请输入通过短信发送到 %@ 的 6 位验证码。", comment: ""), activePhone.number)
             } else {
-                title = NSLocalizedString("Please enter the 6-digit verification code sent via SMS to your phone.", comment: "")
+                title = NSLocalizedString("请输入通过短信发送到你手机的 6 位验证码。", comment: "")
             }
             return try await promptCodeEntry(
                 title: title,
@@ -161,9 +161,9 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             let activePhone = phoneNumbers.first(where: { $0.id == activeID })
             let title: String
             if let activePhone, !activePhone.number.isEmpty {
-                title = String(format: NSLocalizedString("Please enter the 6-digit verification code sent via phone call to %@.", comment: ""), activePhone.number)
+                title = String(format: NSLocalizedString("请输入通过电话语音发送到 %@ 的 6 位验证码。", comment: ""), activePhone.number)
             } else {
-                title = NSLocalizedString("Please enter the 6-digit verification code sent via phone call.", comment: "")
+                title = NSLocalizedString("请输入通过电话语音发送的 6 位验证码。", comment: "")
             }
             return try await promptCodeEntry(
                 title: title,
@@ -179,16 +179,16 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     private func showErrorRetryAlert(message: String) async throws -> Bool {
         return try await withCheckedThrowingContinuation { continuation in
             let alert = UIAlertController(
-                title: NSLocalizedString("Verification Failed", comment: ""),
+                title: NSLocalizedString("验证失败", comment: ""),
                 message: message,
                 preferredStyle: .alert
             )
             
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("重试", comment: ""), style: .default) { _ in
                 continuation.resume(returning: true)
             })
 
-            alert.addAction(UIAlertAction(title: systemLocalizedString("Cancel"), style: .cancel) { _ in
+            alert.addAction(UIAlertAction(title: systemLocalizedString("取消"), style: .cancel) { _ in
                 continuation.resume(returning: false)
             })
 
@@ -212,26 +212,26 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 """
 
             let alert = UIAlertController(
-                title: NSLocalizedString("Account Repair Required", comment: ""),
+                title: NSLocalizedString("需要修复账户", comment: ""),
                 message: displayMessage,
                 preferredStyle: .alert
             )
 
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Open Developer Account", comment: ""), style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("打开开发者账户", comment: ""), style: .default) { [weak self] _ in
                 self?.activePresenter?.openWebURL(url)
                 continuation.resume(returning: .cancel)
             })
 
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Open Apple Account", comment: ""), style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("打开 Apple 账户", comment: ""), style: .default) { [weak self] _ in
                 self?.activePresenter?.openWebURL(appleAccountURL)
                 continuation.resume(returning: .cancel)
             })
 
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Skip & Continue", comment: ""), style: .default) { _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("跳过并继续", comment: ""), style: .default) { _ in
                 continuation.resume(returning: .proceed)
             })
 
-            alert.addAction(UIAlertAction(title: systemLocalizedString("Cancel"), style: .cancel) { _ in
+            alert.addAction(UIAlertAction(title: systemLocalizedString("取消"), style: .cancel) { _ in
                 continuation.resume(returning: .cancel)
             })
 
@@ -260,7 +260,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 }
             }
             
-            let submitAction = UIAlertAction(title: NSLocalizedString("Continue", comment: ""), style: .default) { _ in
+            let submitAction = UIAlertAction(title: NSLocalizedString("继续", comment: ""), style: .default) { _ in
                 if let observer = observer {
                     NotificationCenter.default.removeObserver(observer)
                 }
@@ -272,7 +272,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             alertController.addAction(submitAction)
 
             if isTrustedDevice {
-                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("Other Options…", comment: ""), style: .default) { [weak self] _ in
+                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("其他选项…", comment: ""), style: .default) { [weak self] _ in
                     if let observer = observer {
                         NotificationCenter.default.removeObserver(observer)
                     }
@@ -285,8 +285,8 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 alertController.addAction(otherMethodsAction)
             } else if let mode = currentDeliveryMode {
                 let resendTitle = (mode == .sms)
-                    ? NSLocalizedString("Resend SMS", comment: "")
-                    : NSLocalizedString("Call Again", comment: "")
+                    ? NSLocalizedString("重新发送短信", comment: "")
+                    : NSLocalizedString("再次呼叫", comment: "")
                 let resendAction = UIAlertAction(title: resendTitle, style: .default) { _ in
                     if let observer = observer {
                         NotificationCenter.default.removeObserver(observer)
@@ -300,7 +300,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 }
                 alertController.addAction(resendAction)
 
-                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("Other Options…", comment: ""), style: .default) { [weak self] _ in
+                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("其他选项…", comment: ""), style: .default) { [weak self] _ in
                     if let observer = observer {
                         NotificationCenter.default.removeObserver(observer)
                     }
@@ -313,7 +313,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 alertController.addAction(otherMethodsAction)
 
                 if phoneNumbers.count > 1 {
-                    let changeNumberAction = UIAlertAction(title: NSLocalizedString("Choose Different Number", comment: ""), style: .default) { [weak self] _ in
+                    let changeNumberAction = UIAlertAction(title: NSLocalizedString("选择其他号码", comment: ""), style: .default) { [weak self] _ in
                         if let observer = observer {
                             NotificationCenter.default.removeObserver(observer)
                         }
@@ -327,7 +327,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 }
             }
             
-            alertController.addAction(UIAlertAction(title: systemLocalizedString("Cancel"), style: .cancel) { _ in
+            alertController.addAction(UIAlertAction(title: systemLocalizedString("取消"), style: .cancel) { _ in
                 if let observer = observer {
                     NotificationCenter.default.removeObserver(observer)
                 }
@@ -345,15 +345,15 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                                           continuation: CheckedContinuation<TwoFactorResponse, Error>)
     {
         let alert = UIAlertController(
-            title: NSLocalizedString("Verification Method", comment: ""),
-            message: NSLocalizedString("How would you like to receive your verification code?", comment: ""),
+            title: NSLocalizedString("验证方式", comment: ""),
+            message: NSLocalizedString("你希望如何接收验证码？", comment: ""),
             preferredStyle: .alert
         )
 
         let isAppleDefault = (preferredMode == .trustedDevice)
         let trustedDeviceTitle = isAppleDefault
-            ? NSLocalizedString("Apple Devices (Recommended)", comment: "")
-            : NSLocalizedString("Apple Devices", comment: "")
+            ? NSLocalizedString("Apple 设备（推荐）", comment: "")
+            : NSLocalizedString("Apple 设备", comment: "")
         let trustedDeviceAction = UIAlertAction(title: trustedDeviceTitle, style: .default) { _ in
             continuation.resume(returning: .requestTrustedDevice)
         }
@@ -361,8 +361,8 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
 
         let isSMSDefault = (preferredMode == .sms)
         let smsTitle = isSMSDefault
-            ? NSLocalizedString("Text Message (SMS) (Recommended)", comment: "")
-            : NSLocalizedString("Text Message (SMS)", comment: "")
+            ? NSLocalizedString("短信（SMS）（推荐）", comment: "")
+            : NSLocalizedString("短信（SMS）", comment: "")
         let smsAction = UIAlertAction(title: smsTitle, style: .default) { [weak self] _ in
             guard let self = self else {
                 continuation.resume(returning: .cancel)
@@ -379,8 +379,8 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
 
         let isVoiceDefault = (preferredMode == .voice)
         let voiceTitle = isVoiceDefault
-            ? NSLocalizedString("Phone Call (Recommended)", comment: "")
-            : NSLocalizedString("Phone Call", comment: "")
+            ? NSLocalizedString("电话语音（推荐）", comment: "")
+            : NSLocalizedString("电话语音", comment: "")
         let voiceAction = UIAlertAction(title: voiceTitle, style: .default) { [weak self] _ in
             guard let self = self else {
                 continuation.resume(returning: .cancel)
@@ -395,7 +395,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         }
         alert.addAction(voiceAction)
 
-        alert.addAction(UIAlertAction(title: systemLocalizedString("Cancel"), style: .cancel) { _ in
+        alert.addAction(UIAlertAction(title: systemLocalizedString("取消"), style: .cancel) { _ in
             continuation.resume(returning: .cancel)
         })
 
@@ -418,14 +418,14 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                                                  continuation: CheckedContinuation<TwoFactorResponse, Error>)
     {
         let alert = UIAlertController(
-            title: NSLocalizedString("Select Phone Number", comment: ""),
-            message: NSLocalizedString("Choose a phone number to receive your verification code:", comment: ""),
+            title: NSLocalizedString("选择电话号码", comment: ""),
+            message: NSLocalizedString("选择用于接收验证码的电话号码：", comment: ""),
             preferredStyle: .alert
         )
 
         for phone in phoneNumbers {
             let isCurrent = (phone.id == activeID)
-            let buttonTitle = isCurrent ? "\(phone.number) (Current)" : phone.number
+            let buttonTitle = isCurrent ? "\(phone.number)（当前）" : phone.number
             let action = UIAlertAction(title: buttonTitle, style: .default) { _ in
                 if case .voice = mode {
                     return continuation.resume(returning: .requestVoice(phoneID: phone.id))
@@ -437,7 +437,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             alert.addAction(action)
         }
 
-        alert.addAction(UIAlertAction(title: systemLocalizedString("Cancel"), style: .cancel) { _ in
+        alert.addAction(UIAlertAction(title: systemLocalizedString("取消"), style: .cancel) { _ in
             continuation.resume(returning: .cancel)
         })
 
@@ -447,27 +447,27 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     @MainActor
     func resolveRevocation(certificates: [ALTX509Certificate], teamType: ALTTeamType) async throws -> RevokeDecision {
         guard self.isPresenterAvailable else {
-            throw OperationError.invalidParameters("SignInFlowHandler: Cannot resolve certificate revocation because presenting view controller is unavailable")
+            throw OperationError.invalidParameters("SignInFlowHandler：无法处理证书吊销，因为当前没有可用的视图控制器")
         }
 
         return try await withCheckedThrowingContinuation { continuation in
             let alertController = UIAlertController(
-                title: NSLocalizedString("Revoke Certificates", comment: ""),
-                message: NSLocalizedString("Select iOS Development certificate(s) to revoke:", comment: ""),
+                title: NSLocalizedString("吊销证书", comment: ""),
+                message: NSLocalizedString("选择要吊销的 iOS 开发证书：", comment: ""),
                 preferredStyle: .alert
             )
             
             let revokeVC = RevokeCertificatesAlertViewController(certificates: certificates, teamType: teamType)
             alertController.setValue(revokeVC, forKey: "contentViewController")
             
-            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { _ in
+            let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel) { _ in
                 if teamType == .free {
                     let warningAlert = UIAlertController(
-                        title: NSLocalizedString("Warning", comment: ""),
-                        message: NSLocalizedString("SideStore cannot manage the existing certificate without owning its private key. The apps signed with the existing certificate will expire soon unless they are resigned and renewed explicitly by SideStore.", comment: ""),
+                        title: NSLocalizedString("警告", comment: ""),
+                        message: NSLocalizedString("由于没有私钥，SideStore 无法管理现有证书。除非通过 SideStore 显式重签并续期，否则使用该现有证书签名的应用很快就会过期。", comment: ""),
                         preferredStyle: .alert
                     )
-                    warningAlert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default) { _ in
+                    warningAlert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default) { _ in
                         warningAlert.dismiss(animated: true) {
                             continuation.resume(returning: .keepExisting)
                         }
@@ -482,9 +482,9 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             let initialCount = revokeVC.getSelectedCertificates().count
             let initialTitle: String
             if isPaid {
-                initialTitle = (initialCount == 0) ? "Continue Without Revoking" : "Revoke Selected (\(initialCount))"
+                initialTitle = (initialCount == 0) ? "不吊销并继续" : "吊销所选（\(initialCount)）"
             } else {
-                initialTitle = "Revoke"
+                initialTitle = "吊销"
             }
             let actionStyle: UIAlertAction.Style = (isPaid && initialCount == 0) ? .default : .destructive
             let revokeAction = UIAlertAction(title: initialTitle, style: actionStyle) { _ in
@@ -498,10 +498,10 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 revokeAction.isEnabled = true
                 revokeVC.onSelectionChanged = { selected in
                     if selected.isEmpty {
-                        revokeAction.setValue(NSLocalizedString("Continue Without Revoking", comment: ""), forKey: "title")
+                        revokeAction.setValue(NSLocalizedString("不吊销并继续", comment: ""), forKey: "title")
                         revokeAction.setValue(nil, forKey: "titleTextColor")
                     } else {
-                        revokeAction.setValue("Revoke Selected (\(selected.count))", forKey: "title")
+                        revokeAction.setValue("吊销所选（\(selected.count)）", forKey: "title")
                         revokeAction.setValue(UIColor.systemRed, forKey: "titleTextColor")
                     }
                 }
@@ -517,11 +517,11 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     @MainActor
     func resolveTeam(_ teams: [ALTTeam]) async throws -> ALTTeam {
         guard self.isPresenterAvailable else {
-            throw OperationError.invalidParameters("SignInFlowHandler: Cannot resolve team selection because presenting view controller is unavailable")
+            throw OperationError.invalidParameters("SignInFlowHandler：无法处理团队选择，因为当前没有可用的视图控制器")
         }
 
         return try await withCheckedThrowingContinuation { continuation in
-            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
+            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
             let selectTeamViewController = storyboard.instantiateViewController(withIdentifier: "selectTeamViewController") as! SelectTeamViewController
             selectTeamViewController.teams = teams
             selectTeamViewController.completionHandler = { result in
@@ -535,7 +535,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func resolvePostAuth() async {
         await withCheckedContinuation { continuation in
             var hasResumed = false
-            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
+            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
             let instructionsViewController = storyboard.instantiateViewController(withIdentifier: "instructionsViewController") as! InstructionsViewController
             instructionsViewController.showsBottomButton = true
             instructionsViewController.completionHandler = {
@@ -554,9 +554,9 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func resolveDeviceRegistrationErrors(_ error: Error) async -> ProvisioningErrorDecision {
         let title: String
         if error is OperationError {
-            title = NSLocalizedString("Device Registration Error", comment: "")
+            title = NSLocalizedString("设备注册错误", comment: "")
         } else {
-            title = NSLocalizedString("Developer Portal Error", comment: "")
+            title = NSLocalizedString("开发者门户错误", comment: "")
         }
 
         return await withCheckedContinuation { continuation in
@@ -567,12 +567,12 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             )
             
             if self.showsDoItLater {
-                let retryAction = UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+                let retryAction = UIAlertAction(title: NSLocalizedString("重试", comment: ""), style: .default) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .retry)
                     }
                 }
-                let laterAction = UIAlertAction(title: NSLocalizedString("Do It Later", comment: ""), style: .cancel) { _ in
+                let laterAction = UIAlertAction(title: NSLocalizedString("稍后再做", comment: ""), style: .cancel) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .cancel)
                     }
@@ -580,19 +580,19 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 alertController.addAction(retryAction)
                 alertController.addAction(laterAction)
             } else {
-                let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { _ in
+                let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .cancel)
                     }
                 }
                 
-                let skipAction = UIAlertAction(title: NSLocalizedString("Skip", comment: ""), style: .default) { _ in
+                let skipAction = UIAlertAction(title: NSLocalizedString("跳过", comment: ""), style: .default) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .skip)
                     }
                 }
                 
-                let retryAction = UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+                let retryAction = UIAlertAction(title: NSLocalizedString("重试", comment: ""), style: .default) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .retry)
                     }
@@ -611,18 +611,18 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func resolveProvisioningError(_ error: Error) async -> ProvisioningErrorDecision {
         return await withCheckedContinuation { continuation in
             let alertController = UIAlertController(
-                title: NSLocalizedString("Developer Portal Error", comment: ""),
+                title: NSLocalizedString("开发者门户错误", comment: ""),
                 message: error.localizedDescription,
                 preferredStyle: .alert
             )
             
             if self.showsDoItLater {
-                let retryAction = UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+                let retryAction = UIAlertAction(title: NSLocalizedString("重试", comment: ""), style: .default) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .retry)
                     }
                 }
-                let laterAction = UIAlertAction(title: NSLocalizedString("Do It Later", comment: ""), style: .cancel) { _ in
+                let laterAction = UIAlertAction(title: NSLocalizedString("稍后再做", comment: ""), style: .cancel) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .cancel)
                     }
@@ -630,19 +630,19 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 alertController.addAction(retryAction)
                 alertController.addAction(laterAction)
             } else {
-                let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { _ in
+                let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .cancel)
                     }
                 }
                 
-                let skipAction = UIAlertAction(title: NSLocalizedString("Skip", comment: ""), style: .default) { _ in
+                let skipAction = UIAlertAction(title: NSLocalizedString("跳过", comment: ""), style: .default) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .skip)
                     }
                 }
                 
-                let retryAction = UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+                let retryAction = UIAlertAction(title: NSLocalizedString("重试", comment: ""), style: .default) { _ in
                     alertController.dismiss(animated: true) {
                         continuation.resume(returning: .retry)
                     }
@@ -661,11 +661,11 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func showCertificateSkipAcknowledgment() async {
         await withCheckedContinuation { continuation in
             let alertController = UIAlertController(
-                title: NSLocalizedString("Certificate Setup Skipped", comment: ""),
-                message: NSLocalizedString("Active signing certificate is not present and wasn't fetched/setup properly. You can complete the pending actions later or go into Settings -> Certificate Management and setup certificates manually.", comment: ""),
+                title: NSLocalizedString("已跳过证书设置", comment: ""),
+                message: NSLocalizedString("当前没有活跃的签名证书，且未能正确获取/设置。你可以稍后完成待处理的操作，或进入“设置 -> 证书管理”手动设置证书。", comment: ""),
                 preferredStyle: .alert
             )
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default) { _ in
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default) { _ in
                 alertController.dismiss(animated: true) {
                     continuation.resume()
                 }
@@ -678,11 +678,11 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func showDeviceRegistrationSkipAcknowledgment() async {
         await withCheckedContinuation { continuation in
             let alertController = UIAlertController(
-                title: NSLocalizedString("Device Registration Skipped", comment: ""),
-                message: NSLocalizedString("Your device is not yet registered under this developer team. Apps cannot be installed or refreshed until registration is completed. You can complete this later in Settings.", comment: ""),
+                title: NSLocalizedString("已跳过设备注册", comment: ""),
+                message: NSLocalizedString("你的设备尚未在此开发者团队下注册。在完成注册之前，无法安装或刷新应用。你可以稍后在“设置”中完成此操作。", comment: ""),
                 preferredStyle: .alert
             )
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default) { _ in
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default) { _ in
                 alertController.dismiss(animated: true) {
                     continuation.resume()
                 }
@@ -694,14 +694,14 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     @MainActor
     func resolveResign(mismatchReason: CodeSignValidationReason, context: StandaloneOperationContext) async throws -> Bool {
         guard self.isPresenterAvailable else {
-            throw OperationError.invalidParameters("SignInFlowHandler: Cannot resolve resign prompt because presenting view controller is unavailable")
+            throw OperationError.invalidParameters("SignInFlowHandler：无法处理重签提示，因为当前没有可用的视图控制器")
         }
 
         let isFreeTeam = try await AuthManager.shared.getAuthenticatedTeam().type == .free
 
         return try await withCheckedThrowingContinuation { continuation in
             var hasResumed = false
-            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
+            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
             let resignViewController = storyboard.instantiateViewController(withIdentifier: "resignAltStoreViewController") as! ResignAltStoreViewController
             resignViewController.context = context
             resignViewController.mismatchReason = mismatchReason
@@ -754,15 +754,15 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     @MainActor
     func warnOutdatedAnisetteServer() async throws -> Bool {
         guard let presenter = self.activePresenter else {
-            throw OperationError.invalidParameters("SignInFlowHandler: Cannot show outdated anisette warning because presenting view controller is unavailable")
+            throw OperationError.invalidParameters("SignInFlowHandler：无法显示 Anisette 过时警告，因为当前没有可用的视图控制器")
         }
         
         return await withCheckedContinuation { continuation in
-            let alert = UIAlertController(title: "WARNING: Outdated anisette server", message: "We've detected you are using an older anisette server. Using this server has a higher likelihood of locking your account and causing other issues. Are you sure you want to continue?", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.destructive, handler: { action in
+            let alert = UIAlertController(title: "警告：Anisette 服务器版本过旧", message: "检测到你正在使用较旧版本的 Anisette 服务器。使用该服务器更容易导致账号被锁定以及其他问题。确定要继续吗？", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "继续", style: UIAlertAction.Style.destructive, handler: { action in
                 continuation.resume(returning: true)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in
+            alert.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.cancel, handler: { action in
                 continuation.resume(returning: false)
             }))
             

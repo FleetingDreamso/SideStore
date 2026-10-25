@@ -12,27 +12,27 @@ import Combine
 import Network
 
 enum ServiceTypeSortOption: String, CaseIterable {
-    case nameAscending = "Name (A to Z)"
-    case nameDescending = "Name (Z to A)"
-    case rawType = "Raw Type Identifier"
+    case nameAscending = "名称（A 到 Z）"
+    case nameDescending = "名称（Z 到 A）"
+    case rawType = "原始类型标识符"
 }
 
 enum ServiceTypeGroupOption: String, CaseIterable {
-    case none = "None"
-    case protocolType = "Protocol (TCP / UDP)"
-    case category = "Category (Recognized / Other)"
-    case firstLetter = "First Letter"
+    case none = "无"
+    case protocolType = "协议（TCP / UDP）"
+    case category = "类别（已识别 / 其他）"
+    case firstLetter = "首字母"
 }
 
 enum ServiceInstanceSortOption: String, CaseIterable {
-    case nameAscending = "Name (A to Z)"
-    case nameDescending = "Name (Z to A)"
+    case nameAscending = "名称（A 到 Z）"
+    case nameDescending = "名称（Z 到 A）"
 }
 
 enum ServiceInstanceGroupOption: String, CaseIterable {
-    case ipVersion = "IP Version (v4/v6)"
-    case none = "None"
-    case firstLetter = "First Letter"
+    case ipVersion = "IP 版本（v4/v6）"
+    case none = "无"
+    case firstLetter = "首字母"
 }
 
 struct DomainSection: Identifiable {
@@ -146,9 +146,9 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             let keys = grouped.keys.sorted {
                 domainSortAscending ? $0 < $1 : $0 > $1
             }
-            return keys.map { DomainSection(id: "group_\($0)", title: "\($0) (\(grouped[$0]?.count ?? 0))", items: grouped[$0] ?? []) }
+            return keys.map { DomainSection(id: "group_\($0)", title: "\($0)（\(grouped[$0]?.count ?? 0)）", items: grouped[$0] ?? []) }
         } else {
-            return [DomainSection(id: "all_domains", title: "Browsable Domains", items: sorted)]
+            return [DomainSection(id: "all_domains", title: "可浏览的域", items: sorted)]
         }
     }
     
@@ -167,7 +167,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
         
         switch serviceTypeGroupOption {
         case .none:
-            let title = "\(serviceTypes.count) Service\(serviceTypes.count == 1 ? "" : "s") Found"
+            let title = "找到 \(serviceTypes.count) 个服务"
             return [ServiceTypeSection(id: "all_types", title: title, items: sorted)]
             
         case .protocolType:
@@ -177,13 +177,13 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             
             var sections: [ServiceTypeSection] = []
             if !tcpItems.isEmpty {
-                sections.append(ServiceTypeSection(id: "tcp_types", title: "TCP Services (\(tcpItems.count))", items: tcpItems))
+                sections.append(ServiceTypeSection(id: "tcp_types", title: "TCP 服务（\(tcpItems.count)）", items: tcpItems))
             }
             if !udpItems.isEmpty {
-                sections.append(ServiceTypeSection(id: "udp_types", title: "UDP Services (\(udpItems.count))", items: udpItems))
+                sections.append(ServiceTypeSection(id: "udp_types", title: "UDP 服务（\(udpItems.count)）", items: udpItems))
             }
             if !otherItems.isEmpty {
-                sections.append(ServiceTypeSection(id: "other_types", title: "Other Services (\(otherItems.count))", items: otherItems))
+                sections.append(ServiceTypeSection(id: "other_types", title: "其他服务（\(otherItems.count)）", items: otherItems))
             }
             return sections
             
@@ -193,10 +193,10 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             
             var sections: [ServiceTypeSection] = []
             if !recognized.isEmpty {
-                sections.append(ServiceTypeSection(id: "recognized_types", title: "Recognized Services (\(recognized.count))", items: recognized))
+                sections.append(ServiceTypeSection(id: "recognized_types", title: "已识别的服务（\(recognized.count)）", items: recognized))
             }
             if !unknown.isEmpty {
-                sections.append(ServiceTypeSection(id: "unknown_types", title: "Other / Raw Services (\(unknown.count))", items: unknown))
+                sections.append(ServiceTypeSection(id: "unknown_types", title: "其他 / 原始服务（\(unknown.count)）", items: unknown))
             }
             return sections
             
@@ -207,7 +207,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             let keys = grouped.keys.sorted {
                 serviceTypeSortOption == .nameDescending ? $0 > $1 : $0 < $1
             }
-            return keys.map { ServiceTypeSection(id: "group_\($0)", title: "\($0) (\(grouped[$0]?.count ?? 0))", items: grouped[$0] ?? []) }
+            return keys.map { ServiceTypeSection(id: "group_\($0)", title: "\($0)（\(grouped[$0]?.count ?? 0)）", items: grouped[$0] ?? []) }
         }
     }
     
@@ -224,7 +224,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
         
         switch instanceGroupOption {
         case .none:
-            let title = "\(instances.count) Instance\(instances.count == 1 ? "" : "s")"
+            let title = "\(instances.count) 个实例"
             return [ServiceInstanceSection(id: "all_instances", title: title, items: sorted)]
             
         case .ipVersion:
@@ -256,7 +256,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
                 
                 return "IPv4"
             }
-            let preferredOrder = ["IPv4", "IPv6", "IPv4 & IPv6"]
+            let preferredOrder = ["IPv4", "IPv6", "IPv4 与 IPv6"]
             let keys = grouped.keys.sorted { k1, k2 in
                 let idx1 = preferredOrder.firstIndex(of: k1) ?? 99
                 let idx2 = preferredOrder.firstIndex(of: k2) ?? 99
@@ -265,8 +265,8 @@ final class BonjourDiscoveryViewModel: ObservableObject {
                 }
                 return k1 < k2
             }
-            let sections = keys.map { ServiceInstanceSection(id: "group_ip_\($0)", title: "\($0) (\(grouped[$0]?.count ?? 0))", items: grouped[$0] ?? []) }
-            let summary = sections.map { "\($0.title): [\($0.items.map { $0.name }.joined(separator: ", "))]" }.joined(separator: " | ")
+            let sections = keys.map { ServiceInstanceSection(id: "group_ip_\($0)", title: "\($0)（\(grouped[$0]?.count ?? 0)）", items: grouped[$0] ?? []) }
+            let summary = sections.map { "\($0.title)：[\($0.items.map { $0.name }.joined(separator: ", "))]" }.joined(separator: " | ")
             debugLog("[BonjourDiscoveryViewModel] processedInstances (ipVersion): \(summary)")
             return sections
             
@@ -277,7 +277,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             let keys = grouped.keys.sorted {
                 instanceSortOption == .nameDescending ? $0 > $1 : $0 < $1
             }
-            return keys.map { ServiceInstanceSection(id: "group_\($0)", title: "\($0) (\(grouped[$0]?.count ?? 0))", items: grouped[$0] ?? []) }
+            return keys.map { ServiceInstanceSection(id: "group_\($0)", title: "\($0)（\(grouped[$0]?.count ?? 0)）", items: grouped[$0] ?? []) }
         }
     }
     
@@ -305,13 +305,13 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             let clean = raw.strippingInterfaceScope
             let label: String = {
                 if !clean.contains(":") {
-                    return "IPv4 Address"
+                    return "IPv4 地址"
                 } else if raw.lowercased().hasPrefix("fe80:") || raw.contains("%") {
-                    return "IPv6 Address (Link-Local)"
+                    return "IPv6 地址（链路本地）"
                 } else if clean.lowercased().hasPrefix("fd") || clean.lowercased().hasPrefix("fc") {
-                    return "IPv6 Address (Unique-Local)"
+                    return "IPv6 地址（唯一本地）"
                 } else {
-                    return "IPv6 Address"
+                    return "IPv6 地址"
                 }
             }()
             return DiscoveredAddressItem(
@@ -491,15 +491,15 @@ final class BonjourDiscoveryViewModel: ObservableObject {
         guard let resolved = resolvedService else { return nil }
         
         var lines: [String] = []
-        lines.append("Service: \(resolved.name)")
-        lines.append("Type: \(resolved.type)")
-        lines.append("Domain: \(resolved.domain)")
-        lines.append("Hostname: \(resolved.hostname)")
-        lines.append("Port: \(resolved.port)")
+        lines.append("服务：\(resolved.name)")
+        lines.append("类型：\(resolved.type)")
+        lines.append("域：\(resolved.domain)")
+        lines.append("主机名：\(resolved.hostname)")
+        lines.append("端口：\(resolved.port)")
         lines.append("")
         
         if !resolved.addresses.isEmpty {
-            lines.append("Addresses:")
+            lines.append("地址：")
             for addr in sortedAddresses {
                 lines.append("  \(addr)")
             }
@@ -507,7 +507,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
         }
         
         if !resolved.txtRecords.isEmpty {
-            lines.append("TXT Records:")
+            lines.append("TXT 记录：")
             for record in resolved.txtRecords {
                 lines.append("  \(record.key) = \(record.value)")
             }
@@ -523,11 +523,11 @@ final class BonjourDiscoveryViewModel: ObservableObject {
     static func portCategory(for port: UInt16) -> String {
         switch port {
         case 0...1023:
-            return "Well-Known Port"
+            return "知名端口"
         case 1024...49151:
-            return "Registered Port"
+            return "注册端口"
         default:
-            return "Dynamic / Ephemeral Port"
+            return "动态 / 临时端口"
         }
     }
     
@@ -554,19 +554,19 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             "AppleTV6,2": "Apple TV 4K (1st gen)",
             "AppleTV11,1": "Apple TV 4K (2nd gen)",
             "AppleTV14,1": "Apple TV 4K (3rd gen)",
-            "MacBookPro18,1": "MacBook Pro (16-inch, 2021)",
-            "MacBookPro18,2": "MacBook Pro (16-inch, 2021)",
-            "MacBookPro18,3": "MacBook Pro (14-inch, 2021)",
-            "Mac14,2": "MacBook Air (M2, 2022)",
-            "Mac14,7": "MacBook Pro (13-inch, M2, 2022)",
-            "Mac14,6": "MacBook Pro (16-inch, 2023)",
-            "Mac14,5": "MacBook Pro (14-inch, 2023)",
-            "Mac14,3": "Mac mini (2023)",
-            "Mac14,12": "Mac mini (M2 Pro, 2023)",
-            "Mac14,15": "MacBook Air (15-inch, M2, 2023)",
-            "Mac15,3": "MacBook Pro (14-inch, Nov 2023)",
-            "Mac15,6": "MacBook Pro (14-inch, Nov 2023)",
-            "Mac15,8": "MacBook Pro (16-inch, Nov 2023)"
+            "MacBookPro18,1": "MacBook Pro（16 英寸，2021）",
+            "MacBookPro18,2": "MacBook Pro（16 英寸，2021）",
+            "MacBookPro18,3": "MacBook Pro（14 英寸，2021）",
+            "Mac14,2": "MacBook Air（M2，2022）",
+            "Mac14,7": "MacBook Pro（13 英寸，M2，2022）",
+            "Mac14,6": "MacBook Pro（16 英寸，2023）",
+            "Mac14,5": "MacBook Pro（14 英寸，2023）",
+            "Mac14,3": "Mac mini（2023）",
+            "Mac14,12": "Mac mini（M2 Pro，2023）",
+            "Mac14,15": "MacBook Air（15 英寸，M2，2023）",
+            "Mac15,3": "MacBook Pro（14 英寸，2023 年 11 月）",
+            "Mac15,6": "MacBook Pro（14 英寸，2023 年 11 月）",
+            "Mac15,8": "MacBook Pro（16 英寸，2023 年 11 月）"
         ]
         return models[m]
     }
@@ -626,9 +626,9 @@ final class BonjourDiscoveryViewModel: ObservableObject {
     static func nameForInterfaceType(_ type: NWInterface.InterfaceType) -> String {
         switch type {
         case .wifi:             return "Wi-Fi"
-        case .loopback:         return "Loopback"
-        case .wiredEthernet:    return "Ethernet"
-        case .cellular:         return "Cellular"
+        case .loopback:         return "回环"
+        case .wiredEthernet:    return "以太网"
+        case .cellular:         return "蜂窝网络"
         default:                return "\(type)"
         }
     }
@@ -636,25 +636,25 @@ final class BonjourDiscoveryViewModel: ObservableObject {
     func logDetails(for service: DiscoveredService, trigger: String, resolved: ResolvedServiceInfo? = nil) {
         let activeResolved = resolved ?? self.resolvedService
         let isLocal = service.interfaces.contains { $0.type == .loopback }
-        let localityStr = isLocal ? "LOCAL DEVICE (This iPhone / iPad — lo0 loopback present)" : "REMOTE DEVICE (Network peer — external only)"
-        let friendlyType = BonjourDiscoveryManager.friendlyName(for: service.type) ?? "Unknown Type"
+        let localityStr = isLocal ? "本地设备（此 iPhone / iPad — 存在 lo0 回环）" : "远程设备（网络对端 — 仅外部）"
+        let friendlyType = BonjourDiscoveryManager.friendlyName(for: service.type) ?? "未知类型"
         
         var lines: [String] = []
         lines.append("===================================================")
         lines.append("[ServiceDetailView] [\(trigger)] Details: '\(service.name)'")
         lines.append("===================================================")
-        lines.append("• Name:       \(service.name)")
-        lines.append("• Type:       \(service.type) (\(friendlyType))")
-        lines.append("• Domain:     \(service.domain)")
-        lines.append("• Locality:   \(localityStr)")
+        lines.append("• 名称：      \(service.name)")
+        lines.append("• 类型：      \(service.type)（\(friendlyType)）")
+        lines.append("• 域：        \(service.domain)")
+        lines.append("• 位置：      \(localityStr)")
         
-        let ifaceDesc = service.interfaces.map { "\($0.name) (idx: \($0.index), type: \(Self.nameForInterfaceType($0.type)))" }.joined(separator: ", ")
-        lines.append("• Interfaces (\(service.interfaces.count)): [\(ifaceDesc.isEmpty ? "none" : ifaceDesc)]")
+        let ifaceDesc = service.interfaces.map { "\($0.name)（索引：\($0.index)，类型：\(Self.nameForInterfaceType($0.type))）" }.joined(separator: ", ")
+        lines.append("• 接口（\(service.interfaces.count)）：[\(ifaceDesc.isEmpty ? "无" : ifaceDesc)]")
         
         if service.txtRecords.isEmpty {
-            lines.append("• Browse TXT: (none)")
+            lines.append("• 浏览 TXT：（无）")
         } else {
-            lines.append("• Browse TXT (\(service.txtRecords.count)):")
+            lines.append("• 浏览 TXT（\(service.txtRecords.count)）：")
             for record in service.txtRecords {
                 lines.append("    - \(record.key) = \(record.value)")
             }
@@ -662,27 +662,27 @@ final class BonjourDiscoveryViewModel: ObservableObject {
         
         if let res = activeResolved {
             lines.append("---------------------------------------------------")
-            lines.append("• Resolution: RESOLVED")
-            lines.append("• Hostname:   \(res.hostname)")
-            lines.append("• Port:       \(res.port) (\(Self.portCategory(for: res.port)))")
-            lines.append("• Addresses (\(res.addresses.count)):")
+            lines.append("• 解析：已解析")
+            lines.append("• 主机名：    \(res.hostname)")
+            lines.append("• 端口：      \(res.port)（\(Self.portCategory(for: res.port))）")
+            lines.append("• 地址（\(res.addresses.count)）：")
             if res.addresses.isEmpty {
-                lines.append("    (No IP addresses resolved)")
+                lines.append("    （未解析到任何 IP 地址）")
             } else {
                 for addr in res.addresses {
                     let isV6 = addr.contains(":")
                     let tag: String
                     if isV6 {
                         if addr.lowercased().hasPrefix("fe80:") {
-                            tag = "IPv6 Link-Local"
+                            tag = "IPv6 链路本地"
                         } else if addr == "::1" {
-                            tag = "IPv6 Loopback"
+                            tag = "IPv6 回环"
                         } else {
-                            tag = "IPv6 Global/ULA"
+                            tag = "IPv6 全局/ULA"
                         }
                     } else {
                         if addr.hasPrefix("127.") {
-                            tag = "IPv4 Loopback"
+                            tag = "IPv4 回环"
                         } else {
                             tag = "IPv4"
                         }
@@ -692,9 +692,9 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             }
             
             if res.txtRecords.isEmpty {
-                lines.append("• Resolved TXT: (none)")
+                lines.append("• 已解析 TXT：（无）")
             } else {
-                lines.append("• Resolved TXT (\(res.txtRecords.count)):")
+                lines.append("• 已解析 TXT（\(res.txtRecords.count)）：")
                 for record in res.txtRecords {
                     lines.append("    - \(record.key) = \(record.value)")
                 }
@@ -704,30 +704,30 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             let decodedModel = modelRecord != nil ? Self.decodeDeviceModel(modelRecord!) : nil
             let osRecord = res.txtRecords.first(where: { $0.key.lowercased() == "osvers" || $0.key.lowercased() == "os" })?.value
             if decodedModel != nil || osRecord != nil {
-                lines.append("• Device Info:")
+                lines.append("• 设备信息：")
                 if let model = decodedModel {
-                    lines.append("    - Model: \(model) (\(modelRecord ?? ""))")
+                    lines.append("    - 型号：\(model)（\(modelRecord ?? "")）")
                 }
                 if let os = osRecord {
-                    lines.append("    - OS:    \(os)")
+                    lines.append("    - 系统：\(os)")
                 }
             }
             
-            lines.append("• Usable Endpoints:")
-            lines.append("    - Host:Port: \(res.hostname):\(res.port)")
+            lines.append("• 可用端点：")
+            lines.append("    - 主机:端口：\(res.hostname):\(res.port)")
             for addr in res.addresses {
                 if addr.contains(":") {
-                    lines.append("    - IPv6:      [\(addr)]:\(res.port)")
+                    lines.append("    - IPv6：     [\(addr)]:\(res.port)")
                 } else {
-                    lines.append("    - IPv4:      \(addr):\(res.port)")
+                    lines.append("    - IPv4：     \(addr):\(res.port)")
                 }
             }
         } else if let error = self.resolveError {
             lines.append("---------------------------------------------------")
-            lines.append("• Resolution: FAILED (\(error))")
+            lines.append("• 解析：失败（\(error)）")
         } else {
             lines.append("---------------------------------------------------")
-            lines.append("• Resolution: RESOLVING (awaiting network response)...")
+            lines.append("• 解析：解析中（等待网络响应）...")
         }
         lines.append("===================================================")
         

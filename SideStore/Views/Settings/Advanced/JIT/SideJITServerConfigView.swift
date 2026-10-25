@@ -26,11 +26,11 @@ enum SideJITConnectionStatus: Equatable {
     
     var title: String {
         switch self {
-        case .disabled: return "Disabled"
-        case .ready(let latency, _): return "Ready (\(latency) ms)"
-        case .discovering: return "Discovering Bonjour…"
-        case .checking: return "Checking Connection…"
-        case .disconnected: return "Unreachable"
+        case .disabled: return "已禁用"
+        case .ready(let latency, _): return "就绪（\(latency) 毫秒）"
+        case .discovering: return "正在发现 Bonjour…"
+        case .checking: return "正在检查连接…"
+        case .disconnected: return "不可访问"
         }
     }
 }
@@ -124,9 +124,9 @@ struct SideJITServerConfigView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Enable SideJITServer")
+                        Text("启用 SideJITServer")
                             .font(.body.weight(.semibold))
-                        Text("Required for JIT on iOS 17+")
+                        Text("在 iOS 17+ 上使用 JIT 所必需")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -145,9 +145,9 @@ struct SideJITServerConfigView: View {
     }
     
     private var statusSection: some View {
-        Section(header: Text("Connection Status")) {
+        Section(header: Text("连接状态")) {
             HStack {
-                Text("Status")
+                Text("状态")
                 Spacer()
                 HStack(spacing: 6) {
                     Circle()
@@ -160,10 +160,10 @@ struct SideJITServerConfigView: View {
             }
             
             HStack {
-                Text("Resolved Address")
+                Text("已解析地址")
                     .layoutPriority(1)
                 Spacer()
-                Text(!isServerEnabled ? "Disabled" : (resolvedAddress.isEmpty ? "Resolving…" : resolvedAddress))
+                Text(!isServerEnabled ? "已禁用" : (resolvedAddress.isEmpty ? "正在解析…" : resolvedAddress))
                     .font(.system(size: 13, design: .monospaced))
                     .foregroundColor((!isServerEnabled || resolvedAddress.isEmpty) ? .secondary : .primary)
                     .lineLimit(1)
@@ -177,15 +177,15 @@ struct SideJITServerConfigView: View {
                         showCopied()
                         #endif
                     } label: {
-                        Label("Copy Address", systemImage: "doc.on.doc")
+                        Label("拷贝地址", systemImage: "doc.on.doc")
                     }
                 }
             }
             
             HStack {
-                Text("Resolution Mode")
+                Text("解析模式")
                 Spacer()
-                Text(customAddress.isEmpty ? "Auto (Bonjour mDNS)" : "Manual Override")
+                Text(customAddress.isEmpty ? "自动（Bonjour mDNS）" : "手动指定")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -194,8 +194,8 @@ struct SideJITServerConfigView: View {
     
     private var configurationSection: some View {
         Section(
-            header: Text("Server Address"),
-            footer: Text("Leave empty to automatically discover SideJITServer on your local network via Bonjour.")
+            header: Text("服务器地址"),
+            footer: Text("留空以通过 Bonjour 自动发现本地网络中的 SideJITServer。")
         ) {
             HStack {
                 TextField(AppConstants.SideJIT.defaultServerURL, text: $customAddress)
@@ -227,12 +227,12 @@ struct SideJITServerConfigView: View {
     }
     
     private var diagnosticActionsSection: some View {
-        Section(header: Text("Diagnostics & Tools")) {
+        Section(header: Text("诊断与工具")) {
             SwiftUI.Button {
                 testHealthCheck()
             } label: {
                 HStack {
-                    Label("Test Connection (Ping)", systemImage: "network")
+                    Label("测试连接（Ping）", systemImage: "network")
                         .foregroundColor(.primary)
                     Spacer()
                     if activeAction == .ping {
@@ -249,7 +249,7 @@ struct SideJITServerConfigView: View {
                 triggerDeviceRefresh()
             } label: {
                 HStack {
-                    Label("Refresh Device Cache (/re/)", systemImage: "arrow.clockwise")
+                    Label("刷新设备缓存（/re/）", systemImage: "arrow.clockwise")
                         .foregroundColor(.primary)
                     Spacer()
                     if activeAction == .refresh {
@@ -266,7 +266,7 @@ struct SideJITServerConfigView: View {
                 queryVersionEndpoint()
             } label: {
                 HStack {
-                    Label("Check Version Info (/ver/)", systemImage: "info.circle")
+                    Label("检查版本信息（/ver/）", systemImage: "info.circle")
                         .foregroundColor(.primary)
                     Spacer()
                     if activeAction == .version {
@@ -282,7 +282,7 @@ struct SideJITServerConfigView: View {
     }
     
     private func responseInspectorSection(log: SideJITResponseLog) -> some View {
-        Section(header: Text("Latest Server Response")) {
+        Section(header: Text("最新的服务器响应")) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Text(log.httpMethod)
@@ -303,7 +303,7 @@ struct SideJITServerConfigView: View {
                         .font(.system(.caption, design: .monospaced).bold())
                         .foregroundColor(log.isSuccess ? .green : .red)
                     
-                    Text("\(log.latencyMs)ms")
+                    Text("\(log.latencyMs) 毫秒")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
@@ -339,20 +339,20 @@ struct SideJITServerConfigView: View {
                     showCopied()
                     #endif
                 } label: {
-                    Label("Copy Response", systemImage: "doc.on.doc")
+                    Label("拷贝响应", systemImage: "doc.on.doc")
                 }
             }
         }
     }
     
     private var aboutSection: some View {
-        Section(header: Text("About")) {
+        Section(header: Text("关于")) {
             VStack(alignment: .leading, spacing: 6) {
-                Text("SideJITServer attaches Apple's debugserver service on macOS to running apps on iOS 17+ over local Wi-Fi or USB.")
+                Text("SideJITServer 通过本地 Wi-Fi 或 USB，将 macOS 上的 Apple debugserver 服务附加到 iOS 17+ 上运行的应用。")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
-                Text("When SideStore triggers JIT, SideJITServer sends the debug attach signal and enables Just-In-Time execution instantly.")
+                Text("当 SideStore 触发 JIT 时，SideJITServer 会发送调试附加信号并立即启用即时编译执行。")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -361,7 +361,7 @@ struct SideJITServerConfigView: View {
     }
     
     private var copiedToastView: some View {
-        Text("Copied to Clipboard")
+        Text("已拷贝到剪贴板")
             .font(.subheadline.weight(.medium))
             .foregroundColor(.white)
             .padding(.horizontal, 20)
@@ -403,7 +403,7 @@ struct SideJITServerConfigView: View {
         guard let url = URL(string: serverURL) else {
             debugLog("[SideJITConfig] performPing: invalid URL string '\(serverURL)'")
             await MainActor.run {
-                self.connectionStatus = .disconnected(reason: "Invalid URL")
+                self.connectionStatus = .disconnected(reason: "URL 无效")
             }
             return
         }
@@ -417,7 +417,7 @@ struct SideJITServerConfigView: View {
             let (data, response) = try await URLSession.shared.data(for: request)
             let latency = Int(Date().timeIntervalSince(start) * 1000)
             let status = (response as? HTTPURLResponse)?.statusCode ?? 200
-            let payload = String(data: data, encoding: .utf8) ?? "<binary data>"
+            let payload = String(data: data, encoding: .utf8) ?? "<二进制数据>"
             debugLog("[SideJITConfig] performPing: success from \(url) (status=\(status), latency=\(latency)ms, bytes=\(data.count)):\n\(payload.prettyPrintedJSON)")
             
             await MainActor.run {
@@ -446,7 +446,7 @@ struct SideJITServerConfigView: View {
                     httpMethod: "GET",
                     statusCode: 0,
                     latencyMs: latency,
-                    rawPayload: "Error: \(error.localizedDescription)"
+                    rawPayload: "错误：\(error.localizedDescription)"
                 )
             }
         }
@@ -511,7 +511,7 @@ struct SideJITServerConfigView: View {
                         httpMethod: "GET",
                         statusCode: 0,
                         latencyMs: latency,
-                        rawPayload: "Error: \(error.localizedDescription)"
+                        rawPayload: "错误：\(error.localizedDescription)"
                     )
                     self.activeAction = nil
                 }
@@ -563,7 +563,7 @@ struct SideJITServerConfigView: View {
                         httpMethod: "GET",
                         statusCode: 0,
                         latencyMs: latency,
-                        rawPayload: "Error: \(error.localizedDescription)"
+                        rawPayload: "错误：\(error.localizedDescription)"
                     )
                     self.activeAction = nil
                 }

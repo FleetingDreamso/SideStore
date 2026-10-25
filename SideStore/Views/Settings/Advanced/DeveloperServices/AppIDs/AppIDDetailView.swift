@@ -30,18 +30,18 @@ struct AppIDDetailView: View {
 
     var body: some View {
         List {
-            Section(header: Text("App ID Metadata")) {
-                InfoRow(label: "Name", value: currentAppID.name)
-                InfoRow(label: "Bundle Identifier", value: currentAppID.bundleIdentifier)
-                InfoRow(label: "App ID (Identifier)", value: currentAppID.identifier)
+            Section(header: Text("App ID 元数据")) {
+                InfoRow(label: "名称", value: currentAppID.name)
+                InfoRow(label: "Bundle ID", value: currentAppID.bundleIdentifier)
+                InfoRow(label: "App ID（标识符）", value: currentAppID.identifier)
                 if let expiration = currentAppID.expirationDate {
-                    InfoRow(label: "Expiration Date", value: formatDate(expiration), valueColor: expiration < Date() ? .red : .primary)
+                    InfoRow(label: "到期日期", value: formatDate(expiration), valueColor: expiration < Date() ? .red : .primary)
                 }
             }
 
-            Section(header: Text("Capabilities & Features (\(currentAppID.features.count))")) {
+            Section(header: Text("功能与特性（\(currentAppID.features.count)）")) {
                 if currentAppID.features.isEmpty {
-                    Text("No special features enabled for this App ID.")
+                    Text("此 App ID 未启用任何特殊功能。")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 } else {
@@ -64,9 +64,9 @@ struct AppIDDetailView: View {
                 }
             }
 
-            Section(header: Text("Associated App Groups"), footer: Text("Select the App Groups to associate with this App ID, then tap Save.")) {
+            Section(header: Text("关联的 App Group"), footer: Text("选择要与此 App ID 关联的 App Group，然后点按“保存”。")) {
                 if viewModel.appGroups.isEmpty {
-                    Text("No App Groups available on this team. Create an App Group first.")
+                    Text("此团队没有可用的 App Group。请先创建一个 App Group。")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 } else {
@@ -120,7 +120,7 @@ struct AppIDDetailView: View {
                                     ProgressView()
                                         .padding(.trailing, 8)
                                 }
-                                Text("Save Group Associations")
+                                Text("保存组关联")
                                     .fontWeight(.semibold)
                                 Spacer()
                             }
@@ -130,7 +130,7 @@ struct AppIDDetailView: View {
                 }
             }
 
-            Section(header: Text("Actions")) {
+            Section(header: Text("操作")) {
                 SwiftUI.Button {
                     Task {
                         _ = await viewModel.downloadProfile(for: currentAppID, presentingViewController: presentingViewController)
@@ -138,7 +138,7 @@ struct AppIDDetailView: View {
                 } label: {
                     HStack {
                         Image(systemName: "arrow.down.doc")
-                        Text("Download Provisioning Profile")
+                        Text("下载描述文件")
                     }
                 }
             }
@@ -148,7 +148,7 @@ struct AppIDDetailView: View {
         #else
         .listStyle(GroupedListStyle())
         #endif
-        .navigationTitle(currentAppID.name.isEmpty ? "App ID Details" : currentAppID.name)
+        .navigationTitle(currentAppID.name.isEmpty ? "App ID 详情" : currentAppID.name)
         .onAppear {
             initializeSelectedGroups()
         }
@@ -180,27 +180,27 @@ struct AppIDDetailView: View {
 
     private func displayName(for feature: Feature) -> String {
         switch feature {
-        case .appGroups: return "App Groups"
+        case .appGroups: return "App 组"
         case .gameCenter: return "Game Center"
-        case .inAppPurchase: return "In-App Purchase"
-        case .pushNotifications: return "Push Notifications"
-        case .interAppAudio: return "Inter-App Audio"
-        case .associatedDomains: return "Associated Domains"
-        case .dataProtection: return "Data Protection"
+        case .inAppPurchase: return "App 内购买"
+        case .pushNotifications: return "推送通知"
+        case .interAppAudio: return "App 间音频"
+        case .associatedDomains: return "关联域"
+        case .dataProtection: return "数据保护"
         case .siri: return "Siri"
         case .applePay: return "Apple Pay"
-        case .vpn: return "Personal VPN"
-        case .networkExtensions: return "Network Extensions"
-        case .multipath: return "Multipath"
-        case .hotspot: return "Hotspot"
-        case .nfc: return "NFC Tag Reading"
+        case .vpn: return "个人 VPN"
+        case .networkExtensions: return "网络扩展"
+        case .multipath: return "多路径"
+        case .hotspot: return "热点"
+        case .nfc: return "NFC 标签读取"
         case .classKit: return "ClassKit"
-        case .autoFillCredentialProvider: return "AutoFill Credential Provider"
-        case .accessWiFiInformation: return "Access WiFi Information"
-        case .wirelessAccessoryConfiguration: return "Wireless Accessory Config"
-        case .increasedMemoryLimit: return "Increased Memory Limit"
-        case .extendedVirtualAddressing: return "Extended Virtual Addressing"
-        case .increasedDebuggingMemoryLimit: return "Increased Debugging Memory Limit"
+        case .autoFillCredentialProvider: return "自动填充凭据提供程序"
+        case .accessWiFiInformation: return "访问 Wi-Fi 信息"
+        case .wirelessAccessoryConfiguration: return "无线配件配置"
+        case .increasedMemoryLimit: return "提高内存上限"
+        case .extendedVirtualAddressing: return "扩展虚拟寻址"
+        case .increasedDebuggingMemoryLimit: return "提高调试内存上限"
         default: return feature.rawValue
         }
     }

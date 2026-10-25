@@ -14,8 +14,8 @@ import Darwin
 private typealias SButton = SwiftUI.Button
 
 enum ActiveState: String {
-    case yes = "Yes"
-    case no = "No"
+    case yes = "是"
+    case no = "否"
 }
 
 struct AnimatedCheckmarkView: View {
@@ -73,21 +73,21 @@ struct ConnectionConfigView: View {
         ZStack {
             List {
                 Section {
-                    Toggle("Use Local VPN", isOn: $draftUseLocalVPN)
+                    Toggle("使用本地 VPN", isOn: $draftUseLocalVPN)
                 }
 
                 if draftUseLocalVPN {
-                    Section(header: Text("Auto Discovered from network")) {
+                    Section(header: Text("从网络自动发现")) {
                         Group {
-                            networkConfigRow(label: "Tunnel IP", text: Binding<String?>(get: { config.formattedTunnelIface }, set: { _ in }), editable: false)
-                            networkConfigRow(label: "Device IP", text: Binding<String?>(get: { config.formattedTunnelPeer }, set: { _ in }), editable: false)
+                            networkConfigRow(label: "隧道 IP", text: Binding<String?>(get: { config.formattedTunnelIface }, set: { _ in }), editable: false)
+                            networkConfigRow(label: "设备 IP", text: Binding<String?>(get: { config.formattedTunnelPeer }, set: { _ in }), editable: false)
                             if minimuxer.gateway.pairingFileType == .rppairing {
-                                networkConfigRow(label: "RemotePair Port", text: Binding<String?>(get: { String(remotePairingPortCache) }, set: { _ in }), editable: false)
+                                networkConfigRow(label: "RemotePair 端口", text: Binding<String?>(get: { String(remotePairingPortCache) }, set: { _ in }), editable: false)
                             }
                             if config.overrideTunnelPeerIp.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                 let hasDiscoveredPeer = config.tunnelPeerIp != nil && !config.tunnelPeerIp!.isEmpty
                                 networkConfigRow(
-                                    label: "Reachable",
+                                    label: "可访问",
                                     text: Binding<String?>(get: { hasDiscoveredPeer ? config.tunnelPeerActive.rawValue : "N/A" }, set: { _ in }),
                                     editable: false,
                                     textColor: hasDiscoveredPeer ? (config.tunnelPeerActive == .yes ? .green : .red) : .gray
@@ -98,13 +98,13 @@ struct ConnectionConfigView: View {
                     
                     Section {
                         networkConfigRow(
-                            label: "Device IP",
+                            label: "设备 IP",
                             text: Binding<String?>(get: { draftOverrideTunnelPeerIp }, set: { draftOverrideTunnelPeerIp = $0 ?? "" }),
                             editable: true
                         )
                         if minimuxer.gateway.pairingFileType == .rppairing {
                             networkConfigRow(
-                                label: "RemotePair Port",
+                                label: "RemotePair 端口",
                                 text: Binding<String?>(get: { draftRemotePairingPortOverride }, set: { draftRemotePairingPortOverride = $0 ?? "" }),
                                 editable: true,
                                 isPort: true
@@ -112,47 +112,47 @@ struct ConnectionConfigView: View {
                         }
                         if !config.overrideTunnelPeerIp.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             networkConfigRow(
-                                label: "Active",
+                                label: "已激活",
                                 text: Binding<String?>(get: { config.overrideTunnelPeerActive.rawValue }, set: { _ in }),
                                 editable: false,
                                 textColor: config.overrideTunnelPeerActive == .yes ? .green : .red
                             )
                         }
                     } header: {
-                        Text("User Configuration")
+                        Text("用户配置")
                     } footer: {
                         HStack(alignment: .top, spacing: 0) {
-                            Text("Note: ")
-                            Text("'Device IP' and 'RemotePair Port' are optional and if specified should match exactly as in the target VPN's config or Leave empty to prefer auto-discovery/default port \(String(AppConstants.Minimuxer.remotePairingPort)).")
+                            Text("注意：")
+                            Text("“设备 IP”和“RemotePair 端口”为可选项，如填写则应与目标 VPN 配置中的值完全一致，或留空以优先使用自动发现/默认端口 \(String(AppConstants.Minimuxer.remotePairingPort))。")
                         }
                     }
                 } else {
                     Section {
                         networkConfigRow(
-                            label: "Device IP",
+                            label: "设备 IP",
                             text: Binding<String?>(get: { draftRemoteServerIp }, set: { draftRemoteServerIp = $0 ?? "" }),
                             editable: true
                         )
                         if minimuxer.gateway.pairingFileType == .rppairing {
                             networkConfigRow(
-                                label: "RemotePair Port",
+                                label: "RemotePair 端口",
                                 text: Binding<String?>(get: { draftRemotePairingPortOverride }, set: { draftRemotePairingPortOverride = $0 ?? "" }),
                                 editable: true,
                                 isPort: true
                             )
                         }
                         networkConfigRow(
-                            label: "Reachable",
+                            label: "可访问",
                             text: Binding<String?>(get: { config.remoteActive.rawValue }, set: { _ in }),
                             editable: false,
                             textColor: config.remoteActive == .yes ? .green : .red
                         )
                     } header: {
-                        Text("Remote Endpoint")
+                        Text("远程端点")
                     } footer: {
                         HStack(alignment: .top, spacing: 0) {
-                            Text("Note: ")
-                            Text("'Device IP' is mandatory. 'RemotePair Port' is optional (prefers auto-discovery or default \(String(AppConstants.Minimuxer.remotePairingPort)).")
+                            Text("注意：")
+                            Text("“设备 IP”为必填项。“RemotePair 端口”为可选项（优先使用自动发现或默认端口 \(String(AppConstants.Minimuxer.remotePairingPort))）。")
                         }
                     }
                 }
@@ -160,27 +160,27 @@ struct ConnectionConfigView: View {
                 if UserDefaults.standard.enableEMPforWireguard || UserDefaults.standard.alwaysShowWireGuardConfig {
                     Section {
                         networkConfigRow(
-                            label: "Bind Host / IP",
+                            label: "绑定主机 / IP",
                             text: Binding<String?>(get: { draftWireGuardServerHost }, set: { draftWireGuardServerHost = $0 ?? "" }),
                             editable: true
                         )
                         networkConfigRow(
-                            label: "Bind Port",
+                            label: "绑定端口",
                             text: Binding<String?>(get: { draftWireGuardServerPort }, set: { draftWireGuardServerPort = $0 ?? "" }),
                             editable: true,
                             isPort: true
                         )
                     } header: {
-                        Text("WireGuard Server Parameters")
+                        Text("WireGuard 服务器参数")
                     } footer: {
-                        Text("Configures the local UDP loopback host and port bound by EMProxy.")
+                        Text("配置 EMProxy 绑定的本地 UDP 回环主机和端口。")
                     }
                 }
             }
-            .navigationTitle("Connection Config")
+            .navigationTitle("连接配置")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    SButton("Confirm") {
+                    SButton("确认") {
                         Task { await commitChanges() }
                     }
                 }
@@ -197,10 +197,10 @@ struct ConnectionConfigView: View {
                 alwaysShowWireGuardConfig = UserDefaults.standard.alwaysShowWireGuardConfig
                 acceptIPv6ConnectionConfig = UserDefaults.standard.acceptIPv6ConnectionConfig
             }
-            .alert("Invalid Configuration", isPresented: $showValidationErrorAlert) {
-                SwiftUI.Button("OK", role: .cancel) {}
+            .alert("配置无效", isPresented: $showValidationErrorAlert) {
+                SwiftUI.Button("好", role: .cancel) {}
             } message: {
-                Text(validationError ?? "Please check your configuration settings.")
+                Text(validationError ?? "请检查你的配置设置。")
             }
             
             if showConfirmDialog {
@@ -216,14 +216,14 @@ struct ConnectionConfigView: View {
                     AnimatedCheckmarkView()
                         .padding(.top, 10)
                     
-                    Text("Changes saved")
+                    Text("更改已保存")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.white)
                     
                     SwiftUI.Button(action: {
                         showConfirmDialog = false
                     }) {
-                        Text("OK")
+                        Text("好")
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -272,23 +272,23 @@ struct ConnectionConfigView: View {
             let overridePeer = draftOverrideTunnelPeerIp.trimmingCharacters(in: .whitespacesAndNewlines)
             if !overridePeer.isEmpty && isIPv6Address(overridePeer) {
                 guard acceptIPv6 else {
-                    return "IPv6 addresses are not supported for Device IP unless 'Accept IPv6 Config' is enabled in Developer Options."
+                    return "除非在“开发者选项”中启用“接受 IPv6 配置”，否则“设备 IP”不支持 IPv6 地址。"
                 }
                 guard isValidIPv6Address(overridePeer) else {
-                    return "Invalid IPv6 address for Device IP."
+                    return "“设备 IP”的 IPv6 地址无效。"
                 }
             }
         } else {
             let remoteIp = draftRemoteServerIp.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !remoteIp.isEmpty else {
-                return "Device IP is mandatory for Remote Endpoint mode."
+                return "远程端点模式下“设备 IP”为必填项。"
             }
             if isIPv6Address(remoteIp) {
                 guard acceptIPv6 else {
-                    return "IPv6 addresses are not supported for Device IP unless 'Accept IPv6 Config' is enabled in Developer Options."
+                    return "除非在“开发者选项”中启用“接受 IPv6 配置”，否则“设备 IP”不支持 IPv6 地址。"
                 }
                 guard isValidIPv6Address(remoteIp) else {
-                    return "Invalid IPv6 address for Device IP."
+                    return "“设备 IP”的 IPv6 地址无效。"
                 }
             }
         }
@@ -296,25 +296,25 @@ struct ConnectionConfigView: View {
             let portStr = draftRemotePairingPortOverride.trimmingCharacters(in: .whitespacesAndNewlines)
             if !portStr.isEmpty {
                 guard let port = UInt16(portStr), port > 0 else {
-                    return "RemotePair Port must be a valid number between 1 and 65535 or left empty for auto-discovery."
+                    return "“RemotePair 端口”必须是 1 到 65535 之间的有效数字，或留空以自动发现。"
                 }
             }
         }
         if UserDefaults.standard.enableEMPforWireguard || UserDefaults.standard.alwaysShowWireGuardConfig {
             let host = draftWireGuardServerHost.trimmingCharacters(in: .whitespaces)
             guard !host.isEmpty else {
-                return "Bind Host / IP cannot be empty."
+                return "“绑定主机 / IP”不能为空。"
             }
             if isIPv6Address(host) {
                 guard acceptIPv6 else {
-                    return "IPv6 addresses are not supported for Bind Host / IP unless 'Accept IPv6 Config' is enabled in Developer Options."
+                    return "除非在“开发者选项”中启用“接受 IPv6 配置”，否则“绑定主机 / IP”不支持 IPv6 地址。"
                 }
                 guard isValidIPv6Address(host) else {
-                    return "Invalid IPv6 address for Bind Host / IP."
+                    return "“绑定主机 / IP”的 IPv6 地址无效。"
                 }
             }
             guard let port = UInt16(draftWireGuardServerPort), port > 0 else {
-                return "Bind Port must be a valid number between 1 and 65535."
+                return "“绑定端口”必须是 1 到 65535 之间的有效数字。"
             }
         }
         return nil

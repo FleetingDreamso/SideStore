@@ -31,7 +31,7 @@ struct PairingFileManagementView: View {
             .padding(.bottom, 32)
         }
         .background(Color(uiColor: .settingsBackground).ignoresSafeArea())
-        .navigationTitle("Pairing File Management")
+        .navigationTitle("配对文件管理")
         #if !os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -42,7 +42,7 @@ struct PairingFileManagementView: View {
                 } label: {
                     Image(systemName: viewModel.isGlobalHideActive ? "eye.slash" : "eye")
                 }
-                .accessibilityLabel("Toggle Sensitive Information")
+                .accessibilityLabel("切换敏感信息显示")
             }
         }
         .onAppear {
@@ -60,33 +60,33 @@ struct PairingFileManagementView: View {
             switch alert {
             case .deleteConfirmation(let proto):
                 return Alert(
-                    title: Text("Delete Pairing File?"),
-                    message: Text(LocalizedStringKey("Are you sure you want to delete this pairing file? This will remove the pairing credentials for **\(proto.rawValue)**.")),
-                    primaryButton: .destructive(Text("Delete")) {
+                    title: Text("删除配对文件？"),
+                    message: Text(LocalizedStringKey("确定要删除此配对文件吗？这会移除 **\(proto.rawValue)** 的配对凭据。")),
+                    primaryButton: .destructive(Text("删除")) {
                         viewModel.deletePairingFile(for: proto)
                     },
                     secondaryButton: .cancel()
                 )
             case .resetConfirmation:
                 return Alert(
-                    title: Text("Reset Pairing Files?"),
-                    message: Text(LocalizedStringKey("This will delete all stored pairing files (both **Lockdown** and **Remote Pairing**). You will need to re-pair or re-import a pairing file and restart SideStore.")),
-                    primaryButton: .destructive(Text("Delete and Reset")) {
+                    title: Text("重置配对文件？"),
+                    message: Text(LocalizedStringKey("这将删除所有已存储的配对文件（**Lockdown** 和**远程配对**）。你需要重新配对或重新导入配对文件，并重启 SideStore。")),
+                    primaryButton: .destructive(Text("删除并重置")) {
                         viewModel.resetAllPairingFiles()
                     },
                     secondaryButton: .cancel()
                 )
             case .resetCompleted:
                 return Alert(
-                    title: Text("Pairing Files Reset"),
-                    message: Text("All pairing files have been reset. Please restart SideStore."),
-                    dismissButton: .default(Text("OK"))
+                    title: Text("配对文件已重置"),
+                    message: Text("所有配对文件均已重置。请重启 SideStore。"),
+                    dismissButton: .default(Text("好"))
                 )
             case .importError(let msg):
                 return Alert(
-                    title: Text("Import Error"),
+                    title: Text("导入错误"),
                     message: Text(LocalizedStringKey(msg)),
-                    dismissButton: .default(Text("OK"))
+                    dismissButton: .default(Text("好"))
                 )
             }
         }
@@ -94,14 +94,14 @@ struct PairingFileManagementView: View {
 
     private var activeProtocolSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("ACTIVE PROTOCOL")
+            Text("当前协议")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 4)
 
             VStack(spacing: 0) {
                 HStack {
-                    Text("Active Protocol")
+                    Text("当前协议")
                         .font(.system(size: 16))
                         .foregroundColor(.white)
 
@@ -129,7 +129,7 @@ struct PairingFileManagementView: View {
                     .padding(.horizontal, 16)
 
                 HStack {
-                    Text("Preferred Protocol")
+                    Text("首选协议")
                         .font(.system(size: 16))
                         .foregroundColor(.white)
 
@@ -141,7 +141,7 @@ struct PairingFileManagementView: View {
                             .frame(width: 7, height: 7)
                             .shadow(color: (viewModel.preferredProtocol != nil ? ledColor(for: viewModel.preferredProtocol!) : Color.gray).opacity(0.8), radius: 3)
 
-                        Text(viewModel.preferredProtocol != nil ? activeProtocolTagText(for: viewModel.preferredProtocol!) : "None")
+                        Text(viewModel.preferredProtocol != nil ? activeProtocolTagText(for: viewModel.preferredProtocol!) : "无")
                             .font(.system(size: 13, weight: .semibold, design: .monospaced))
                             .foregroundColor(.white)
                     }
@@ -156,7 +156,7 @@ struct PairingFileManagementView: View {
                         SwiftUI.Button(role: .destructive) {
                             viewModel.clearPreferred()
                         } label: {
-                            Label("Clear Preferred Protocol", systemImage: "star.slash")
+                            Label("清除首选协议", systemImage: "star.slash")
                         }
                     }
                 }
@@ -168,7 +168,7 @@ struct PairingFileManagementView: View {
 
     private var pairingFilesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("PAIRING FILES")
+            Text("配对文件")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 4)
@@ -209,7 +209,7 @@ struct PairingFileManagementView: View {
                                     await viewModel.activate(proto: proto)
                                 }
                             } label: {
-                                Label("Activate", systemImage: "bolt.fill")
+                                Label("激活", systemImage: "bolt.fill")
                             }
                         }
 
@@ -217,19 +217,19 @@ struct PairingFileManagementView: View {
                             SwiftUI.Button {
                                 viewModel.setPreferred(proto: proto)
                             } label: {
-                                Label("Set as Preferred", systemImage: "star.fill")
+                                Label("设为首选", systemImage: "star.fill")
                             }
                         } else {
                             SwiftUI.Button {
                                 viewModel.clearPreferred()
                             } label: {
-                                Label("Remove as Preferred", systemImage: "star.slash")
+                                Label("取消首选", systemImage: "star.slash")
                             }
                         }
 
                         if proto == viewModel.activeProtocol {
                             SwiftUI.Button { } label: {
-                                Label("Currently Active", systemImage: "checkmark.circle.fill")
+                                Label("当前生效", systemImage: "checkmark.circle.fill")
                             }
                             .disabled(true)
                         }
@@ -238,20 +238,20 @@ struct PairingFileManagementView: View {
                     SwiftUI.Button {
                         viewModel.promptImport(for: proto)
                     } label: {
-                        Label("Import / Replace File", systemImage: "square.and.arrow.down")
+                        Label("导入 / 替换文件", systemImage: "square.and.arrow.down")
                     }
 
                     SwiftUI.Button(role: .destructive) {
                         viewModel.confirmDelete(for: proto)
                     } label: {
-                        Label("Delete Pairing File", systemImage: "trash")
+                        Label("删除配对文件", systemImage: "trash")
                     }
                 }
 
                 divider
 
                 VStack(spacing: 0) {
-                    infoRow(label: "File Name", value: fileURL.lastPathComponent, isMonospaced: true)
+                    infoRow(label: "文件名", value: fileURL.lastPathComponent, isMonospaced: true)
                     divider
                     if proto == viewModel.activeProtocol || proto == viewModel.preferredProtocol {
                         protocolStatusRow(for: proto)
@@ -259,10 +259,10 @@ struct PairingFileManagementView: View {
                     }
                     if proto == .rppairing {
                         if let id = remoteRP?.identifier, !id.isEmpty {
-                            identifierRow(label: "Identifier", value: id, fieldKey: "rp_identifier")
+                            identifierRow(label: "标识符", value: id, fieldKey: "rp_identifier")
                             divider
                         }
-                        infoRow(label: "Key Material", value: (remoteRP?.publicKey != nil && remoteRP?.privateKey != nil) ? "Public & Private Keys OK" : "Incomplete Keys")
+                        infoRow(label: "密钥材料", value: (remoteRP?.publicKey != nil && remoteRP?.privateKey != nil) ? "公钥与私钥正常" : "密钥不完整")
                         divider
                     } else {
                         if let sysBUID = lockdown?.systemBUID, !sysBUID.isEmpty {
@@ -274,23 +274,23 @@ struct PairingFileManagementView: View {
                             divider
                         }
                         if let udid = lockdown?.udid, !udid.isEmpty {
-                            identifierRow(label: "Hardware UDID", value: udid, fieldKey: "lockdown_udid")
+                            identifierRow(label: "硬件 UDID", value: udid, fieldKey: "lockdown_udid")
                             divider
                         }
                         if let wifi = lockdown?.wifiMACAddress, !wifi.isEmpty {
-                            identifierRow(label: "WiFi MAC", value: wifi, fieldKey: "lockdown_wifi")
+                            identifierRow(label: "Wi-Fi MAC", value: wifi, fieldKey: "lockdown_wifi")
                             divider
                         }
                     }
 
-                    infoRow(label: "File Size", value: ByteCountFormatter.string(fromByteCount: fileSize, countStyle: .file))
+                    infoRow(label: "文件大小", value: ByteCountFormatter.string(fromByteCount: fileSize, countStyle: .file))
                     if let created = creationDate {
                         divider
-                        infoRow(label: "Date Created", value: formatDate(created))
+                        infoRow(label: "创建日期", value: formatDate(created))
                     }
                     if let mod = modDate {
                         divider
-                        infoRow(label: "Date Modified", value: formatDate(mod))
+                        infoRow(label: "修改日期", value: formatDate(mod))
                     }
                 }
             } else {
@@ -300,7 +300,7 @@ struct PairingFileManagementView: View {
                     VStack(spacing: 0) {
                         missingCardHeader(for: proto)
                         divider
-                        infoRow(label: "File Name", value: fileURL.lastPathComponent, isMonospaced: true)
+                        infoRow(label: "文件名", value: fileURL.lastPathComponent, isMonospaced: true)
                     }
                 }
                 .buttonStyle(.plain)
@@ -308,7 +308,7 @@ struct PairingFileManagementView: View {
                     SwiftUI.Button {
                         viewModel.promptImport(for: proto)
                     } label: {
-                        Label("Import Pairing File", systemImage: "square.and.arrow.down")
+                        Label("导入配对文件", systemImage: "square.and.arrow.down")
                     }
                 }
             }
@@ -323,14 +323,14 @@ struct PairingFileManagementView: View {
                 .font(.system(size: 22))
                 .foregroundColor(proto == .rppairing ? .cyan : .green)
 
-            Text(proto == .rppairing ? "Remote Pairing File" : "Lockdown Pairing File")
+            Text(proto == .rppairing ? "远程配对文件" : "Lockdown 配对文件")
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(.white)
 
             Spacer()
 
             if isValid {
-                Text("Configured")
+                Text("已配置")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.green)
                     .padding(.horizontal, 8)
@@ -338,7 +338,7 @@ struct PairingFileManagementView: View {
                     .background(Color.green.opacity(0.15))
                     .cornerRadius(6)
             } else {
-                Text("Invalid")
+                Text("无效")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.orange)
                     .padding(.horizontal, 8)
@@ -361,13 +361,13 @@ struct PairingFileManagementView: View {
                 .font(.system(size: 22))
                 .foregroundColor(Color.white.opacity(0.3))
 
-            Text(proto == .rppairing ? "Remote Pairing File" : "Lockdown Pairing File")
+            Text(proto == .rppairing ? "远程配对文件" : "Lockdown 配对文件")
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(Color.white.opacity(0.8))
 
             Spacer()
 
-            Text("Missing")
+            Text("缺失")
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(.red)
                 .padding(.horizontal, 8)
@@ -424,7 +424,7 @@ struct PairingFileManagementView: View {
     @ViewBuilder
     private func protocolStatusRow(for proto: PairingProtocol) -> some View {
         HStack {
-            Text("Status")
+            Text("状态")
                 .font(.system(size: 14))
                 .foregroundColor(Color.white.opacity(0.6))
 
@@ -438,7 +438,7 @@ struct PairingFileManagementView: View {
                             .frame(width: 7, height: 7)
                             .shadow(color: ledColor(for: proto).opacity(0.8), radius: 3)
 
-                        Text("Active")
+                        Text("已激活")
                             .font(.system(size: 13, weight: .semibold, design: .monospaced))
                             .foregroundColor(.white)
                     }
@@ -454,7 +454,7 @@ struct PairingFileManagementView: View {
                             .frame(width: 7, height: 7)
                             .shadow(color: Color.yellow.opacity(0.8), radius: 3)
 
-                        Text("Preferred")
+                        Text("首选")
                             .font(.system(size: 13, weight: .semibold, design: .monospaced))
                             .foregroundColor(.white)
                     }
@@ -470,7 +470,7 @@ struct PairingFileManagementView: View {
 
     private var pairingMethodsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("PAIRING METHODS")
+            Text("配对方式")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 4)
@@ -481,7 +481,7 @@ struct PairingFileManagementView: View {
                         Image(systemName: "antenna.radiowaves.left.and.right")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
-                        Text("Wireless Pairing")
+                        Text("无线配对")
                             .font(.system(size: 17, weight: .bold))
                             .foregroundColor(.white)
                         Spacer()
@@ -500,7 +500,7 @@ struct PairingFileManagementView: View {
 
     private var managementSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("MANAGEMENT")
+            Text("管理")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 4)
@@ -513,7 +513,7 @@ struct PairingFileManagementView: View {
                         Image(systemName: "arrow.counterclockwise.circle")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.red)
-                        Text("Reset Pairing Files")
+                        Text("重置配对文件")
                             .font(.system(size: 17, weight: .bold))
                             .foregroundColor(.red)
                         Spacer()
@@ -525,7 +525,7 @@ struct PairingFileManagementView: View {
             .background(Color.settingsRowBackground)
             .cornerRadius(14)
 
-            Text("Resetting pairing files removes stored Lockdown and Remote Pairing credentials. You will need to re-pair or re-import a pairing file and restart SideStore.")
+            Text("重置配对文件会移除已存储的 Lockdown 和远程配对凭据。你需要重新配对或重新导入配对文件，并重启 SideStore。")
                 .font(.system(size: 12))
                 .foregroundColor(Color.white.opacity(0.5))
                 .padding(.horizontal, 4)

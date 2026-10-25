@@ -31,7 +31,7 @@ struct CertificatesPortalListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Certificates (\(viewModel.certificates.count))"), footer: Text("Certificates registered on your Apple Developer team. Revoking invalidates the certificate on Apple's portal.")) {
+            Section(header: Text("证书（\(viewModel.certificates.count)）"), footer: Text("已在你的 Apple 开发者团队中注册的证书。吊销会使该证书在 Apple 门户上失效。")) {
                 if filteredCertificates.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -41,7 +41,7 @@ struct CertificatesPortalListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "No certificates found on Developer Portal." : "No matching certificates found.")
+                        Text(searchText.isEmpty ? "开发者门户上没有证书。" : "未找到匹配的证书。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -56,7 +56,7 @@ struct CertificatesPortalListView: View {
                                 certificateToRevoke = cert
                                 showRevokeConfirmation = true
                             } label: {
-                                Label("Revoke", systemImage: "trash")
+                                Label("吊销", systemImage: "trash")
                             }
                         }
                         #endif
@@ -65,7 +65,7 @@ struct CertificatesPortalListView: View {
                                 certificateToRevoke = cert
                                 showRevokeConfirmation = true
                             } label: {
-                                Label("Revoke", systemImage: "trash")
+                                Label("吊销", systemImage: "trash")
                             }
                         }
                     }
@@ -74,19 +74,19 @@ struct CertificatesPortalListView: View {
         }
         #if !os(tvOS)
         .listStyle(InsetGroupedListStyle())
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search Certificates")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索证书")
         #else
         .listStyle(GroupedListStyle())
         #endif
-        .navigationTitle("Certificates")
+        .navigationTitle("证书")
         .refreshable {
             await viewModel.fetchCertificates(presentingViewController: presentingViewController, isPullToRefresh: true)
         }
         .alert(isPresented: $showRevokeConfirmation) {
             Alert(
-                title: Text("Revoke Certificate?"),
-                message: Text("Are you sure you want to revoke '\(certificateToRevoke?.name ?? "this certificate")' on the Apple Developer Portal? This action cannot be undone."),
-                primaryButton: .destructive(Text("Revoke")) {
+                title: Text("吊销证书？"),
+                message: Text("确定要在 Apple 开发者门户上吊销“\(certificateToRevoke?.name ?? "此证书")”吗？此操作无法撤销。"),
+                primaryButton: .destructive(Text("吊销")) {
                     if let cert = certificateToRevoke {
                         Task {
                             _ = await viewModel.revokeCertificate(cert, presentingViewController: presentingViewController)
@@ -121,7 +121,7 @@ private struct CertificatePortalRow: View {
                     .font(.headline)
                 Spacer()
                 if isExpired {
-                    Text("Expired")
+                    Text("已过期")
                         .font(.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, 6)
@@ -130,7 +130,7 @@ private struct CertificatePortalRow: View {
                         .foregroundColor(.red)
                         .cornerRadius(6)
                 } else {
-                    Text("Active")
+                    Text("已激活")
                         .font(.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, 6)
@@ -139,7 +139,7 @@ private struct CertificatePortalRow: View {
                         .foregroundColor(.green)
                         .cornerRadius(6)
                 }
-                Text("Expires: \(formatDate(certificate.expiryDate))")
+                Text("到期时间：\(formatDate(certificate.expiryDate))")
                     .font(.caption)
                     .foregroundColor(isExpired ? .red : .secondary)
             }
@@ -161,7 +161,7 @@ private struct CertificatePortalRow: View {
                     .foregroundColor(.secondary)
             }
 
-            Text("Serial: \(certificate.serialNumber)")
+            Text("序列号：\(certificate.serialNumber)")
                 .font(.system(.caption2, design: .monospaced))
                 .foregroundColor(.secondary.opacity(0.8))
         }
