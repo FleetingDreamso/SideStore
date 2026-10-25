@@ -1,6 +1,2 @@
 #sidestore dependencies
 
-[submodule "Dependencies/minimuxer"]
-    path = Dependencies/minimuxer
-    url = https://github.com/SideStore/minimuxer
-    branch = develop
