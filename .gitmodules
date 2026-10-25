@@ -1,2 +1,5 @@
 #sidestore dependencies
 
+[submodule "Dependencies/SideSign"]
+	path = Dependencies/SideSign
+	url = git@github.com:FleetingDreamso/SideSign
