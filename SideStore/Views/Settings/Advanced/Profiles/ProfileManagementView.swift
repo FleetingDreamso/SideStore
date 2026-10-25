@@ -264,7 +264,7 @@ struct ProfileManagementView: View {
             case .publicOnly(let certName, _):
                 return Alert(
                     title: Text("缺少私钥"),
-                    message: Text("在此描述文件中找到证书“\(certName)”，但 SideStore 中未找到匹配的私钥（.p12）。\n\n继续意味着在导入匹配的签名证书及其私钥之前，此描述文件无法用于为应用签名。"),
+                    message: Text("在此描述文件中找到证书“\(certName)”，但 SideStore 中未找到匹配的私钥（.p12）。\n\n若继续，在导入匹配的签名证书及其私钥之前，此描述文件将无法用于为应用签名。"),
                     primaryButton: .destructive(Text("仍然导入")) {
                         commitImport(pending.profile)
                     },
@@ -273,7 +273,7 @@ struct ProfileManagementView: View {
             case .noMatch(let count):
                 return Alert(
                     title: Text("没有匹配的签名证书"),
-                    message: Text("此描述文件包含 \(count) 个开发者证书，但都不匹配 SideStore 中的任何签名证书。\n\n继续意味着在导入匹配的签名证书及其私钥之前，此描述文件无法用于为应用签名。"),
+                    message: Text("此描述文件包含 \(count) 个开发者证书，但都不匹配 SideStore 中的任何签名证书。\n\n若继续，在导入匹配的签名证书及其私钥之前，此描述文件将无法用于为应用签名。"),
                     primaryButton: .destructive(Text("仍然导入")) {
                         commitImport(pending.profile)
                     },

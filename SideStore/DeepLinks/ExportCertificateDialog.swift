@@ -17,7 +17,7 @@ public enum ExportCertificateDialog {
         
         let alert = UIAlertController(
             title: NSLocalizedString("导出证书", comment: ""),
-            message: NSLocalizedString("是否要将你的证书导出到外部应用？该应用将能够使用你的证书为应用签名。", comment: ""),
+            message: NSLocalizedString("是否要将你的证书导出到外部应用？该应用将能够使用你的证书为其它应用签名。", comment: ""),
             preferredStyle: .alert
         )
         

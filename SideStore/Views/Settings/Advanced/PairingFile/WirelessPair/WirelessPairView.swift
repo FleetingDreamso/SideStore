@@ -198,7 +198,7 @@ struct WirelessPairView: View {
                 viewModel.cancelPinPrompt()
             }
         } message: {
-            Text("输入显示在 Apple TV / 设备屏幕上的 6 位代码。")
+            Text("输入 Apple TV 或设备屏幕上显示的 6 位代码。")
         }
         .sheet(isPresented: $viewModel.isShareSheetPresented) {
             if let fileURL = viewModel.shareSheetURL {

@@ -899,7 +899,7 @@ struct UserCustomizationsView: View {
                 divider
                 
                 toggleRow(
-                    title: "自动修正 AppGroup ID",
+                    title: "自动修正 App 组 ID",
                     subtitle: isFreeAccount ? "免费开发者账号所必需" : "自动修正 App Group 大小写不一致",
                     isOn: Binding(
                         get: { isFreeAccount ? true : autoFixAppGroupIDs },
@@ -1035,7 +1035,7 @@ struct UserCustomizationsView: View {
         guard let top = UIApplication.shared.topViewController() else { return }
         let alertController = UIAlertController(
             title: NSLocalizedString("重置 adi.pb", comment: ""),
-            message: NSLocalizedString("这将使你在 SideStore 中退出 Apple ID 登录，并从钥匙串中清除已配置的 adi.pb 数据。你的当前签名证书将被保留。", comment: ""),
+            message: NSLocalizedString("这将使你在 SideStore 中退出 Apple ID 登录，并从钥匙串中清除已配置的 adi.pb 数据。当前签名证书将被保留。", comment: ""),
             preferredStyle: .alert
         )
         let contentVC = ResetAdiAlertViewController()

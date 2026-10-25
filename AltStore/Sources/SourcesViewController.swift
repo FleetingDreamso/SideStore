@@ -72,7 +72,7 @@ final class SourcesViewController: UICollectionViewController
         self.placeholderView = PlaceholderView(frame: .zero)
         self.placeholderView.translatesAutoresizingMaskIntoConstraints = false
         self.placeholderView.textLabel.text = NSLocalizedString("添加更多源！", comment: "")
-        self.placeholderView.detailTextLabel.text = NSLocalizedString("源决定了 SideStore 中可用的应用。你添加的源越多，你的 SideStore 体验就越好。\n\n不知道从哪里开始？试着添加一个我们推荐的源！", comment: "")
+        self.placeholderView.detailTextLabel.text = NSLocalizedString("源决定了 SideStore 中可用的应用。你添加的源越多，SideStore 的体验就越好。\n\n不知道从哪里开始？试着添加一个我们推荐的源！", comment: "")
         self.placeholderView.detailTextLabel.textAlignment = .natural
         backgroundView.addSubview(self.placeholderView)
         

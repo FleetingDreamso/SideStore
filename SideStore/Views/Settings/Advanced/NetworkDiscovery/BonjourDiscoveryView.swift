@@ -161,7 +161,7 @@ struct BonjourDiscoveryView: View {
             .padding(.top, 4)
             
             VStack(spacing: 8) {
-                Text("请确保已授予**本地网络访问权限**，否则此功能可能无法按预期工作，因为它基于 LNA……")
+                Text("请确保已授予**本地网络访问权限**，否则此功能可能无法按预期工作，因为它依赖本地网络访问（LNA）……")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -369,7 +369,7 @@ struct ServiceTypesView: View {
             .padding(.top, 4)
             
             VStack(spacing: 8) {
-                Text("请确保已授予**本地网络访问权限**，否则此功能可能无法按预期工作，因为它基于 LNA……")
+                Text("请确保已授予**本地网络访问权限**，否则此功能可能无法按预期工作，因为它依赖本地网络访问（LNA）……")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -615,7 +615,7 @@ struct ServiceInstancesView: View {
             .padding(.top, 4)
             
             VStack(spacing: 8) {
-                Text("请确保已授予**本地网络访问权限**，否则此功能可能无法按预期工作，因为它基于 LNA……")
+                Text("请确保已授予**本地网络访问权限**，否则此功能可能无法按预期工作，因为它依赖本地网络访问（LNA）……")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -1051,7 +1051,7 @@ struct ServiceDetailView: View {
                 SwiftUI.Button {
                     copyWithFeedback(endpointStr)
                 } label: {
-                    Label("拷贝主机:端口端点", systemImage: "link")
+                    Label("拷贝主机:端口", systemImage: "link")
                 }
                 
                 SwiftUI.Button {

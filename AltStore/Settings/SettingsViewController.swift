@@ -62,6 +62,7 @@ extension SettingsViewController
         case developer
         case operations
         case designer
+        case coolapk
         case softwareLicenses
     }
     
@@ -576,7 +577,7 @@ private extension SettingsViewController
             {
                 settingsHeaderFooterView.secondaryLabel.text = NSLocalizedString(
                     """
-                    选择参与测试版测试，以获取定期更新和即将发布版本的早期预览。\n
+                    参与测试版计划，以获取定期更新和即将发布版本的早期预览。\n
                     请注意，这些构建版本为实验性质，可能不稳定或出现意外故障。
                     """,
                     comment: ""
@@ -870,6 +871,12 @@ private extension SettingsViewController
                 self.openWebURL(safariURL, preferredTintColor: .altPrimary)
             }
         }
+    }
+    
+    func openCoolapk()
+    {
+        guard let url = URL(string: "http://www.coolapk.com/u/30819340") else { return }
+        self.openWebURL(url, preferredTintColor: .altPrimary)
     }
     
     func openMastodon(username: String)
@@ -1208,6 +1215,7 @@ extension SettingsViewController
             case .developer: self.openTwitter(username: "sidestoreio")
             case .operations: self.openTwitter(username: "sidestoreio")
             case .designer: self.openTwitter(username: "lit_ritt")
+            case .coolapk: self.openCoolapk()
             case .softwareLicenses: break
             }
             

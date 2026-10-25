@@ -138,11 +138,11 @@ final class AccountVerificationRow: InsetGroupTableViewCell {
             
             let subtitle: String
             if certMissing && deviceUnregistered {
-                subtitle = NSLocalizedString("签名证书与设备注册待完成", comment: "")
+                subtitle = NSLocalizedString("签名证书和设备注册尚未完成", comment: "")
             } else if certMissing {
-                subtitle = NSLocalizedString("当前签名证书待完成", comment: "")
+                subtitle = NSLocalizedString("签名证书待设置", comment: "")
             } else {
-                subtitle = NSLocalizedString("设备注册待完成", comment: "")
+                subtitle = NSLocalizedString("设备注册尚未完成", comment: "")
             }
             self.subtitleLabel.text = subtitle
             self.subtitleLabel.textColor = UIColor.white.withAlphaComponent(0.8)
@@ -212,7 +212,7 @@ extension AccountVerificationRow {
             : String(format: NSLocalizedString("%d 项待处理操作", comment: ""), count)
         
         let bulletList = pendingItems.map { "• \($0)" }.joined(separator: "\n")
-        let message = NSLocalizedString("登录后需要完成以下操作才能完成账号设置：\n\n\(bulletList)", comment: "")
+        let message = NSLocalizedString("登录后还需完成以下操作，账号设置才能生效：\n\n\(bulletList)", comment: "")
         
         let confirmed = await withCheckedContinuation { continuation in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

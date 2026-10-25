@@ -154,7 +154,7 @@ struct AppGroupsListView: View {
                             .disableAutocorrection(true)
                     }
                 }
-                .navigationTitle("创建 App Group")
+                .navigationTitle("创建 App 组")
                 .navigationBarItems(
                     leading: SwiftUI.Button("取消") {
                         showCreateSheet = false
@@ -196,7 +196,7 @@ struct AppGroupsListView: View {
                             HStack {
                                 Spacer()
                                 Image(systemName: "trash")
-                                Text("移除 App Group")
+                                Text("移除 App 组")
                                     .fontWeight(.semibold)
                                 Spacer()
                             }
@@ -224,7 +224,7 @@ struct AppGroupsListView: View {
                 )
                 .alert(isPresented: $showSheetDeleteConfirmation) {
                     Alert(
-                        title: Text("删除 App Group？"),
+                        title: Text("删除 App 组？"),
                         message: Text("确定要从 Apple 开发者门户删除“\(group.name)”（\(group.groupIdentifier)）吗？"),
                         primaryButton: .destructive(Text("删除")) {
                             Task {
@@ -241,8 +241,8 @@ struct AppGroupsListView: View {
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
-                title: Text("删除 App Group？"),
-                message: Text("确定要从 Apple 开发者门户删除“\(groupToDelete?.name ?? "此 App Group")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
+                title: Text("删除 App 组？"),
+                message: Text("确定要从 Apple 开发者门户删除“\(groupToDelete?.name ?? "此 App 组")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
                 primaryButton: .destructive(Text("删除")) {
                     if let target = groupToDelete {
                         Task {

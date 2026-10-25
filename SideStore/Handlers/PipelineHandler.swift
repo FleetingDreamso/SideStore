@@ -344,8 +344,8 @@ final class PipelineHandler: PipelineExecutionHandler,
             return (initialBundleID, true)
         }
         
-        let titleText = NSLocalizedString("AppID 自定义", comment: "")
-        let messageText = NSLocalizedString("如有需要可自定义 AppID，然后点按“确认”继续。", comment: "")
+        let titleText = NSLocalizedString("App ID 自定义", comment: "")
+        let messageText = NSLocalizedString("如有需要可自定义 App ID，然后点按“确认”继续。", comment: "")
         
         let alert = UIAlertController(
             title: titleText,

@@ -64,7 +64,7 @@ struct CertificatePortalDetailView: View {
                 InfoRow(label: "状态", value: isExpired ? "已过期" : "已激活", valueColor: isExpired ? .red : .green)
             }
 
-            Section(footer: Text("吊销证书会在 Apple 的服务器上永久使其失效。仅与该证书绑定的任何描述文件可能需要重新生成。")) {
+            Section(footer: Text("吊销证书会在 Apple 的服务器上永久使其失效。仅绑定该证书的描述文件可能需要重新生成。")) {
                 SwiftUI.Button(role: .destructive) {
                     showRevokeAlert = true
                 } label: {

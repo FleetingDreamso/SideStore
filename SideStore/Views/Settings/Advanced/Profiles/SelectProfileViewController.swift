@@ -160,7 +160,7 @@ final class SelectProfileViewController: UITableViewController {
         guard !compatibleProfiles.isEmpty else {
             let alert = UIAlertController(
                 title: NSLocalizedString("没有兼容的描述文件", comment: ""),
-                message: String(format: NSLocalizedString("本地未找到未过期、与“%@”匹配且已导入签名证书（.p12）的描述文件。\n\n请前往“设置 -> 描述文件管理”导入并配置描述文件及其匹配的证书。", comment: ""), self.installedApp.bundleIdentifier),
+                message: String(format: NSLocalizedString("本地没有找到匹配“%@”的有效描述文件（需已导入 .p12 签名证书）。\n\n请前往“设置 -> 描述文件管理”导入并配置描述文件及其匹配的证书。", comment: ""), self.installedApp.bundleIdentifier),
                 preferredStyle: .alert
             )
             alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default))

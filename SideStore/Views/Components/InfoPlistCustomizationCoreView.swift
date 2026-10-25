@@ -522,7 +522,7 @@ public struct InfoPlistCustomizationCoreView: View {
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 8)
-                        Text("扩展的 Bundle ID 相对于主应用管理。")
+                        Text("扩展的 Bundle ID 以主应用为基准管理。")
                             .font(.caption2)
                             .foregroundColor(.secondary)
                     }

@@ -251,7 +251,7 @@ struct PairingFileDetailView: View {
 
         let alert = UIAlertController(
             title: NSLocalizedString("警告", comment: ""),
-            message: NSLocalizedString("手动编辑可能会损坏配对文件。你确定清楚自己在做什么并要继续吗？", comment: ""),
+            message: NSLocalizedString("手动编辑可能会损坏配对文件。请确认你清楚自己在做什么，并仍要继续。", comment: ""),
             preferredStyle: .alert
         )
         let contentVC = PairingFileEditAlertViewController()

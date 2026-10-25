@@ -33,7 +33,7 @@ struct ProfilesListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("描述文件（\(viewModel.profiles.count)）"), footer: Text("在开发者门户上删除描述文件，可让 Apple 签发包含更新证书和已取消标记的 UUID 的全新描述文件。")) {
+            Section(header: Text("描述文件（\(viewModel.profiles.count)）"), footer: Text("从开发者门户删除描述文件后，Apple 会签发一份全新的描述文件，其中包含更新后的证书和新生成的 UUID。")) {
                 if filteredProfiles.isEmpty {
                     if viewModel.isLoading {
                         HStack {

@@ -24,7 +24,7 @@ final class PairingViewController: NSObject {
         let title = isRetry ? NSLocalizedString("配对文件无效", comment: "") : NSLocalizedString("配对文件", comment: "")
         let message = isRetry
             ? NSLocalizedString("所选的配对文件无效或不可用。请选择有效的配对文件。", comment: "")
-            : NSLocalizedString("选择配对文件，或选择“帮助”获取帮助。", comment: "")
+            : NSLocalizedString("选择配对文件，或点按“帮助”查看说明。", comment: "")
         
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         alert.setMarkdownMessage(message)
