@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>name</key>
-			<string>Original</string>
+			<string>原始</string>
 			<key>imageName</key>
 			<string>App</string>
 			<key>iconName</key>
@@ -17,7 +17,7 @@
 	<array>
 		<dict>
 			<key>name</key>
-			<string>Blue</string>
+			<string>蓝色</string>
 			<key>imageName</key>
 			<string>Blue</string>
 			<key>iconName</key>
@@ -25,7 +25,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Dark</string>
+			<string>深色</string>
 			<key>imageName</key>
 			<string>Dark</string>
 			<key>iconName</key>
@@ -33,7 +33,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Honeydew</string>
+			<string>蜜瓜</string>
 			<key>imageName</key>
 			<string>Honeydew</string>
 			<key>iconName</key>
@@ -41,7 +41,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Pride</string>
+			<string>彩虹</string>
 			<key>imageName</key>
 			<string>Pride</string>
 			<key>iconName</key>
@@ -49,7 +49,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Sandy</string>
+			<string>沙色</string>
 			<key>imageName</key>
 			<string>Sandy</string>
 			<key>iconName</key>
@@ -57,7 +57,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Sky</string>
+			<string>天空</string>
 			<key>imageName</key>
 			<string>Sky</string>
 			<key>iconName</key>
@@ -65,7 +65,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Snow</string>
+			<string>雪白</string>
 			<key>imageName</key>
 			<string>Snow</string>
 			<key>iconName</key>
@@ -73,7 +73,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Starburst</string>
+			<string>星芒</string>
 			<key>imageName</key>
 			<string>Starburst</string>
 			<key>iconName</key>
@@ -81,7 +81,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Storm</string>
+			<string>风暴</string>
 			<key>imageName</key>
 			<string>Storm</string>
 			<key>iconName</key>
@@ -89,7 +89,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Vista</string>
+			<string>远景</string>
 			<key>imageName</key>
 			<string>Vista</string>
 			<key>iconName</key>
@@ -97,7 +97,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Winter</string>
+			<string>冬日</string>
 			<key>imageName</key>
 			<string>Winter</string>
 			<key>iconName</key>

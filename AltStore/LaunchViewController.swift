@@ -63,7 +63,7 @@ final class LaunchViewController: UIViewController {
         super.viewDidAppear(animated)
         guard !didFinishLaunching else { return }
         startTime = Date()
-        splashViewModel.updateStatus(NSLocalizedString("Starting…", comment: ""))
+        splashViewModel.updateStatus(NSLocalizedString("正在启动…", comment: ""))
         
         // spin off the startup sequence concurrently
         Task.detached { [weak self] in
@@ -96,7 +96,7 @@ final class LaunchViewController: UIViewController {
     @MainActor
     func displayError(_ msg: String) {
         debugLog("[SideStore] \(msg)")
-        let alert = UIAlertController(title: "Error launching SideStore", message: msg, preferredStyle: .alert)
+        let alert = UIAlertController(title: "启动 SideStore 时出错", message: msg, preferredStyle: .alert)
         self.present(alert, animated: true)
     }
     
@@ -121,7 +121,7 @@ final class LaunchViewController: UIViewController {
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         extraActions.forEach { alert.addAction($0) }
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("重试", comment: ""), style: .default) { _ in
             Task { await retryCallback?() }
         })
         present(alert, animated: true)
@@ -132,7 +132,7 @@ final class LaunchViewController: UIViewController {
         if let dbError = error as? DatabaseError {
             switch dbError {
             case .databaseDowngradeDetected(let reason):
-                let resetAction = UIAlertAction(title: NSLocalizedString("Reset Database", comment: ""), style: .destructive) { [weak self] _ in
+                let resetAction = UIAlertAction(title: NSLocalizedString("重置数据库", comment: ""), style: .destructive) { [weak self] _ in
                     DatabaseManager.recreateDatabase()
                     Task {
                         await MainActor.run { self?.retries = 0 }
@@ -140,13 +140,13 @@ final class LaunchViewController: UIViewController {
                     }
                 }
                 return (
-                    title: dbError.errorDescription ?? NSLocalizedString("Database Downgrade Detected", comment: ""),
+                    title: dbError.errorDescription ?? NSLocalizedString("检测到数据库降级", comment: ""),
                     message: reason,
                     extraActions: [resetAction]
                 )
             case .missingAppGroup(let reason), .migrationFailed(let reason):
                 return (
-                    title: dbError.errorDescription ?? NSLocalizedString("Database Error", comment: ""),
+                    title: dbError.errorDescription ?? NSLocalizedString("数据库错误", comment: ""),
                     message: reason,
                     extraActions: []
                 )
@@ -154,7 +154,7 @@ final class LaunchViewController: UIViewController {
         }
 
         let nsError = error as NSError
-        let title = nsError.userInfo[NSLocalizedFailureErrorKey] as? String ?? NSLocalizedString("Unable to Launch SideStore", comment: "")
+        let title = nsError.userInfo[NSLocalizedFailureErrorKey] as? String ?? NSLocalizedString("无法启动 SideStore", comment: "")
         let desc = ([nsError.debugDescription] + nsError.underlyingErrors.map { ($0 as NSError).debugDescription }).joined(separator: "\n\n")
         return (title: title, message: desc, extraActions: [])
     }
@@ -175,9 +175,9 @@ final class LaunchViewController: UIViewController {
 
         didFinishLaunching = true
         
-        splashViewModel.updateStatus(NSLocalizedString("Loading apps…", comment: ""))
+        splashViewModel.updateStatus(NSLocalizedString("正在加载应用…", comment: ""))
         await AppManager.shared.reconcileInstalledApps()
-        splashViewModel.updateStatus(NSLocalizedString("Updating sources…", comment: ""))
+        splashViewModel.updateStatus(NSLocalizedString("正在更新源…", comment: ""))
         AppManager.shared.updateAllSources { result in
             guard case .failure(let error) = result else { return }
             debugLog("Failed to update sources on launch. \(error.localizedDescription)")
@@ -185,12 +185,12 @@ final class LaunchViewController: UIViewController {
             let errorDesc = ErrorProcessing(.fullError).getDescription(error: error as NSError)
             debugLog("Failed to update sources on launch. \(errorDesc)")
             
-            let toastView = ToastView(text: NSLocalizedString("Some sources were unable to load", comment: ""), detailText: nil)
+            let toastView = ToastView(text: NSLocalizedString("部分源无法加载", comment: ""), detailText: nil)
             toastView.addTarget(self.destinationViewController, action: #selector(TabBarController.presentSources), for: .touchUpInside)
             toastView.show(in: self.destinationViewController!.selectedViewController ?? self.destinationViewController!)
         }
         updateKnownSources()
-        splashViewModel.updateStatus(NSLocalizedString("Almost there…", comment: ""))
+        splashViewModel.updateStatus(NSLocalizedString("即将完成…", comment: ""))
 
         let elapsed = abs(startTime.timeIntervalSinceNow)
         let remaining = elapsed >= 1 ? 0 : 1 - elapsed
@@ -252,7 +252,7 @@ final class LaunchViewController: UIViewController {
                     guard !sourceErrors.isEmpty else { return }
                     Task {
                         for error in sourceErrors {
-                            let title = String(format: NSLocalizedString("“%@” Blocked", comment: ""), error.$source.name)
+                            let title = String(format: NSLocalizedString("“%@” 已被阻止", comment: ""), error.$source.name)
                             let message = [error.localizedDescription, error.recoverySuggestion].compactMap { $0 }.joined(separator: "\n\n")
                             await self.presentAlert(title: title, message: message)
                         }

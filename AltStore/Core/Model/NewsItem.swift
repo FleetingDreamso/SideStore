@@ -66,7 +66,7 @@ public class NewsItem: BaseEntity, Decodable
         if let tintColorHex = try container.decodeIfPresent(String.self, forKey: .tintColor)
         {
             guard let tintColor = UIColor(hexString: tintColorHex) else {
-                throw DecodingError.dataCorruptedError(forKey: .tintColor, in: container, debugDescription: "Hex code is invalid.")
+                throw DecodingError.dataCorruptedError(forKey: .tintColor, in: container, debugDescription: "十六进制颜色代码无效。")
             }
             
             self.tintColor = tintColor

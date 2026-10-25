@@ -164,7 +164,7 @@
 		<string>_vnc._tcp</string>
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>SideStore can use local network access to discover Bonjour (mDNS) services on your network. This is not required for core functionality.</string>
+	<string>SideStore 可以使用本地网络访问权限来发现你网络中的 Bonjour（mDNS）服务。核心功能并不需要此权限。</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>RefreshAllIntent</string>
@@ -236,9 +236,9 @@
 		<string>processing</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>SideStore uses location updates to keep background operations active.</string>
+	<string>SideStore 使用定位更新来保持后台操作处于活跃状态。</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>SideStore uses location updates to keep background operations active.</string>
+	<string>SideStore 使用定位更新来保持后台操作处于活跃状态。</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -297,7 +297,7 @@
 				<string>com.apple.plist</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Mobile Device Pairing</string>
+			<string>移动设备配对</string>
 			<key>UTTypeIconFiles</key>
 			<array/>
 			<key>UTTypeIdentifier</key>

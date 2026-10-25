@@ -100,7 +100,7 @@ private extension AppIDsViewController
             cell.bannerView.iconImageView.isHidden = true
             cell.bannerView.button.isIndicatingActivity = false
             
-            cell.bannerView.buttonLabel.text = NSLocalizedString("Expires in", comment: "")
+            cell.bannerView.buttonLabel.text = NSLocalizedString("剩余时间", comment: "")
             
             let attributedAccessibilityLabel = NSMutableAttributedString(string: appID.name + ". ")
             
@@ -121,7 +121,7 @@ private extension AppIDsViewController
                 formatter.maximumUnitCount = 1
 
                 let timeInterval = formatter.string(from: currentDate, to: expirationDate)
-                let timeIntervalText = timeInterval ?? NSLocalizedString("Unknown", comment: "")
+                let timeIntervalText = timeInterval ?? NSLocalizedString("未知", comment: "")
                 cell.bannerView.button.setTitle(timeIntervalText.uppercased(), for: .normal)
                 
                 attributedAccessibilityLabel.mutableString.append(timeIntervalText)
@@ -221,8 +221,8 @@ private extension AppIDsViewController
     func footerText() -> String {
         let count = self.dataSource.itemCount
         return count == 1
-            ? NSLocalizedString("1 App ID", comment: "")
-            : String(format: NSLocalizedString("%@ App IDs", comment: ""), NSNumber(value: count))
+            ? NSLocalizedString("1 个 App ID", comment: "")
+            : String(format: NSLocalizedString("%@ 个 App ID", comment: ""), NSNumber(value: count))
     }
     
     func refreshFooter()
@@ -301,9 +301,9 @@ extension AppIDsViewController: UICollectionViewDelegateFlowLayout
             if let activeTeam = self.activeTeam, activeTeam.type == .free
             {
                 let text = NSLocalizedString("""
-                Each app and app extension installed with SideStore must register an App ID with Apple. Apple limits non-developer Apple IDs to 10 App IDs at a time.
+                使用 SideStore 安装的每个应用和应用扩展都必须在 Apple 注册一个 App ID。Apple 限制非开发者 Apple ID 同时最多拥有 10 个 App ID。
 
-                **App IDs can't be deleted**, but they do expire after one week. SideStore will automatically renew App IDs for all active apps once they've expired.
+                **App ID 无法删除**，但它们会在一周后过期。App ID 过期后，SideStore 会自动为所有活跃应用续期。
                 """, comment: "")
                 
                 let attributedText = NSAttributedString(markdownRepresentation: text, attributes: [.font: headerView.textLabel.font as Any])
@@ -312,9 +312,9 @@ extension AppIDsViewController: UICollectionViewDelegateFlowLayout
             else
             {
                 headerView.textLabel.text = NSLocalizedString("""
-                Each app and app extension installed with SideStore must register an App ID with Apple.
+                使用 SideStore 安装的每个应用和应用扩展都必须在 Apple 注册一个 App ID。
                 
-                App IDs for paid developer accounts never expire, and there is no limit to how many you can create.
+                付费开发者账号的 App ID 永不过期，且创建数量没有限制。
                 """, comment: "")
             }
             

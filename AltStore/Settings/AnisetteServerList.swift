@@ -99,7 +99,7 @@ final class AnisetteViewModel: ObservableObject {
                 }
                 group.addTask {
                     try await Task.sleep(nanoseconds: 5_000_000_000)
-                    throw URLError(.timedOut, userInfo: [NSLocalizedDescriptionKey: "Server list fetch timed out after 5 seconds."])
+                    throw URLError(.timedOut, userInfo: [NSLocalizedDescriptionKey: "服务器列表获取超时（5 秒）。"])
                 }
                 guard let result = try await group.next() else {
                     throw URLError(.timedOut)
@@ -115,11 +115,11 @@ final class AnisetteViewModel: ObservableObject {
             let isOnline = await AnisetteServersManager.shared.isPublicInternetAvailable()
             let msg: String
             if !isOnline {
-                msg = "No Internet Connection. Please check your Wi-Fi or cellular network."
+                msg = "无网络连接。请检查你的 Wi-Fi 或蜂窝网络。"
             } else if let urlErr = error as? URLError, urlErr.code == .timedOut {
-                msg = "Connection timed out (5s limit) while reaching '\(self.source)'."
+                msg = "连接到“\(self.source)”超时（限制 5 秒）。"
             } else {
-                msg = "Failed to fetch catalog from '\(self.source)': \(error.localizedDescription)"
+                msg = "无法从“\(self.source)”获取目录：\(error.localizedDescription)"
             }
 
             self.isNoInternet = !isOnline
@@ -143,7 +143,7 @@ final class AnisetteViewModel: ObservableObject {
             self.importedFileName = filename
             debugLog("AnisetteViewModel: Imported servers from data: \(filename)")
         } catch {
-            self.errorMessage = "Failed to import file: \(error.localizedDescription)"
+            self.errorMessage = "导入文件失败：\(error.localizedDescription)"
             debugLog("AnisetteViewModel: Import error: \(error)")
         }
     }
@@ -172,7 +172,7 @@ final class AnisetteViewModel: ObservableObject {
             self.items = resetItems
             debugLog("AnisetteViewModel: Reset catalog to original uncustomized state.")
         } catch {
-            self.errorMessage = "Failed to reset: \(error.localizedDescription)"
+            self.errorMessage = "重置失败：\(error.localizedDescription)"
             debugLog("AnisetteViewModel: Reset error: \(error)")
         }
     }
@@ -273,11 +273,11 @@ struct AnisetteServersView: View {
                             ProgressView()
                                 .scaleEffect(1.2)
 
-                            Text("Fetching Anisette Servers...")
+                            Text("正在获取 Anisette 服务器...")
                                 .font(.headline)
                                 .foregroundColor(.primary)
 
-                            Text("Reaching catalog source '\(viewModel.source)'...")
+                            Text("正在访问目录源“\(viewModel.source)”...")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -293,11 +293,11 @@ struct AnisetteServersView: View {
                                 .foregroundColor(.orange)
                                 .padding(.top, 4)
 
-                            Text(viewModel.isNoInternet ? "No Internet Connection" : "Could Not Reach Servers")
+                            Text(viewModel.isNoInternet ? "无网络连接" : "无法连接服务器")
                                 .font(.headline)
                                 .foregroundColor(.primary)
 
-                            Text(viewModel.errorMessage ?? "No servers available.")
+                            Text(viewModel.errorMessage ?? "没有可用的服务器。")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -311,11 +311,11 @@ struct AnisetteServersView: View {
                                 if viewModel.isLoading {
                                     HStack(spacing: 8) {
                                         ProgressView()
-                                        Text("Retrying...")
+                                        Text("正在重试...")
                                     }
                                     .font(.subheadline.weight(.medium))
                                 } else {
-                                    Label("Retry Connection", systemImage: "arrow.clockwise")
+                                    Label("重试连接", systemImage: "arrow.clockwise")
                                         .font(.subheadline.weight(.medium))
                                 }
                             }
@@ -346,7 +346,7 @@ struct AnisetteServersView: View {
                                             .foregroundColor(item.isHidden ? .secondary : .primary)
 
                                         if item.isHidden {
-                                            Text("Hidden")
+                                            Text("已隐藏")
                                                 .font(.caption2)
                                                 .foregroundColor(.secondary)
                                                 .padding(.horizontal, 6)
@@ -377,7 +377,7 @@ struct AnisetteServersView: View {
                             SwiftUI.Button {
                                 viewModel.toggleHide(item: item)
                             } label: {
-                                Label(item.isHidden ? "Unhide" : "Hide", systemImage: item.isHidden ? "eye" : "eye.slash")
+                                Label(item.isHidden ? "取消隐藏" : "隐藏", systemImage: item.isHidden ? "eye" : "eye.slash")
                             }
                             .tint(item.isHidden ? .blue : .orange)
                         }
@@ -388,17 +388,17 @@ struct AnisetteServersView: View {
             } header: {
                 if viewModel.isOfflineMode {
                     HStack(spacing: 6) {
-                        Text("Available Servers (OFFLINE)")
+                        Text("可用服务器（离线）")
                         Image(systemName: "wifi.slash")
                             .font(.subheadline)
                             .foregroundColor(.orange)
                     }
                 } else {
-                    Text("Available Servers")
+                    Text("可用服务器")
                 }
             } footer: {
                 if !viewModel.items.isEmpty && viewModel.errorMessage == nil {
-                    Text("Drag to reorder server priority. Swipe left on a server to hide or unhide it.")
+                    Text("拖动可调整服务器优先级。在服务器上向左轻扫可隐藏或取消隐藏。")
                 }
             }
 
@@ -406,10 +406,10 @@ struct AnisetteServersView: View {
             Section {
                 if viewModel.isOfflineMode {
                     HStack {
-                        Text("Catalog File")
+                        Text("目录文件")
                             .foregroundColor(.primary)
                         Spacer()
-                        Text(viewModel.importedFileName ?? "Imported File")
+                        Text(viewModel.importedFileName ?? "已导入的文件")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
@@ -423,7 +423,7 @@ struct AnisetteServersView: View {
                                 }
                             }
                         } label: {
-                            Label("Export Current", systemImage: "square.and.arrow.up")
+                            Label("导出当前", systemImage: "square.and.arrow.up")
                         }
 
                         SwiftUI.Button {
@@ -434,7 +434,7 @@ struct AnisetteServersView: View {
                                 }
                             }
                         } label: {
-                            Label("Export Original", systemImage: "doc.on.doc")
+                            Label("导出原始", systemImage: "doc.on.doc")
                         }
 
                         SwiftUI.Button(role: .destructive) {
@@ -442,12 +442,12 @@ struct AnisetteServersView: View {
                                 await viewModel.resetToOriginalState()
                             }
                         } label: {
-                            Label("Reset Catalog", systemImage: "arrow.circlepath")
+                            Label("重置目录", systemImage: "arrow.circlepath")
                         }
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Server List URL")
+                        Text("服务器列表 URL")
                             .font(.caption)
                             .foregroundColor(.secondary)
 
@@ -474,7 +474,7 @@ struct AnisetteServersView: View {
                                 }
                             }
                         } label: {
-                            Label("Export Current", systemImage: "square.and.arrow.up")
+                            Label("导出当前", systemImage: "square.and.arrow.up")
                         }
 
                         if viewModel.isOfflineMode {
@@ -486,7 +486,7 @@ struct AnisetteServersView: View {
                                     }
                                 }
                             } label: {
-                                Label("Export Original", systemImage: "doc.on.doc")
+                                Label("导出原始", systemImage: "doc.on.doc")
                             }
                         } else if viewModel.source != AnisetteViewModel.defaultSource {
                             SwiftUI.Button(role: .destructive) {
@@ -496,7 +496,7 @@ struct AnisetteServersView: View {
                                     await viewModel.fetchServers(forceRemote: true)
                                 }
                             } label: {
-                                Label("Reset Source to Default", systemImage: "arrow.circlepath")
+                                Label("将源重置为默认", systemImage: "arrow.circlepath")
                             }
                         }
 
@@ -505,16 +505,16 @@ struct AnisetteServersView: View {
                                 await viewModel.resetToOriginalState()
                             }
                         } label: {
-                            Label("Reset Catalog", systemImage: "arrow.circlepath")
+                            Label("重置目录", systemImage: "arrow.circlepath")
                         }
                     }
                 }
                     } header: {
                         HStack {
-                            Text("Server Catalog Source")
+                            Text("服务器目录源")
                             Spacer()
                             if !viewModel.isOfflineMode {
-                                SwiftUI.Button(isEditingURL ? "Done" : "Edit") {
+                                SwiftUI.Button(isEditingURL ? "完成" : "编辑") {
                                     if isEditingURL {
                                         isEditingURL = false
                                         let trimmed = editingURLText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -535,9 +535,9 @@ struct AnisetteServersView: View {
                         }
                     } footer: {
                         if viewModel.isOfflineMode {
-                            Text("Currently using imported file '\(viewModel.importedFileName ?? "custom.json")'. Press and hold row to export.")
+                            Text("当前正在使用导入的文件“\(viewModel.importedFileName ?? "custom.json")”。长按该行可导出。")
                         } else {
-                            Text("URL of the JSON file containing registered Anisette servers. Press and hold row to export.")
+                            Text("包含已注册 Anisette 服务器的 JSON 文件 URL。长按该行可导出。")
                         }
                     }
 
@@ -547,12 +547,12 @@ struct AnisetteServersView: View {
                             get: { !UserDefaults.standard.disableAnisetteRotation },
                             set: { UserDefaults.standard.disableAnisetteRotation = !$0 }
                         )) {
-                            Label("Enable Auto Rotation", systemImage: "arrow.triangle.2.circlepath")
+                            Label("启用自动轮换", systemImage: "arrow.triangle.2.circlepath")
                         }
                     } header: {
-                        Text("Customization")
+                        Text("自定义")
                     } footer: {
-                        Text("Control if SideStore automatically rotates/retries servers upon failure.")
+                        Text("控制 SideStore 在失败时是否自动轮换/重试服务器。")
                     }
 
                     // Bottom spacing section
@@ -570,7 +570,7 @@ struct AnisetteServersView: View {
                 .refreshable {
                     await viewModel.fetchServers(forceRemote: true)
                 }
-        .navigationTitle("Anisette Servers")
+        .navigationTitle("Anisette 服务器")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 if viewModel.isOfflineMode {
@@ -589,7 +589,7 @@ struct AnisetteServersView: View {
                         if let topVC = UIApplication.shared.topViewController() {
                             TVWebFileTransferManager.shared.startImport(
                                 acceptedExtensions: ["json"],
-                                title: "Import Anisette Servers JSON",
+                                title: "导入 Anisette 服务器 JSON",
                                 presentingVC: topVC
                             ) { fileURL in
                                 guard let fileURL = fileURL else { return }
@@ -614,7 +614,7 @@ struct AnisetteServersView: View {
                         SwiftUI.Button {
                             viewModel.showHiddenServers.toggle()
                         } label: {
-                            Label(viewModel.showHiddenServers ? "Hide Hidden" : "Show Hidden", systemImage: viewModel.showHiddenServers ? "eye.slash" : "eye")
+                            Label(viewModel.showHiddenServers ? "隐藏已隐藏项" : "显示已隐藏项", systemImage: viewModel.showHiddenServers ? "eye.slash" : "eye")
                         }
                     }
 
@@ -626,7 +626,7 @@ struct AnisetteServersView: View {
                             }
                         }
                     } label: {
-                        Label("Export Current", systemImage: "square.and.arrow.up")
+                        Label("导出当前", systemImage: "square.and.arrow.up")
                     }
 
                     if viewModel.isOfflineMode {
@@ -638,7 +638,7 @@ struct AnisetteServersView: View {
                                 }
                             }
                         } label: {
-                            Label("Export Original", systemImage: "doc.on.doc")
+                            Label("导出原始", systemImage: "doc.on.doc")
                         }
                     }
 
@@ -647,7 +647,7 @@ struct AnisetteServersView: View {
                             await viewModel.resetToOriginalState()
                         }
                     } label: {
-                        Label("Reset Catalog", systemImage: "arrow.circlepath")
+                        Label("重置目录", systemImage: "arrow.circlepath")
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
@@ -662,29 +662,29 @@ struct AnisetteServersView: View {
             }
         }
         #if os(tvOS)
-        .confirmationDialog("Options", isPresented: $showingTvOptionsMenu) {
+        .confirmationDialog("选项", isPresented: $showingTvOptionsMenu) {
             if viewModel.hasHiddenItems {
-                SwiftUI.Button(viewModel.showHiddenServers ? "Hide Hidden" : "Show Hidden") {
+                SwiftUI.Button(viewModel.showHiddenServers ? "隐藏已隐藏项" : "显示已隐藏项") {
                     viewModel.showHiddenServers.toggle()
                 }
             }
-            SwiftUI.Button("Export Current") {
+            SwiftUI.Button("导出当前") {
                 Task {
                     if let url = await viewModel.exportCatalog(unmodified: false), let topVC = UIApplication.shared.topViewController() {
-                        TVWebFileTransferManager.shared.startExport(fileURL: url, title: "Export Anisette Servers JSON", presentingVC: topVC)
+                        TVWebFileTransferManager.shared.startExport(fileURL: url, title: "导出 Anisette 服务器 JSON", presentingVC: topVC)
                     }
                 }
             }
             if viewModel.isOfflineMode {
-                SwiftUI.Button("Export Original") {
+                SwiftUI.Button("导出原始") {
                     Task {
                         if let url = await viewModel.exportCatalog(unmodified: true), let topVC = UIApplication.shared.topViewController() {
-                            TVWebFileTransferManager.shared.startExport(fileURL: url, title: "Export Anisette Servers JSON", presentingVC: topVC)
+                            TVWebFileTransferManager.shared.startExport(fileURL: url, title: "导出 Anisette 服务器 JSON", presentingVC: topVC)
                         }
                     }
                 }
             }
-            SwiftUI.Button("Reset Catalog", role: .destructive) {
+            SwiftUI.Button("重置目录", role: .destructive) {
                 Task {
                     await viewModel.resetToOriginalState()
                 }
@@ -708,35 +708,35 @@ struct AnisetteServersView: View {
                         pendingImportName = url.lastPathComponent
                         showingImportAlert = true
                     } catch {
-                        viewModel.errorMessage = "Failed to read file: \(error.localizedDescription)"
+                        viewModel.errorMessage = "读取文件失败：\(error.localizedDescription)"
                     }
                 }
             case .failure(let error):
-                viewModel.errorMessage = "Import failed: \(error.localizedDescription)"
+                viewModel.errorMessage = "导入失败：\(error.localizedDescription)"
             }
         }
         #endif
-        .alert("Clear Imported File?", isPresented: $showingClearAlert) {
-            SwiftUI.Button("Clear", role: .destructive) {
+        .alert("清除导入的文件？", isPresented: $showingClearAlert) {
+            SwiftUI.Button("清除", role: .destructive) {
                 Task {
                     await viewModel.clearImportedFile()
                 }
             }
-            SwiftUI.Button("Cancel", role: .cancel) {}
+            SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("Are you sure you want to remove the imported catalog '\(viewModel.importedFileName ?? "custom.json")' and return to the default server URL?")
+            Text("确定要移除导入的目录“\(viewModel.importedFileName ?? "custom.json")”并恢复为默认服务器 URL 吗？")
         }
-        .alert("Import Server Catalog?", isPresented: $showingImportAlert) {
-            SwiftUI.Button("Import") {
+        .alert("导入服务器目录？", isPresented: $showingImportAlert) {
+            SwiftUI.Button("导入") {
                 if let data = pendingImportData, let name = pendingImportName {
                     Task {
                         await viewModel.importData(data, filename: name)
                     }
                 }
             }
-            SwiftUI.Button("Cancel", role: .cancel) {}
+            SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("This will replace your current server catalog with the servers from '\(pendingImportName ?? "selected file")'. Do you want to proceed?")
+            Text("这会用“\(pendingImportName ?? "selected file")”中的服务器替换你当前的服务器目录。是否继续？")
         }
         .sheet(isPresented: $showingShareSheet) {
             if let fileURL = exportFileURL {

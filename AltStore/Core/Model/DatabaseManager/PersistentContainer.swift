@@ -16,11 +16,11 @@ public enum DatabaseError: LocalizedError, CustomNSError, Sendable, Equatable {
     public var errorDescription: String? {
         switch self {
         case .databaseDowngradeDetected:
-            return NSLocalizedString("Database Downgrade Detected", comment: "")
+            return NSLocalizedString("检测到数据库降级", comment: "")
         case .migrationFailed:
-            return NSLocalizedString("Database Migration Failed", comment: "")
+            return NSLocalizedString("数据库迁移失败", comment: "")
         case .missingAppGroup:
-            return NSLocalizedString("App Group Container Inaccessible", comment: "")
+            return NSLocalizedString("无法访问 App Group 容器", comment: "")
         }
     }
     
@@ -113,7 +113,7 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
         #if !os(tvOS)
         guard FileManager.default.altstoreSharedDirectory != nil else {
             throw DatabaseError.missingAppGroup(
-                reason: NSLocalizedString("Unable to access the shared App Group container. Refusing to create or use a private sandbox fallback database.", comment: "")
+                reason: NSLocalizedString("无法访问共享的 App Group 容器。已拒绝创建或使用私有沙盒中的备用数据库。", comment: "")
             )
         }
         #endif
@@ -149,14 +149,14 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
     private func validateMigrationCompatibility(metadata: [String: Any], configuration: String?) throws {
         guard let sourceModel = NSManagedObjectModel.mergedModel(from: Bundle.allBundles, forStoreMetadata: metadata) else {
             throw DatabaseError.databaseDowngradeDetected(
-                reason: NSLocalizedString("The database on disk was created with a newer version of SideStore. Downgrading the database schema is not supported. Please update SideStore or reset your database.", comment: "")
+                reason: NSLocalizedString("磁盘上的数据库是由更新版本的 SideStore 创建的。不支持降级数据库架构。请更新 SideStore 或重置数据库。", comment: "")
             )
         }
         
         var mappingModel: NSMappingModel?
         guard self.progressiveMigrationManager(forSourceModel: sourceModel, destinationModel: self.managedObjectModel, configuration: configuration, mappingModel: &mappingModel) != nil, mappingModel != nil else {
             throw DatabaseError.databaseDowngradeDetected(
-                reason: NSLocalizedString("No valid migration path exists to downgrade this database. Please update SideStore or reset your database.", comment: "")
+                reason: NSLocalizedString("不存在可用于降级此数据库的有效迁移路径。请更新 SideStore 或重置数据库。", comment: "")
             )
         }
     }
@@ -210,7 +210,7 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
     
     private func _progressivelyMigratePersistentStore(to model: NSManagedObjectModel, configuration: String?) throws {
         guard let description = self.persistentStoreDescriptions.first, let url = description.url else {
-            throw DatabaseError.migrationFailed(reason: "Unable to find a persistent store.")
+            throw DatabaseError.migrationFailed(reason: "找不到持久化存储。")
         }
         
         let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: description.type, at: url, options: description.options)
@@ -221,14 +221,14 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
         
         guard let sourceModel = NSManagedObjectModel.mergedModel(from: Bundle.allBundles, forStoreMetadata: sourceMetadata) else {
             throw DatabaseError.databaseDowngradeDetected(
-                reason: NSLocalizedString("The database on disk was created with a newer version of SideStore. Downgrading the database schema is not supported. Please update SideStore or reset your database.", comment: "")
+                reason: NSLocalizedString("磁盘上的数据库是由更新版本的 SideStore 创建的。不支持降级数据库架构。请更新 SideStore 或重置数据库。", comment: "")
             )
         }
         
         var mappingModel: NSMappingModel?
         guard let migrationManager = self.progressiveMigrationManager(forSourceModel: sourceModel, destinationModel: model, configuration: configuration, mappingModel: &mappingModel), let finalMappingModel = mappingModel else {
             throw DatabaseError.migrationFailed(
-                reason: NSLocalizedString("Unable to find a valid migration path for the database.", comment: "")
+                reason: NSLocalizedString("找不到该数据库的有效迁移路径。", comment: "")
             )
         }
         
