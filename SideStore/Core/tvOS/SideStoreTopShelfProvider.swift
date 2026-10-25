@@ -42,7 +42,7 @@ public final class SideStoreTopShelfProvider: TVTopShelfContentProvider {
         }
 
         let section = TVTopShelfItemCollection(items: items)
-        section.title = "Installed Apps"
+        section.title = "已安装的应用"
 
         let content = TVTopShelfSectionedContent(sections: [section])
         completionHandler(content)

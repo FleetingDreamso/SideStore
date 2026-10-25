@@ -24,7 +24,7 @@ final class SendAppOperation: BasePipelineOperation<InstallAppOperationContext, 
         self.setProgress(10)
 
         guard let resignedAppBundle = self.context.resignedAppBundle else {
-            throw OperationError.invalidParameters("SendAppOperation.main: self.resignedAppBundle is nil")
+            throw OperationError.invalidParameters("SendAppOperation.main：self.resignedAppBundle 为空")
         }
 
         let bundleIdentifier = self.context.targetBundleIdentifier

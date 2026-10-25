@@ -22,7 +22,7 @@ final class EmbedSigningCertOperation: BasePipelineOperation<InstallAppOperation
         // 1. Resolve the certificate used for signing this app
         guard let cert = self.context.targetSigningCertificate else
         {
-            throw OperationError.invalidParameters("EmbedSigningCertOperation: No signing certificate found in context.")
+            throw OperationError.invalidParameters("EmbedSigningCertOperation：上下文中未找到签名证书。")
         }
         
         guard let certData = cert.data else {
@@ -32,7 +32,7 @@ final class EmbedSigningCertOperation: BasePipelineOperation<InstallAppOperation
         
         // 2. Write ALTCertificate.p12 (if p12) or ALTCertificate.der (if der) directly inside the target app bundle
         guard let appBundle = self.context.targetAppBundle else {
-            throw OperationError.invalidParameters("EmbedSigningCertOperation: targetAppBundle is missing in context.")
+            throw OperationError.invalidParameters("EmbedSigningCertOperation：上下文中缺少 targetAppBundle。")
         }
         
         let p12Password = CertificateManager.shared.getPassword(for: cert)

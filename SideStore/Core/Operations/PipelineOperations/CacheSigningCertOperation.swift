@@ -33,7 +33,7 @@ final class CacheSigningCertOperation: BasePipelineOperation<InstallAppOperation
         // 1. Resolve the certificate used for signing this app
         guard let cert = self.context.targetSigningCertificate else
         {
-            throw OperationError.invalidParameters("CacheSigningCertOperation: No signing certificate found in context.")
+            throw OperationError.invalidParameters("CacheSigningCertOperation：上下文中未找到签名证书。")
         }
         
         guard let certData = cert.data else {

@@ -22,7 +22,7 @@ final class ChangeAppIconOperation: BasePipelineOperation<InstallAppOperationCon
         self.setProgress(10)
         
         guard let appBundle = self.context.targetAppBundle else {
-            throw OperationError.invalidParameters("ChangeAppIconOperation.execute: self.context.appBundle is nil")
+            throw OperationError.invalidParameters("ChangeAppIconOperation.execute：self.context.appBundle 为空")
         }
         
         guard let alternateIconURL = self.context.alternateIconURL,
@@ -36,7 +36,7 @@ final class ChangeAppIconOperation: BasePipelineOperation<InstallAppOperationCon
         
         let data = try Data(contentsOf: alternateIconURL)
         guard let image = UIImage(data: data) else {
-            throw OperationError.invalidParameters("Invalid icon image data")
+            throw OperationError.invalidParameters("图标图像数据无效")
         }
         
         self.setProgress(40)
@@ -44,7 +44,7 @@ final class ChangeAppIconOperation: BasePipelineOperation<InstallAppOperationCon
         guard let icon = image.resizing(toFill: CGSize(width: 60 * iconScale, height: 60 * iconScale)),
               let iconData = icon.pngData()
         else {
-            throw OperationError.invalidParameters("Failed to resize icon image")
+            throw OperationError.invalidParameters("调整图标图像大小失败")
         }
         
         self.setProgress(65)

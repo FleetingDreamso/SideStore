@@ -442,7 +442,7 @@ final class BonjourDiscoveryManager: NSObject, ObservableObject, NetServiceDeleg
                 debugLog("[BonjourDiscovery] NWConnection resolution failed: \(error)")
                 Task { @MainActor [weak self] in
                     guard let self = self, self.isResolving, self.resolvedService == nil else { return }
-                    self.resolveError = "Connection failed: \(error.localizedDescription)"
+                    self.resolveError = "连接失败：\(error.localizedDescription)"
                     self.stopResolving()
                 }
             default:
@@ -464,7 +464,7 @@ final class BonjourDiscoveryManager: NSObject, ObservableObject, NetServiceDeleg
             guard let self = self, !Task.isCancelled else { return }
             if self.isResolving && self.resolvedService == nil {
                 debugLog("[BonjourDiscovery] Resolution timed out for '\(service.name)'")
-                self.resolveError = "Resolution timed out (no response from endpoint)"
+                self.resolveError = "解析超时（端点无响应）"
                 self.stopResolving()
             }
         }
@@ -618,7 +618,7 @@ final class BonjourDiscoveryManager: NSObject, ObservableObject, NetServiceDeleg
         let errorCode = errorDict[NetService.errorCode]?.intValue ?? -1
         Task { @MainActor in
             guard self.isResolving, self.resolvedService == nil else { return }
-            self.resolveError = errorCode == -72007 ? "Resolution timed out (no response from endpoint)" : "NetService resolution failed (error \(errorCode))"
+            self.resolveError = errorCode == -72007 ? "解析超时（端点无响应）" : "NetService 解析失败（错误 \(errorCode)）"
             self.stopResolving()
         }
     }

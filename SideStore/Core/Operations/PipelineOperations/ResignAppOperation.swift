@@ -27,10 +27,10 @@ final class ResignAppOperation: BasePipelineOperation<InstallAppOperationContext
             let profiles = self.context.provisioningProfiles,
             let certificate = self.context.targetSigningCertificate
         else {
-            throw OperationError.invalidParameters("ResignAppOperation.main: " +
-                                                   "self.context.targetAppBundle or " +
-                                                   "self.context.provisioningProfiles or " +
-                                                   "self.context.targetSigningCertificate is nil")
+            throw OperationError.invalidParameters("ResignAppOperation.main：" +
+                                                   "self.context.targetAppBundle、" +
+                                                   "self.context.provisioningProfiles、" +
+                                                   "self.context.targetSigningCertificate 为空")
         }
         
         debugLog("[ResignAppOperation] Resigning app \(self.context.bundleIdentifier)...")
@@ -44,7 +44,7 @@ final class ResignAppOperation: BasePipelineOperation<InstallAppOperationContext
         
         let resignedAppURL = try await self.resignAppBundle(at: appBundleURL, team: team, certificate: certificate, profiles: Array(profiles.values))
         guard let resignedAppBundle = ALTApplication(fileURL: resignedAppURL) else {
-            throw OperationError.invalidApp(reason: "Could not load resigned app bundle at '\(resignedAppURL.lastPathComponent)'")
+            throw OperationError.invalidApp(reason: "无法加载“\(resignedAppURL.lastPathComponent)”处的重签应用包")
         }
         
         self.debugLog("[ResignAppOperation] Resigned app \(self.context.bundleIdentifier) to \(resignedAppBundle.bundleIdentifier).")
@@ -77,7 +77,7 @@ final class ResignAppOperation: BasePipelineOperation<InstallAppOperationContext
         }
         
         guard let appBundle = ALTApplication(fileURL: appBundleURL) else {
-            throw OperationError.missingAppBundle(reason: "Could not load bundle at '\(appBundleURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "无法加载“\(appBundleURL.lastPathComponent)”处的应用包")
         }
         let infoDictionary = appBundle.infoPlist
         
@@ -119,13 +119,13 @@ final class ResignAppOperation: BasePipelineOperation<InstallAppOperationContext
     
     private func prepare(_ appBundle: ALTApplication, bundleID identifier: String?, additionalInfoDictionaryValues: [String: Any] = [:], profiles: [String: ALTProvisioningProfile], appexBundleIds: [String: String]) throws {
         guard let identifier else {
-            throw OperationError.invalidParameters("Bundle is missing bundle identifier.")
+            throw OperationError.invalidParameters("应用包缺少 Bundle ID。")
         }
         guard let profile = context.useMainProfile ? profiles.values.first : profiles[identifier] else {
-            throw OperationError.missingProvisioningProfile(reason: "No provisioning profile found for identifier '\(identifier)'.")
+            throw OperationError.missingProvisioningProfile(reason: "找不到标识符为“\(identifier)”的描述文件。")
         }
         guard var parser = try? InfoPlistParser(plistURL: appBundle.infoPlistURL) else {
-            throw OperationError.missingInfoPlist(reason: "Could not read Info.plist for bundle '\(identifier)'.")
+            throw OperationError.missingInfoPlist(reason: "无法读取“\(identifier)”应用包的 Info.plist。")
         }
         var infoDictionary = parser.rawDictionary as [String: Any]
         
@@ -168,7 +168,7 @@ final class ResignAppOperation: BasePipelineOperation<InstallAppOperationContext
         
         // Add app-specific exported UTI so we can check later if this app (extension) is installed or not.
         let installedAppUTI = ["UTTypeConformsTo": [],
-                               "UTTypeDescription": "AltStore Installed App",
+                               "UTTypeDescription": "AltStore 已安装应用",
                                "UTTypeIconFiles": [],
                                "UTTypeIdentifier": InstalledApp.installedAppUTI(forBundleIdentifier: profile.bundleIdentifier),
                                "UTTypeTagSpecification": [:]] as [String : Any]

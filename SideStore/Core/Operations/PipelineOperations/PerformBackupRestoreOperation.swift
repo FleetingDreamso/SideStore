@@ -37,11 +37,11 @@ final class PerformBackupRestoreOperation: BasePipelineOperation<InstallAppOpera
         try await super.executePreconditionCheck(parentProgress: parentProgress)
         guard let installedApp = context.installedApp else {
             self.debugLog("[BackupRestoreAppOperation] Error: context.installedApp is nil")
-            throw OperationError.invalidParameters("BackupRestoreAppOperation.execute: context.installedApp is nil")
+            throw OperationError.invalidParameters("BackupRestoreAppOperation.execute：context.installedApp 为空")
         }
         
         guard let context = installedApp.managedObjectContext else {
-            throw OperationError.invalidParameters("BackupRestoreAppOperation: installedApp.managedObjectContext is nil")
+            throw OperationError.invalidParameters("BackupRestoreAppOperation：installedApp.managedObjectContext 为空")
         }
         let (bundleID, fileURL, name, openAppURL) = context.performAndWait {
             (installedApp.bundleIdentifier, installedApp.fileURL, installedApp.name, installedApp.openAppURL)
@@ -93,11 +93,11 @@ final class PerformBackupRestoreOperation: BasePipelineOperation<InstallAppOpera
             return error
             
         case (let error as NSError, .backup):
-            let localizedFailure = String(format: NSLocalizedString("Could not back up “%@”.", comment: ""), appName)
+            let localizedFailure = String(format: NSLocalizedString("无法备份“%@”。", comment: ""), appName)
             return error.withLocalizedFailure(localizedFailure)
             
         case (let error as NSError, .restore):
-            let localizedFailure = String(format: NSLocalizedString("Could not restore “%@”.", comment: ""), appName)
+            let localizedFailure = String(format: NSLocalizedString("无法恢复“%@”。", comment: ""), appName)
             return error.withLocalizedFailure(localizedFailure)
         }
     }

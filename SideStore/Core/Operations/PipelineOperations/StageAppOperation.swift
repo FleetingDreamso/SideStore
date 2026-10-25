@@ -33,7 +33,7 @@ final class StageAppOperation: BasePipelineOperation<InstallAppOperationContext,
         }
         
         guard let appBundle = self.context.targetAppBundle else {
-            throw OperationError.invalidParameters("StageAppOperation: context.appBundle is nil")
+            throw OperationError.invalidParameters("StageAppOperation：context.appBundle 为空")
         }
         
         let fileURL = appBundle.fileURL
@@ -65,7 +65,7 @@ final class StageAppOperation: BasePipelineOperation<InstallAppOperationContext,
         debugLog("[StageAppOperation] Successfully copied app bundle to destination.")
         
         guard let stagedAppBundle = ALTApplication(fileURL: destinationURL) else {
-            throw OperationError.missingAppBundle(reason: "Could not load staged app bundle at '\(destinationURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "无法加载“\(destinationURL.lastPathComponent)”处的暂存应用包")
         }
         
         self.context.targetAppBundle = stagedAppBundle

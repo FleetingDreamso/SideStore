@@ -199,7 +199,7 @@ public actor AnisetteConfigManager {
         } else {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             guard let json = json else {
-                throw NSError(domain: "AnisetteConfigManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format."])
+                throw NSError(domain: "AnisetteConfigManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "JSON 格式无效。"])
             }
             
             let clientInfo = (json["clientInfo"] as? String) ?? (json["client_info"] as? String)
@@ -216,7 +216,7 @@ public actor AnisetteConfigManager {
             
             guard let finalClientInfo = clientInfo, !finalClientInfo.isEmpty,
                   let finalUserAgent = userAgent, !finalUserAgent.isEmpty else {
-                throw NSError(domain: "AnisetteConfigManager", code: -2, userInfo: [NSLocalizedDescriptionKey: "Missing or empty required keys (clientInfo, userAgent)."])
+                throw NSError(domain: "AnisetteConfigManager", code: -2, userInfo: [NSLocalizedDescriptionKey: "缺少必需键或其为空（clientInfo、userAgent）。"])
             }
             
             config = AnisetteConfig(

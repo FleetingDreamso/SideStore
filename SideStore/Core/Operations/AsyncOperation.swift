@@ -94,7 +94,7 @@ class BaseOperation<Context: OperationContext, Result>: NSObject, AsyncOperation
 class BasePipelineOperation<Context: OperationContext, Result>: BaseOperation<Context, Result>, @unchecked Sendable {
     override func operationStep() throws -> any OperationStep {
         guard let step = PipelineStep.step(for: self) else {
-            throw OperationError.invalidParameters("Missing PipelineStep mapping for \(type(of: self))")
+            throw OperationError.invalidParameters("缺少 \(type(of: self)) 的 PipelineStep 映射")
         }
         return step
     }
@@ -103,7 +103,7 @@ class BasePipelineOperation<Context: OperationContext, Result>: BaseOperation<Co
 class BaseStandaloneOperation<Context: OperationContext, Result>: BaseOperation<Context, Result>, @unchecked Sendable {
     override func operationStep() throws -> any OperationStep {
         guard let step = StandaloneStep.step(for: type(of: self)) else {
-            throw OperationError.invalidParameters("Missing StandaloneStep mapping for \(type(of: self))")
+            throw OperationError.invalidParameters("缺少 \(type(of: self)) 的 StandaloneStep 映射")
         }
         return step
     }

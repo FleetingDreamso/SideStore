@@ -41,13 +41,13 @@ final class InstallAppOperation: BasePipelineOperation<InstallAppOperationContex
             let provisioningProfiles = context.provisioningProfiles
         else {
             throw OperationError.invalidParameters(
-                "InstallAppOperation.execute: self.context.targetSigningCertificate or self.context.resignedAppBundle or self.context.provisioningProfiles is nil"
+                "InstallAppOperation.execute：self.context.targetSigningCertificate、self.context.resignedAppBundle 或 self.context.provisioningProfiles 为空"
             )
         }
 
         #if !targetEnvironment(simulator)
         guard resignedAppBundle.provisioningProfile != nil else {
-            throw OperationError.missingProvisioningProfile(reason: "Resigned app bundle '\(resignedAppBundle.bundleIdentifier)' is missing its embedded provisioning profile.")
+            throw OperationError.missingProvisioningProfile(reason: "已重签的应用包“\(resignedAppBundle.bundleIdentifier)”缺少内嵌的描述文件。")
         }
         #endif
 
@@ -98,7 +98,7 @@ final class InstallAppOperation: BasePipelineOperation<InstallAppOperationContex
     {
         let (installedApp, isDifferentSideStore, bundleID, isSelfReinstall, isSideBackup) = try await backgroundContext.perform {
             let utis = resignedAppBundle.infoPlist[Bundle.Info.exportedUTIs] as? [[String: Any]]
-            let isSideBackup = utis?.first?["UTTypeDescription"] as? String == "SideStore Backup App"
+            let isSideBackup = utis?.first?["UTTypeDescription"] as? String == "SideStore 备份应用"
             
             if isSideBackup {
                 let installedApp = try self.context.installedApp.flatMap { app in
@@ -216,7 +216,7 @@ final class InstallAppOperation: BasePipelineOperation<InstallAppOperationContex
                                   authTeam: ALTTeam) throws -> InstalledApp
     {
         guard let appBundleFingerprint = self.context.appBundleFingerprint else {
-            throw OperationError.invalidParameters("InstallAppOperation: context.appBundleFingerprint is nil. CacheAppOperation must guarantee a fingerprint reference.")
+            throw OperationError.invalidParameters("InstallAppOperation：context.appBundleFingerprint 为空。CacheAppOperation 必须保证提供指纹引用。")
         }
         
         let target = self.context.targetBundleIdentifier
@@ -301,7 +301,7 @@ final class InstallAppOperation: BasePipelineOperation<InstallAppOperationContex
                                          in backgroundContext: NSManagedObjectContext) throws -> Set<InstalledExtension>
     {
         guard let targetAppBundle = self.context.targetAppBundle else {
-            throw OperationError.invalidParameters("InstallAppOperation: targetAppBundle is missing in context.")
+            throw OperationError.invalidParameters("InstallAppOperation：上下文中缺少 targetAppBundle。")
         }
 
         let originalExtensionsByFilename = Dictionary(
@@ -314,7 +314,7 @@ final class InstallAppOperation: BasePipelineOperation<InstallAppOperationContex
         for resignedAppExtensionBundle in resignedAppBundle.appExtensions {
             let filename = resignedAppExtensionBundle.fileURL.lastPathComponent
             guard let originalExtension = originalExtensionsByFilename[filename] else {
-                throw OperationError.invalidParameters("InstallAppOperation: extension '\(filename)' not found in targetAppBundle.")
+                throw OperationError.invalidParameters("InstallAppOperation：targetAppBundle 中未找到扩展“\(filename)”。")
             }
             
             let targetParentBundleID = context.targetBundleIdentifier

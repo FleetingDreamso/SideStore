@@ -32,7 +32,7 @@ final class DeactivateAppOperation: BasePipelineOperation<PipelineOperationConte
         let backgroundContext = self.context.dbBackgroundContext
         
         guard let app = self.app else {
-            throw OperationError.invalidParameters("DeactivateAppOperation: target app is nil")
+            throw OperationError.invalidParameters("DeactivateAppOperation：目标应用为空")
         }
         
         let appObjectID = app.objectID
@@ -76,7 +76,7 @@ final class DeactivateAppOperation: BasePipelineOperation<PipelineOperationConte
             throw error
         }
         guard removedAny else {
-            throw OperationError.invalidParameters("DeactivateAppOperation: no profiles found to remove")
+            throw OperationError.invalidParameters("DeactivateAppOperation：未找到可移除的描述文件")
         }
         installedApp.isActive = false
         return installedApp

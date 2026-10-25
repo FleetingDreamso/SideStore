@@ -150,7 +150,7 @@ final class PipelineRunner: Sendable
             group.error = opError
             for operation in operations {
                 let elapsed = CFAbsoluteTimeGetCurrent() - group.operationStartTime
-                operation.logSummary(status: "FAILED", elapsed: elapsed, error: opError)
+                operation.logSummary(status: "失败", elapsed: elapsed, error: opError)
             }
             throw opError
         }
@@ -189,7 +189,7 @@ final class PipelineRunner: Sendable
             group.error = error
             for operation in operations {
                 let elapsed = CFAbsoluteTimeGetCurrent() - group.operationStartTime
-                operation.logSummary(status: "FAILED", elapsed: elapsed, error: error)
+                operation.logSummary(status: "失败", elapsed: elapsed, error: error)
             }
             throw error
         }
@@ -267,7 +267,7 @@ final class PipelineRunner: Sendable
             debugLog("[AppManager] performOperation: Execution SUCCESS for app: \(operation.bundleIdentifier)")
             
             let elapsed = CFAbsoluteTimeGetCurrent() - group.operationStartTime
-            operation.logSummary(status: "SUCCESS", elapsed: elapsed)
+            operation.logSummary(status: "成功", elapsed: elapsed)
             
             debugLog("[AppManager] performOperation: Reloading widget timelines...")
             await WidgetDataManager.publishCurrentInstalledApps(in: dbContext)
@@ -288,7 +288,7 @@ final class PipelineRunner: Sendable
             
             let elapsed = CFAbsoluteTimeGetCurrent() - group.operationStartTime
             let isCancelled = Task.isCancelled || error is CancellationError
-            let status = isCancelled ? "CANCELLED" : "FAILED"
+            let status = isCancelled ? "已取消" : "失败"
             if isCancelled {
                 debugLog("[AppManager] performOperation: Execution CANCELLED for app: \(operation.bundleIdentifier)")
             } else {

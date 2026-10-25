@@ -97,13 +97,13 @@ class OperationContext: WeightedOperationContext
     func consumeWeight(for step: some OperationStep) throws -> Int64 {
         guard let index = findIndex(for: step) else {
             debugLog("[OperationContext] Failed to consume weight for step '\(step)' from index \(currentIndex)")
-            throw OperationError.invalidParameters("Missing progress weight for step '\(step)' in steps list")
+            throw OperationError.invalidParameters("步骤列表中缺少步骤“\(step)”的进度权重")
         }
         
         let item = stepItems[index]
         guard item.maxReuse > 0 else {
             debugLog("[OperationContext] Invalid maxReuse (\(item.maxReuse)) for step '\(step)'")
-            throw OperationError.invalidParameters("Invalid maxReuse (\(item.maxReuse)) for step '\(step)' in steps list")
+            throw OperationError.invalidParameters("步骤列表中步骤“\(step)”的 maxReuse 值无效（\(item.maxReuse)）")
         }
         
         let remaining: Int

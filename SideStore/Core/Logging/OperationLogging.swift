@@ -78,15 +78,15 @@ func logOperationSummary(
     
     var rows: [String] = [
         "===================================================",
-        centerRow("OPERATION \(status.uppercased())"),
+        centerRow("操作 \(status.uppercased())"),
         "==================================================="
     ]
-    rows.append(contentsOf: bulletRow("Operation", operation))
+    rows.append(contentsOf: bulletRow("操作", operation))
     rows.append(contentsOf: bulletRow("App ID", target))
-    rows.append(contentsOf: bulletRow("Status", status.uppercased()))
-    rows.append(contentsOf: bulletRow("Elapsed", String(format: "%.3fs", elapsed)))
+    rows.append(contentsOf: bulletRow("状态", status.uppercased()))
+    rows.append(contentsOf: bulletRow("已用时间", String(format: "%.3fs", elapsed)))
     if let error = error {
-        rows.append(contentsOf: bulletRow("Error", error.localizedDescription))
+        rows.append(contentsOf: bulletRow("错误", error.localizedDescription))
     }
     rows.append("===================================================")
     

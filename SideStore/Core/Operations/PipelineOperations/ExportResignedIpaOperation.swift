@@ -27,7 +27,7 @@ final class ExportResignedIpaOperation: BasePipelineOperation<InstallAppOperatio
         }
 
         guard let resignedAppBundle = self.context.resignedAppBundle else {
-            throw OperationError.invalidParameters("ExportResignedIpaOperation: context.resignedAppBundle is nil")
+            throw OperationError.invalidParameters("ExportResignedIpaOperation：context.resignedAppBundle 为空")
         }
 
         guard let sourceURL = self.context.ipaURL else {
@@ -49,7 +49,7 @@ final class ExportResignedIpaOperation: BasePipelineOperation<InstallAppOperatio
         }
 
         let utis = resignedAppBundle.infoPlist[Bundle.Info.exportedUTIs] as? [[String: Any]]
-        let isSideBackup = utis?.first?["UTTypeDescription"] as? String == "SideStore Backup App"
+        let isSideBackup = utis?.first?["UTTypeDescription"] as? String == "SideStore 备份应用"
         let destPath = isSideBackup ? resignedAppBundle.name + "-sidebackup" : resignedAppBundle.name
         let destinationURL = resignedAppsURL.appendingPathComponent(destPath + ".ipa")
         self.setProgress(60)

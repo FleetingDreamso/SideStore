@@ -207,7 +207,7 @@ public func isMinimuxerReady() async -> Result<Bool, MinimuxerError> {
 public func ensureMinimuxerReady() async throws {
     if CellularRefreshManager.shared.isEnabled && UserDefaults.standard.enableEMPforWireguard {
         throw OperationError.invalidVPN(
-            reason: "WireGuard VPN is not supported with Cellular Refresh because iOS pauses the WireGuard tunnel when cellular data is toggled off."
+            reason: "蜂窝网络刷新不支持 WireGuard VPN，因为关闭蜂窝数据时 iOS 会暂停 WireGuard 隧道。"
         )
     }
     if !CellularRefreshManager.shared.isEnabled {
@@ -373,7 +373,7 @@ func fetchUDID(forceLive: Bool = false) async throws -> String {
     return try await withRemotePairingRetry {
         let udid = try await minimuxer.core.fetchUDID()
         guard !udid.isEmpty else {
-            throw OperationError.unknownUDID(reason: "Minimuxer returned empty UDID.")
+            throw OperationError.unknownUDID(reason: "Minimuxer 返回了空的 UDID。")
         }
         Keychain.shared.deviceUDID = udid
         return udid
@@ -480,7 +480,7 @@ func minimuxerSwitchPairingProtocol(to proto: PairingProtocol) async throws {
     try await withRemotePairingRetry {
         debugLog("[SideStore] switchPairingProtocol(to: \(proto.rawValue)) entered")
         guard let pf = PairingFileManager.shared.fetchPairingFile(for: proto) else {
-            throw MinimuxerError.pairingNotLoaded("Missing pairing file for \(proto.rawValue)")
+            throw MinimuxerError.pairingNotLoaded("缺少用于 \(proto.rawValue) 的配对文件")
         }
         try await minimuxerStop()
         try await AppBootManager.shared.startMinimuxer(pairingFile: pf)
@@ -571,7 +571,7 @@ public final class WirelessPairWrapper {
             }
         }
         #else
-        completion(.failure(OperationError.invalidParameters("Wireless pairing is not supported on simulator.")))
+        completion(.failure(OperationError.invalidParameters("模拟器不支持无线配对。")))
         #endif
     }
 
@@ -607,7 +607,7 @@ public final class WirelessPairWrapper {
             }
         }
         #else
-        completion(.failure(OperationError.invalidParameters("Wireless pairing is not supported on simulator.")))
+        completion(.failure(OperationError.invalidParameters("模拟器不支持无线配对。")))
         #endif
     }
     

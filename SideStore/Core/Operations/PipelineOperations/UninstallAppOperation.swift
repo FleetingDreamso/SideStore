@@ -20,20 +20,20 @@ final class UninstallAppOperation: BasePipelineOperation<InstallAppOperationCont
         }
         try await super.executePreconditionCheck(parentProgress: parentProgress)
         guard let installedApp = self.context.installedApp else {
-            throw OperationError.invalidParameters("UninstallAppOperation.main: self.context.installedApp is nil")
+            throw OperationError.invalidParameters("UninstallAppOperation.main：self.context.installedApp 为空")
         }
         
         
         let bundleID = await installedApp.managedObjectContext?.perform { installedApp.bundleIdentifier }
         if bundleID?.isAltStoreAppID == true {
-            throw OperationError.invalidParameters("SideStore cannot delete itself.")
+            throw OperationError.invalidParameters("SideStore 无法删除自身。")
         }
         
         let resignedBundleIdentifier = await installedApp.managedObjectContext?.perform {
             self.resignedBundleIdentifier(for: installedApp)
         }
         guard let resignedBundleIdentifier else {
-            throw OperationError.invalidParameters("UninstallAppOperation: installedApp.managedObjectContext is nil")
+            throw OperationError.invalidParameters("UninstallAppOperation：installedApp.managedObjectContext 为空")
         }
         
         // send uninstall payload to device

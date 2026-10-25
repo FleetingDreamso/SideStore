@@ -27,18 +27,18 @@ public enum BackgroundServiceMode: String, CaseIterable, Sendable {
     public var displayName: String {
         switch self {
         case .audio:
-            return "Audio"
+            return "音频"
         case .location:
-            return "Location"
+            return "位置"
         }
     }
 
     public var subtitle: String {
         switch self {
         case .audio:
-            return "Silent keepalive background audio loop"
+            return "静音保活后台音频循环"
         case .location:
-            return "Low-power keepalive background location"
+            return "低功耗保活后台定位"
         }
     }
 }

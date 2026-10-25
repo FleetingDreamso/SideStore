@@ -167,7 +167,7 @@ public final class PairingWebUploadServer: @unchecked Sendable {
                 self?.onUploadSuccess?(pairingFileString)
             }
         } else {
-            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("Could not parse a valid pairing file (.mobiledevicepairing)."))
+            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("无法解析有效的配对文件（.mobiledevicepairing）。"))
         }
     }
 
@@ -185,11 +185,11 @@ public final class PairingWebUploadServer: @unchecked Sendable {
     private func makeUploadHTMLPage() -> String {
         return """
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="zh-CN">
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>SideStore Apple TV Pairing</title>
+            <title>SideStore Apple TV 配对</title>
             <style>
                 body {
                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -257,13 +257,13 @@ public final class PairingWebUploadServer: @unchecked Sendable {
         </head>
         <body>
             <div class="card">
-                <h1>SideStore Pairing</h1>
-                <p>Upload your pairing file to pair your Apple TV.</p>
+                <h1>SideStore 配对</h1>
+                <p>上传你的配对文件，以配对你的 Apple TV。</p>
                 <form action="/upload" method="post" enctype="multipart/form-data">
                     <div class="upload-box">
                         <input type="file" name="pairingFile" accept=".mobiledevicepairing,.plist,.xml" required>
                     </div>
-                    <button type="submit">Upload Pairing File</button>
+                    <button type="submit">上传配对文件</button>
                 </form>
             </div>
         </body>
@@ -274,11 +274,11 @@ public final class PairingWebUploadServer: @unchecked Sendable {
     private func makeSuccessHTMLPage() -> String {
         return """
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="zh-CN">
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Pairing Successful</title>
+            <title>配对成功</title>
             <style>
                 body {
                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -304,8 +304,8 @@ public final class PairingWebUploadServer: @unchecked Sendable {
         </head>
         <body>
             <div class="card">
-                <h1>✓ Pairing Successful</h1>
-                <p>Your pairing file has been saved to Apple TV.<br>SideStore will now continue automatically.</p>
+                <h1>✓ 配对成功</h1>
+                <p>你的配对文件已保存到 Apple TV。<br>SideStore 现在将自动继续。</p>
             </div>
         </body>
         </html>
@@ -315,10 +315,10 @@ public final class PairingWebUploadServer: @unchecked Sendable {
     private func makeErrorHTMLPage(_ message: String) -> String {
         return """
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="zh-CN">
         <head>
             <meta charset="utf-8">
-            <title>Upload Error</title>
+            <title>上传错误</title>
             <style>
                 body { font-family: -apple-system, sans-serif; background: #121212; color: #FFF; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
                 .card { background: #1E1E1E; border-radius: 18px; padding: 32px; text-align: center; max-width: 400px; }
@@ -329,9 +329,9 @@ public final class PairingWebUploadServer: @unchecked Sendable {
         </head>
         <body>
             <div class="card">
-                <h1>Upload Failed</h1>
+                <h1>上传失败</h1>
                 <p>\(message)</p>
-                <p><a href="/">Try Again</a></p>
+                <p><a href="/">重试</a></p>
             </div>
         </body>
         </html>

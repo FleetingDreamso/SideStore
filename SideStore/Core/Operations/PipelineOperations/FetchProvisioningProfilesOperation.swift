@@ -27,7 +27,7 @@ class FetchProvisioningProfilesOperation: BasePipelineOperation<InstallAppOperat
 
         guard let targetAppBundle = self.context.targetAppBundle else {
             self.debugLog("[FetchProvisioningProfiles] Target app bundle missing in context.")
-            throw OperationError.invalidParameters("FetchProvisioningProfilesOperation: context.targetAppBundle is nil")
+            throw OperationError.invalidParameters("FetchProvisioningProfilesOperation：context.targetAppBundle 为空")
         }
 
         let effectiveBundleId = self.context.targetBundleIdentifier
@@ -155,7 +155,7 @@ class FetchProvisioningProfilesOperation: BasePipelineOperation<InstallAppOperat
         let bundleID: String
         if let parentAppBundle = parentAppBundle {
             guard targetAppBundle.bundleIdentifier.hasPrefix(parentAppBundle.bundleIdentifier + ".") else {
-                throw OperationError.invalidApp(reason: "Extension bundle ID '\(targetAppBundle.bundleIdentifier)' does not start with parent bundle ID '\(parentAppBundle.bundleIdentifier)'.")
+                throw OperationError.invalidApp(reason: "扩展的 Bundle ID“\(targetAppBundle.bundleIdentifier)”不是以父级 Bundle ID“\(parentAppBundle.bundleIdentifier)”开头。")
             }
             let suffix = String(targetAppBundle.bundleIdentifier.dropFirst(parentAppBundle.bundleIdentifier.count))
             bundleID = parentID + suffix
@@ -239,7 +239,7 @@ private extension FetchProvisioningProfilesOperation{
         }
         
         guard let allowedFeatures = team.type.allowedFeatures else {
-            throw OperationError.invalidParameters("Cannot update features for unknown team type.")
+            throw OperationError.invalidParameters("无法为未知的团队类型更新功能。")
         }
         
         var targetFeatures: [ALTFeature: String] = [:]
@@ -317,7 +317,7 @@ private extension FetchProvisioningProfilesOperation{
         for group in applicationGroups {
             if group.contains("$(APP_GROUP_IDENTIFIER)") {
                 self.debugLog("[FetchProvisioningProfiles] Error: Application group contains raw placeholder '$(APP_GROUP_IDENTIFIER)': \(group)")
-                throw OperationError.invalidParameters("Application group '\(group)' contains raw placeholder '$(APP_GROUP_IDENTIFIER)'.")
+                throw OperationError.invalidParameters("App 组“\(group)”包含未替换的占位符“$(APP_GROUP_IDENTIFIER)”。")
             }
         }
         

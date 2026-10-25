@@ -31,7 +31,7 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
     public func startImport(
         contentTypes: [UTType]? = nil,
         acceptedExtensions: [String] = [],
-        title: String = "Import File",
+        title: String = "导入文件",
         presentingVC: UIViewController,
         completion: @escaping (URL?) -> Void
     ) {
@@ -60,10 +60,10 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
         DispatchQueue.main.async{
             let alert = UIAlertController(
                 title: title,
-                message: NSLocalizedString("Open this URL on your iPhone, iPad, or Mac on the same Wi-Fi network to upload:\n\n\(serverURL)", comment: ""),
+                message: NSLocalizedString("在同一 Wi-Fi 网络下，在你的 iPhone、iPad 或 Mac 上打开此网址以上传：\n\n\(serverURL)", comment: ""),
                 preferredStyle: .alert
             )
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel) { [weak self] _ in
                 self?.stop()
                 completion(nil)
             })
@@ -75,7 +75,7 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
 
     public func startExport(
         fileURL: URL,
-        title: String = "Export File",
+        title: String = "导出文件",
         presentingVC: UIViewController,
         completion: (() -> Void)? = nil
     ) {
@@ -91,10 +91,10 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
         DispatchQueue.main.async {
             let alert = UIAlertController(
                 title: title,
-                message: NSLocalizedString("Open this URL on your iPhone, iPad, or Mac on the same Wi-Fi network to download '\(fileURL.lastPathComponent)':\n\n\(serverURL)", comment: ""),
+                message: NSLocalizedString("在同一 Wi-Fi 网络下，在你的 iPhone、iPad 或 Mac 上打开此网址以下载“\(fileURL.lastPathComponent)”：\n\n\(serverURL)", comment: ""),
                 preferredStyle: .alert
             )
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Done", comment: ""), style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("完成", comment: ""), style: .default) { [weak self] _ in
                 self?.stop()
                 completion?()
             })
@@ -237,10 +237,10 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
                     connection.cancel()
                 }))
             } catch {
-                self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("Failed to read export file: \(error.localizedDescription)"), statusCode: 500)
+                self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("读取导出文件失败：\(error.localizedDescription)"), statusCode: 500)
             }
         case .none:
-            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("No active transfer."), statusCode: 404)
+            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("没有正在进行的传输。"), statusCode: 404)
         }
     }
 
@@ -257,7 +257,7 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
 
     private func processUploadedBody(bodyData: Data, connection: NWConnection) {
         guard case .fileImport(_, _, let completion) = self.currentMode else {
-            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("No active import session."))
+            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("没有正在进行的导入会话。"))
             return
         }
 
@@ -294,7 +294,7 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
                 completion(tempURL)
             }
         } catch {
-            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("Failed to save uploaded file: \(error.localizedDescription)"))
+            self.sendHTMLResponse(connection: connection, body: self.makeErrorHTMLPage("保存上传的文件失败：\(error.localizedDescription)"))
         }
     }
 
@@ -312,7 +312,7 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
     private func makeUploadHTMLPage(title: String, acceptAttr: String) -> String {
         return """
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="zh-CN">
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -385,12 +385,12 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
         <body>
             <div class="card">
                 <h1>\(title)</h1>
-                <p>Select and upload your file to Apple TV.</p>
+                <p>选择文件并上传到 Apple TV。</p>
                 <form action="/upload" method="post" enctype="multipart/form-data">
                     <div class="upload-box">
                         <input type="file" name="file" accept="\(acceptAttr)" required>
                     </div>
-                    <button type="submit">Upload to Apple TV</button>
+                    <button type="submit">上传到 Apple TV</button>
                 </form>
             </div>
         </body>
@@ -401,11 +401,11 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
     private func makeSuccessHTMLPage(filename: String) -> String {
         return """
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="zh-CN">
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Transfer Successful</title>
+            <title>传输成功</title>
             <style>
                 body {
                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -431,8 +431,8 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
         </head>
         <body>
             <div class="card">
-                <h1>✓ Upload Successful</h1>
-                <p><code>\(filename)</code> has been transferred to Apple TV.<br>SideStore will now continue automatically.</p>
+                <h1>✓ 上传成功</h1>
+                <p><code>\(filename)</code> 已传输到 Apple TV。<br>SideStore 现在将自动继续。</p>
             </div>
         </body>
         </html>
@@ -442,10 +442,10 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
     private func makeErrorHTMLPage(_ message: String) -> String {
         return """
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="zh-CN">
         <head>
             <meta charset="utf-8">
-            <title>Transfer Error</title>
+            <title>传输错误</title>
             <style>
                 body { font-family: -apple-system, sans-serif; background: #121212; color: #FFF; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
                 .card { background: #1E1E1E; border-radius: 18px; padding: 32px; text-align: center; max-width: 400px; }
@@ -456,9 +456,9 @@ public final class TVWebFileTransferManager: @unchecked Sendable {
         </head>
         <body>
             <div class="card">
-                <h1>Transfer Failed</h1>
+                <h1>传输失败</h1>
                 <p>\(message)</p>
-                <p><a href="/">Try Again</a></p>
+                <p><a href="/">重试</a></p>
             </div>
         </body>
         </html>

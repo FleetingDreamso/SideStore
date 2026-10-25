@@ -29,14 +29,14 @@ final class StageBackupAppOperation: BasePipelineOperation<InstallAppOperationCo
         
         guard let targetApp = self.targetApp else {
             debugLog("[StageBackupAppOperation] Error: target app is nil")
-            throw OperationError.invalidParameters("StageBackupAppOperation: target app is nil")
+            throw OperationError.invalidParameters("StageBackupAppOperation：目标应用为空")
         }
         
         debugLog("[StageBackupAppOperation] Preparing backup app stage for '\(targetApp.name)' (\(targetApp.bundleIdentifier)), target bundleID: '\(context.targetBundleIdentifier)'")
         
         guard ALTApplication(fileURL: targetApp.fileURL) != nil else {
             debugLog("[StageBackupAppOperation] Error: ALTApplication invalid/not found at \(targetApp.fileURL.path)")
-            throw OperationError.missingAppBundle(reason: "Could not find application bundle for '\(targetApp.name)' at '\(targetApp.fileURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "在“\(targetApp.fileURL.lastPathComponent)”处找不到“\(targetApp.name)”的应用包")
         }
 
         self.setProgress(20)
@@ -46,7 +46,7 @@ final class StageBackupAppOperation: BasePipelineOperation<InstallAppOperationCo
 
         guard let sidebackupFileURL = Bundle.main.url(forResource: "SideBackup", withExtension: "ipa") else {
             debugLog("[StageBackupAppOperation] Error: SideBackup.ipa resource not found in main bundle")
-            throw OperationError.invalidParameters("Resource 'SideBackup.ipa' could not be found in the main bundle.")
+            throw OperationError.invalidParameters("在主应用包中找不到资源“SideBackup.ipa”。")
         }
         debugLog("[StageBackupAppOperation] Found SideBackup.ipa at \(sidebackupFileURL.path)")
 
@@ -57,7 +57,7 @@ final class StageBackupAppOperation: BasePipelineOperation<InstallAppOperationCo
         
         guard let sideBackupBundle = ALTApplication(fileURL: unzippedAppBundleURL) else {
             debugLog("[StageBackupAppOperation] Error: Failed to instantiate ALTApplication at \(unzippedAppBundleURL.path)")
-            throw OperationError.missingAppBundle(reason: "Unzipped bundle directory could not be located at '\(unzippedAppBundleURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "在“\(unzippedAppBundleURL.lastPathComponent)”处找不到已解压的应用包目录")
         }
 
         self.setProgress(70)
@@ -78,7 +78,7 @@ final class StageBackupAppOperation: BasePipelineOperation<InstallAppOperationCo
 
         let installedAppUTI: [String: any Sendable] = [
             "UTTypeConformsTo": [],
-            "UTTypeDescription": "SideStore Backup App",
+            "UTTypeDescription": "SideStore 备份应用",
             "UTTypeIconFiles": [],
             "UTTypeIdentifier": targetApp.installedBackupAppUTI,
             "UTTypeTagSpecification": [:]
@@ -103,7 +103,7 @@ final class StageBackupAppOperation: BasePipelineOperation<InstallAppOperationCo
         self.setProgress(90)
         guard let updatedBundle = ALTApplication(fileURL: unzippedAppBundleURL) else {
             debugLog("[StageBackupAppOperation] Error: Failed to reload ALTApplication for staged backup app at \(unzippedAppBundleURL.path)")
-            throw OperationError.missingAppBundle(reason: "Failed to reload ALTApplication for staged backup app at '\(unzippedAppBundleURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "无法为“\(unzippedAppBundleURL.lastPathComponent)”处的暂存备份应用重新加载 ALTApplication")
         }
         context.targetAppBundle = updatedBundle
         debugLog("[StageBackupAppOperation] Successfully set context.appBundle to staged SideBackup app ('\(updatedBundle.bundleIdentifier)')")

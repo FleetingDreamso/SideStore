@@ -49,72 +49,72 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
     public var rawDescription: String {
         switch self {
         case .noInstalledApps:
-            return "There are no active sideloaded apps to refresh."
+            return "没有可刷新的已激活侧载应用。"
         case .noSources:
-            return "There are no SideStore sources."
+            return "没有 SideStore 源。"
         case .notAuthenticated:
-            return "You are not signed in."
+            return "你尚未登录。"
         case .timedOut:
-            return "The operation timed out."
+            return "操作超时。"
         case .unableToConnectSideJIT:
-            return "Unable to connect to SideJITServer. Please check that you are on the same Wi-Fi of and your Firewall has been set correctly on your server."
+            return "无法连接到 SideJITServer。请确认你与服务器处于同一 Wi-Fi，且服务器上的防火墙设置正确。"
         case .unableToRespondSideJITDevice:
-            return "SideJITServer is unable to connect to your iDevice. Please make sure you have paired your iDevice by running 'SideJITServer -y', or try refreshing SideJITServer from Settings."
+            return "SideJITServer 无法连接到你的 iDevice。请确认你已运行“SideJITServer -y”完成配对，或尝试在设置中重新启动 SideJITServer。"
         case .unknownResult:
-            return "The operation returned an unknown result."
+            return "操作返回了未知结果。"
 
         case .cacheClearError(let errors):
-            return "An error occurred while clearing the cache: \(errors.joined(separator: "\n"))"
+            return "清除缓存时发生错误：\(errors.joined(separator: "\n"))"
         case .certificateExpired(let appName):
-            return "The signing certificate used to install “\(appName)” has expired. Please re-sign or reinstall the app."
+            return "用于安装“\(appName)”的签名证书已过期。请重新签名或重新安装该应用。"
         case .certificateRevoked(let appName):
-            return "The signing certificate used to install “\(appName)” was revoked on the Apple Developer portal. Please re-sign or reinstall the app."
+            return "用于安装“\(appName)”的签名证书已在 Apple 开发者门户中被吊销。请重新签名或重新安装该应用。"
         case .customCertificateExpired(_, let activeTeam):
-            return "Your active custom/third-party signing certificate (Team: \(activeTeam)) has expired.\n\nIf you did not intend to use a custom certificate, please reset it in Settings -> Advanced -> Certificates."
+            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已过期。\n\n如果你并不打算使用自定义证书，请在“设置 -> 高级 -> 证书”中重置它。"
         case .customCertificateRevoked(_, let activeTeam):
-            return "Your active custom/third-party signing certificate (Team: \(activeTeam)) was revoked on the Developer Portal.\n\nIf you did not intend to use a custom certificate, please reset it in Settings -> Advanced -> Certificates."
+            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已在开发者门户中被吊销。\n\n如果你并不打算使用自定义证书，请在“设置 -> 高级 -> 证书”中重置它。"
         case .forbidden(let reason, _, _):
             return reason
         case .invalidApp(let reason):
-            return "The app is in an invalid format: \(reason)"
+            return "应用格式无效：\(reason)"
         case .invalidPairingFile(let reason):
-            return "The current pairing file is invalid. Reason: \(reason)\n\nPlease make sure to input a valid pairing file! If the issue persists, replace your pairing with iloader or idevice_pair."
+            return "当前配对文件无效。原因：\(reason)\n\n请确保输入有效的配对文件！如果问题仍然存在，请使用 iloader 或 idevice_pair 重新生成配对文件。"
         case .invalidParameters(let msg):
-            return "Invalid parameters: \n\(msg)"
+            return "参数无效：\n\(msg)"
         case .invalidResponse(let reason):
-            return "Invalid server response: \(reason)"
+            return "服务器响应无效：\(reason)"
         case .invalidVPN(let reason):
-            return "VPN Connection Error:\n\(reason)\n\nPlease make sure LocalDevVPN is connected and running properly."
+            return "VPN 连接错误：\n\(reason)\n\n请确保 LocalDevVPN 已连接并正常运行。"
         case .minimuxerNotStarted(let reason):
-            return "Minimuxer has not been started yet: \(reason)\n\nPlease complete pairing or start minimuxer before performing operations."
+            return "Minimuxer 尚未启动：\(reason)\n\n请先完成配对或启动 minimuxer，然后再执行操作。"
         case .missingAppBundle(let reason):
-            return "The app bundle could not be found: \(reason)"
+            return "找不到应用包：\(reason)"
         case .missingAppGroup(let name):
-            return "SideStore's shared app group “\(name)” could not be accessed."
+            return "无法访问 SideStore 的共享 App Group“\(name)”。"
         case .missingInfoPlist(let reason):
-            return "The app's Info.plist could not be found: \(reason)"
+            return "找不到应用的 Info.plist：\(reason)"
         case .missingProvisioningProfile(let reason):
-            return "A provisioning profile for the app could not be found: \(reason)"
+            return "找不到该应用的描述文件：\(reason)"
         case .missingUpdate(let appName):
-            return "No supported update could be found for “\(appName)”."
+            return "未找到“\(appName)”可用的受支持更新。"
         case .noConnection(let reason):
-            return "Network Connection Error:\n\(reason)\n\nPlease connect to Wi-Fi before attempting further operations."
+            return "网络连接错误：\n\(reason)\n\n请先连接 Wi-Fi 再尝试后续操作。"
         case .noDevice(let reason):
-            return "SideStore is unable to reach the device endpoint:\n\(reason)\n\nPlease check your Connection Configuration in Settings."
+            return "SideStore 无法连接设备端点：\n\(reason)\n\n请检查“设置”中的连接配置。"
         case .noVPN(let reason):
-            return "VPN Connection Error:\n\(reason)\n\nPlease make sure LocalDevVPN is connected and running properly."
+            return "VPN 连接错误：\n\(reason)\n\n请确保 LocalDevVPN 已连接并正常运行。"
         case .notReachable(let reason):
-            return reason.isEmpty ? "Device is not reachable at the specified IP or Endpoint." : reason
+            return reason.isEmpty ? "无法通过指定的 IP 或端点访问设备。" : reason
         case .openAppFailed(let name):
-            return "SideStore was denied permission to launch \(name)."
+            return "SideStore 没有启动 \(name) 的权限。"
         case .pairingNotComplete(let reason):
-            return "Pairing Required: \(reason)\n\nWithout a valid pairing file, SideStore operations cannot connect to your device. Please pair your device or import a valid pairing file."
+            return "需要配对：\(reason)\n\n没有有效的配对文件，SideStore 的操作就无法连接到你的设备。请配对设备或导入有效的配对文件。"
         case .pledgeInactive(let appName):
-            return "Your pledge is no longer active. Please renew it to continue using \(appName) normally."
+            return "你的赞助已失效。请续订以继续正常使用 \(appName)。"
         case .SideJITIssue(let error):
-            return "An error occurred while using SideJIT: \(error)"
+            return "使用 SideJIT 时发生错误：\(error)"
         case .unknownUDID(let reason):
-            return "SideStore could not determine this device's UDID: \(reason)\n\nPlease replace your pairing using iloader or idevice_pair."
+            return "SideStore 无法确定此设备的 UDID：\(reason)\n\n请使用 iloader 或 idevice_pair 重新生成配对文件。"
         }
     }
 
@@ -129,11 +129,11 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
     public var recoverySuggestion: String? {
         switch self {
         case .invalidPairingFile:
-            return NSLocalizedString("Import a valid mobiledevicepairing file.", comment: "")
+            return NSLocalizedString("导入有效的 mobiledevicepairing 文件。", comment: "")
         case .invalidVPN, .noVPN:
-            return NSLocalizedString("Make sure LocalDevVPN is connected and running!", comment: "")
+            return NSLocalizedString("请确保 LocalDevVPN 已连接并正在运行！", comment: "")
         case .noConnection:
-            return NSLocalizedString("Connect to a Wi-Fi network, Bridge or a Wired network connection!", comment: "")
+            return NSLocalizedString("请连接到 Wi-Fi 网络、网桥或有线网络连接！", comment: "")
         default:
             return nil
         }

@@ -42,7 +42,7 @@ final class VerifyAppOperation: BasePipelineOperation<InstallAppOperationContext
         }
         try await super.executePreconditionCheck(parentProgress: parentProgress)
         guard let appBundle = self.context.targetAppBundle else {
-            throw OperationError.invalidParameters("VerifyAppOperation: context.appBundle is nil")
+            throw OperationError.invalidParameters("VerifyAppOperation：context.appBundle 为空")
         }
         
         guard !UserDefaults.standard.appVerificationDisabled else {
@@ -79,7 +79,7 @@ final class VerifyAppOperation: BasePipelineOperation<InstallAppOperationContext
         }
         
         guard let ipaURL = context.ipaURL else {
-            throw OperationError.invalidParameters("Missing IPA URL for '\(appBundle.name)' in operation context")
+            throw OperationError.invalidParameters("操作上下文中缺少“\(appBundle.name)”的 IPA URL")
         }
         self.setProgress(30)
                             
@@ -164,7 +164,7 @@ final class VerifyAppOperation: BasePipelineOperation<InstallAppOperationContext
     
     private func verifyPermissions(of appBundle: ALTApplication, @AsyncManaged match appVersion: AppVersion) async throws {
         guard self.permissionsMode != .none else { return }
-        guard let storeApp = await $appVersion.app else { throw OperationError.invalidParameters("verifyPermissions requires storeApp to be non-nil") }
+        guard let storeApp = await $appVersion.app else { throw OperationError.invalidParameters("verifyPermissions 要求 storeApp 不为空") }
         
         // Verify source permissions match first.
         let allPermissions = try await self.verifyPermissions(of: appBundle, match: storeApp)
@@ -185,11 +185,11 @@ final class VerifyAppOperation: BasePipelineOperation<InstallAppOperationContext
             
         case .added:
             guard let installedApp = self.context.installedApp else {
-                throw OperationError.missingAppBundle(reason: "Could not locate installed app for '\(appBundle.name)' to verify added permissions.")
+                throw OperationError.missingAppBundle(reason: "找不到“\(appBundle.name)”的已安装应用，无法验证新增权限。")
             }
             let installedAppURL = installedApp.fileURL
             guard let previousApp = ALTApplication(fileURL: installedAppURL) else {
-                throw OperationError.missingAppBundle(reason: "Could not locate installed bundle for '\(appBundle.name)' at '\(installedAppURL.lastPathComponent)'")
+                throw OperationError.missingAppBundle(reason: "在“\(installedAppURL.lastPathComponent)”处找不到“\(appBundle.name)”的已安装应用包")
             }
             
             var previousEntitlements = Set(previousApp.entitlements.keys.map { ALTEntitlement(rawValue: $0) })

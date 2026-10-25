@@ -58,30 +58,30 @@ final class VerifyCertificateOperation: BasePipelineOperation<InstallAppOperatio
                 debugLog("[VerifyCertificateOperation] Running in verification-only mode (!willResign) for '\(appName)'...")
                 
                 guard let installedApp = self.context.installedApp else {
-                    throw OperationError.invalidParameters("VerifyCertificateOperation: installedApp is missing in context.")
+                    throw OperationError.invalidParameters("VerifyCertificateOperation：上下文中缺少 installedApp。")
                 }
                 guard let lastSigningCert = CertificateManager.shared.getSigningCertificate(for: installedApp) else {
-                    throw OperationError.invalidParameters("Could not locate signing certificate for '\(appName)'.")
+                    throw OperationError.invalidParameters("找不到“\(appName)”的签名证书。")
                 }
                 
                 let result = await validateCertificate(lastSigningCert, portalCertificateSerials: portalCertificateSerials, signingCertificateSerial: signingCertificateSerial)
                 finalStatus = result
                 self.context.targetCertStatus = result
-                try processValidationResult(result, description: "Target bundle binary certificate", appName: appName, team: team)
+                try processValidationResult(result, description: "目标应用包二进制文件证书", appName: appName, team: team)
                 
             } else {
                 // resigning branch
                 debugLog("[VerifyCertificateOperation] Running in signing mode (resigning) for '\(appName)'...")
                 
-                let certType = self.context.overrideSigningCertificate != nil ? "Override" : "Active"
+                let certType = self.context.overrideSigningCertificate != nil ? "覆盖" : "已激活"
                 guard let target = self.context.targetSigningCertificate else {
-                    throw OperationError.invalidParameters("\(certType) certificate is missing.")
+                    throw OperationError.invalidParameters("缺少 \(certType) 证书。")
                 }
                 
                 let result = await validateCertificate(target.x509, portalCertificateSerials: portalCertificateSerials, signingCertificateSerial: signingCertificateSerial)
                 finalStatus = result
                 self.context.targetCertStatus = result
-                try processValidationResult(result, description: "Target signing certificate", appName: appName, team: team)
+                try processValidationResult(result, description: "目标签名证书", appName: appName, team: team)
             }
             
             await self.persistStateIfChanged(bundleID: bundleID, status: finalStatus, initialStatus: initialStatus)
@@ -195,7 +195,7 @@ final class VerifyCertificateOperation: BasePipelineOperation<InstallAppOperatio
             if isCustomCertActive {
                 throw OperationError.customCertificateRevoked(
                     appName: appName,
-                    activeTeam: activeTeamID ?? "Unknown Custom Team"
+                    activeTeam: activeTeamID ?? "未知的自定义团队"
                 )
             }
             throw OperationError.certificateRevoked(appName: appName)
@@ -204,7 +204,7 @@ final class VerifyCertificateOperation: BasePipelineOperation<InstallAppOperatio
             if isCustomCertActive {
                 throw OperationError.customCertificateExpired(
                     appName: appName,
-                    activeTeam: activeTeamID ?? "Unknown Custom Team"
+                    activeTeam: activeTeamID ?? "未知的自定义团队"
                 )
             }
             throw OperationError.certificateExpired(appName: appName)
