@@ -46,7 +46,7 @@ struct HealthCheckView: View {
                                 .multilineTextAlignment(.center)
                         }
                     } else {
-                        ProgressView("正在执行诊断检查...")
+                        ProgressView("正在执行诊断检查……")
                     }
                 }
                 .frame(maxWidth: .infinity)

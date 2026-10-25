@@ -20,7 +20,7 @@ enum ServiceTypeSortOption: String, CaseIterable {
 enum ServiceTypeGroupOption: String, CaseIterable {
     case none = "无"
     case protocolType = "协议（TCP / UDP）"
-    case category = "类别（已识别 / 其他）"
+    case category = "类别（已识别 / 其它）"
     case firstLetter = "首字母"
 }
 
@@ -183,7 +183,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
                 sections.append(ServiceTypeSection(id: "udp_types", title: "UDP 服务（\(udpItems.count)）", items: udpItems))
             }
             if !otherItems.isEmpty {
-                sections.append(ServiceTypeSection(id: "other_types", title: "其他服务（\(otherItems.count)）", items: otherItems))
+                sections.append(ServiceTypeSection(id: "other_types", title: "其它服务（\(otherItems.count)）", items: otherItems))
             }
             return sections
             
@@ -196,7 +196,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
                 sections.append(ServiceTypeSection(id: "recognized_types", title: "已识别的服务（\(recognized.count)）", items: recognized))
             }
             if !unknown.isEmpty {
-                sections.append(ServiceTypeSection(id: "unknown_types", title: "其他 / 原始服务（\(unknown.count)）", items: unknown))
+                sections.append(ServiceTypeSection(id: "unknown_types", title: "其它 / 原始服务（\(unknown.count)）", items: unknown))
             }
             return sections
             
@@ -727,7 +727,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
             lines.append("• 解析：失败（\(error)）")
         } else {
             lines.append("---------------------------------------------------")
-            lines.append("• 解析：解析中（等待网络响应）...")
+            lines.append("• 解析：解析中（等待网络响应）……")
         }
         lines.append("===================================================")
         

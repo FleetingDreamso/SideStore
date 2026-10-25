@@ -249,7 +249,7 @@ struct AppInfoView: View {
                                     Text(showResignedInfoPlist ? "未缓存重签 Info.plist" : "找不到应用包 Info.plist")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
-                                    Text("点按开关以查看\(showResignedInfoPlist ? "应用包" : "重签")Info.plist")
+                                    Text("点按开关以查看\(showResignedInfoPlist ? "应用包" : "重签") Info.plist")
                                         .font(.caption2)
                                         .foregroundColor(.secondary)
                                 }
@@ -681,7 +681,7 @@ struct ExtensionInfoView: View {
                 InfoRow(label: "版本", value: versionStr)
 
                 if let minOS = plist?["MinimumOSVersion"] as? String {
-                    InfoRow(label: "最低 iOS 版本", value: minOS)
+                    InfoRow(label: "最低 iOS", value: minOS)
                 }
                 if let exec = plist?["CFBundleExecutable"] as? String, let extURL = extensionURL {
                     let execURL = extURL.appendingPathComponent(exec)
@@ -815,7 +815,7 @@ struct ExtensionInfoView: View {
                                 Text(showResignedInfoPlist ? "未缓存重签 Info.plist" : "找不到应用包 Info.plist")
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
-                                Text("点按开关以查看\(showResignedInfoPlist ? "应用包" : "重签")Info.plist")
+                                Text("点按开关以查看\(showResignedInfoPlist ? "应用包" : "重签") Info.plist")
                                     .font(.caption2)
                                     .foregroundColor(.secondary)
                             }
@@ -940,7 +940,7 @@ struct BundleInspectorView: View {
                     }
                 }
                 if let minOS = infoPlist?["MinimumOSVersion"] as? String {
-                    InfoRow(label: "最低 iOS 版本", value: minOS)
+                    InfoRow(label: "最低 iOS", value: minOS)
                 }
             }
 

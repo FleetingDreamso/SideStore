@@ -40,7 +40,7 @@ final class ResignAltStoreViewController: UIViewController
             case .revoked:
                 reasonText = NSLocalizedString("用于安装 SideStore 的签名证书已在 Apple 开发者门户中被吊销。", comment: "")
             case .freeAccountLimitRevoked:
-                reasonText = NSLocalizedString("免费开发者账号最多只能有 1 个有效签名证书。由于此设备上找不到该有效证书的私钥，SideStore 将创建新证书。此操作会自动吊销当前有效证书，可能导致其他设备上或通过 Xcode 进行的安装失效。", comment: "")
+                reasonText = NSLocalizedString("免费开发者账号最多只能有 1 个有效签名证书。由于此设备上找不到该有效证书的私钥，SideStore 将创建新证书。此操作会自动吊销当前有效证书，可能导致其它设备上或通过 Xcode 进行的安装失效。", comment: "")
             case .differentAccount:
                 reasonText = NSLocalizedString("登录的 Apple ID 账号已更改。", comment: "")
             case .differentTeam:
@@ -48,7 +48,7 @@ final class ResignAltStoreViewController: UIViewController
             case .privateKeyLost:
                 reasonText = NSLocalizedString("此设备的钥匙串中缺少当前有效签名证书的私钥。", comment: "")
             case .externalSigner:
-                reasonText = NSLocalizedString("SideStore 是由其他签名工具（如 Xcode 或 AltStore）安装的。", comment: "")
+                reasonText = NSLocalizedString("SideStore 是由其它签名工具（如 Xcode 或 AltStore）安装的。", comment: "")
             case .missingProfile:
                 reasonText = NSLocalizedString("SideStore 的描述文件缺失或无效。", comment: "")
             case .missingCertificate:

@@ -471,7 +471,7 @@ public final class StorageExplorerViewModel: ObservableObject {
         let destURL = conflict.destinationDirectory.appendingPathComponent(trimmed)
         if FileManager.default.fileExists(atPath: destURL.path) {
             // Name still conflicts!
-            self.activeAlert = .error("此文件夹中已存在名为“\(trimmed)”的文件。请选择其他名称。")
+            self.activeAlert = .error("此文件夹中已存在名为“\(trimmed)”的文件。请选择其它名称。")
             return
         }
         

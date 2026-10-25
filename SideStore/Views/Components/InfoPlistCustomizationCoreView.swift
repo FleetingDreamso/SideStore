@@ -746,7 +746,7 @@ public struct InfoPlistCustomizationCoreView: View {
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 14))
                                 .foregroundColor(.secondary)
-                            TextField("筛选键...", text: $rawSearchQuery)
+                            TextField("筛选键……", text: $rawSearchQuery)
                                 .font(.system(size: 14))
                                 .submitLabel(.done)
                                 .onSubmit { hideKeyboard() }

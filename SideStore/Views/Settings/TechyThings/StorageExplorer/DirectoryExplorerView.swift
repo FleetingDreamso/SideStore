@@ -52,7 +52,7 @@ public struct DirectoryExplorerView: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .scaleEffect(1.2)
-                    Text("正在加载目录内容...")
+                    Text("正在加载目录内容……")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -173,7 +173,7 @@ public struct DirectoryExplorerView: View {
             let input = vm.renameInput
             return Alert(
                 title: Text(count == 1 ? "重命名项目" : "批量重命名 \(count) 项"),
-                message: Text(count == 1 ? "请输入新名称：" : "请输入基础名称（项目将被重命名为 Name_1、Name_2...）："),
+                message: Text(count == 1 ? "请输入新名称：" : "请输入基础名称（项目将被重命名为 Name_1、Name_2……）："),
                 primaryButton: .default(Text("重命名")) {
                     vm.bulkRenameSelected(to: input)
                 },

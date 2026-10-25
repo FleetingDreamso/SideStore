@@ -126,7 +126,7 @@ class AppDetailCollectionViewController: UICollectionViewController
                 configuration.secondaryText = NSLocalizedString("权限是授予应用访问特定系统服务的附加许可，其中可能包含敏感信息。", comment: "")
                 
             case .unknownEntitlements:
-                configuration.text = NSLocalizedString("其他权限", comment: "")
+                configuration.text = NSLocalizedString("其它权限", comment: "")
                 
                 let action = UIAction(image: UIImage(systemName: "questionmark.circle")) { _ in
                     self?.showUnknownEntitlementsAlert()
@@ -275,7 +275,7 @@ private extension AppDetailCollectionViewController
     
     func showUnknownEntitlementsAlert()
     {
-        let alertController = UIAlertController(title: NSLocalizedString("其他权限", comment: ""), message: NSLocalizedString("SideStore 没有关于这些权限的详细信息。", comment: ""), preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("其它权限", comment: ""), message: NSLocalizedString("SideStore 没有关于这些权限的详细信息。", comment: ""), preferredStyle: .alert)
         alertController.addAction(.ok)
         self.present(alertController, animated: true)
     }

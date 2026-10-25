@@ -184,7 +184,7 @@ struct AppIDDetailView: View {
         case .gameCenter: return "Game Center"
         case .inAppPurchase: return "App 内购买"
         case .pushNotifications: return "推送通知"
-        case .interAppAudio: return "App 间音频"
+        case .interAppAudio: return "应用间音频"
         case .associatedDomains: return "关联域"
         case .dataProtection: return "数据保护"
         case .siri: return "Siri"

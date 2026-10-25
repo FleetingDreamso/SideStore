@@ -30,7 +30,7 @@ public enum StoreCategory: String, CaseIterable
         case .photoAndVideo: NSLocalizedString("摄影与录像", comment: "")
         case .social: NSLocalizedString("社交", comment: "")
         case .utilities: NSLocalizedString("工具", comment: "")
-        case .other: NSLocalizedString("其他", comment: "")
+        case .other: NSLocalizedString("其它", comment: "")
         }
     }
     

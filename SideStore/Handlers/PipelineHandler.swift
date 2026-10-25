@@ -149,7 +149,7 @@ final class PipelineHandler: PipelineExecutionHandler,
             presenter.present(alertController, animated: true) {
                 if presenter.presentedViewController == nil && !alertController.isViewLoaded {
                     let errMsg = "RemoveAppExtensionsOperation：无法显示对话框，视图上下文不可用。" +
-                                 "\n操作开始后，你是否切换到了其他界面或退到了后台？"
+                                 "\n操作开始后，你是否切换到了其它界面或退到了后台？"
                     continuation.resume(throwing: OperationError.invalidParameters(errMsg))
                 }
             }

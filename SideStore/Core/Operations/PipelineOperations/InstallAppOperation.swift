@@ -98,7 +98,7 @@ final class InstallAppOperation: BasePipelineOperation<InstallAppOperationContex
     {
         let (installedApp, isDifferentSideStore, bundleID, isSelfReinstall, isSideBackup) = try await backgroundContext.perform {
             let utis = resignedAppBundle.infoPlist[Bundle.Info.exportedUTIs] as? [[String: Any]]
-            let isSideBackup = utis?.first?["UTTypeDescription"] as? String == "SideStore 备份应用"
+            let isSideBackup = utis?.first?["UTTypeDescription"] as? String == "SideStore Backup App"
             
             if isSideBackup {
                 let installedApp = try self.context.installedApp.flatMap { app in

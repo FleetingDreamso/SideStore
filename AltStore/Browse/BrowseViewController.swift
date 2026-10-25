@@ -325,7 +325,7 @@ private extension BrowseViewController
             self.placeholderView.textLabel.text = NSLocalizedString("无应用", comment: "")
             self.placeholderView.textLabel.isHidden = false
             
-            self.placeholderView.detailTextLabel.text = NSLocalizedString("请确认拼写正确，或尝试搜索其他应用。", comment: "")
+            self.placeholderView.detailTextLabel.text = NSLocalizedString("请确认拼写正确，或尝试搜索其它应用。", comment: "")
             self.placeholderView.detailTextLabel.isHidden = false
             
             self.placeholderView.activityIndicatorView.stopAnimating()

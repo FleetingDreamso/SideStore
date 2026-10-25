@@ -19,7 +19,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     var showsDoItLater: Bool = false
     
     private lazy var navigationController: UINavigationController = {
-        let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
+        let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "navigationController") as! UINavigationController
         navigationController.isModalInPresentation = true
         return navigationController
@@ -55,7 +55,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         return try await withCheckedThrowingContinuation { continuation in
             self.credentialsContinuation = continuation
             
-            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
+            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
             let authVC = storyboard.instantiateViewController(withIdentifier: "authenticationViewController") as! AuthenticationViewController
             self.presentedAuthVC = authVC
             
@@ -212,17 +212,17 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 """
 
             let alert = UIAlertController(
-                title: NSLocalizedString("需要修复账户", comment: ""),
+                title: NSLocalizedString("需要修复账号", comment: ""),
                 message: displayMessage,
                 preferredStyle: .alert
             )
 
-            alert.addAction(UIAlertAction(title: NSLocalizedString("打开开发者账户", comment: ""), style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("打开开发者账号", comment: ""), style: .default) { [weak self] _ in
                 self?.activePresenter?.openWebURL(url)
                 continuation.resume(returning: .cancel)
             })
 
-            alert.addAction(UIAlertAction(title: NSLocalizedString("打开 Apple 账户", comment: ""), style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("打开 Apple 账号", comment: ""), style: .default) { [weak self] _ in
                 self?.activePresenter?.openWebURL(appleAccountURL)
                 continuation.resume(returning: .cancel)
             })
@@ -272,7 +272,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             alertController.addAction(submitAction)
 
             if isTrustedDevice {
-                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("其他选项…", comment: ""), style: .default) { [weak self] _ in
+                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("其它选项…", comment: ""), style: .default) { [weak self] _ in
                     if let observer = observer {
                         NotificationCenter.default.removeObserver(observer)
                     }
@@ -300,7 +300,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 }
                 alertController.addAction(resendAction)
 
-                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("其他选项…", comment: ""), style: .default) { [weak self] _ in
+                let otherMethodsAction = UIAlertAction(title: NSLocalizedString("其它选项…", comment: ""), style: .default) { [weak self] _ in
                     if let observer = observer {
                         NotificationCenter.default.removeObserver(observer)
                     }
@@ -313,7 +313,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
                 alertController.addAction(otherMethodsAction)
 
                 if phoneNumbers.count > 1 {
-                    let changeNumberAction = UIAlertAction(title: NSLocalizedString("选择其他号码", comment: ""), style: .default) { [weak self] _ in
+                    let changeNumberAction = UIAlertAction(title: NSLocalizedString("选择其它号码", comment: ""), style: .default) { [weak self] _ in
                         if let observer = observer {
                             NotificationCenter.default.removeObserver(observer)
                         }
@@ -521,7 +521,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         }
 
         return try await withCheckedThrowingContinuation { continuation in
-            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
+            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
             let selectTeamViewController = storyboard.instantiateViewController(withIdentifier: "selectTeamViewController") as! SelectTeamViewController
             selectTeamViewController.teams = teams
             selectTeamViewController.completionHandler = { result in
@@ -535,7 +535,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func resolvePostAuth() async {
         await withCheckedContinuation { continuation in
             var hasResumed = false
-            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
+            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
             let instructionsViewController = storyboard.instantiateViewController(withIdentifier: "instructionsViewController") as! InstructionsViewController
             instructionsViewController.showsBottomButton = true
             instructionsViewController.completionHandler = {
@@ -701,7 +701,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
 
         return try await withCheckedThrowingContinuation { continuation in
             var hasResumed = false
-            let storyboard = UIStoryboard(name: "身份验证", bundle: nil)
+            let storyboard = UIStoryboard(name: "Authentication", bundle: nil)
             let resignViewController = storyboard.instantiateViewController(withIdentifier: "resignAltStoreViewController") as! ResignAltStoreViewController
             resignViewController.context = context
             resignViewController.mismatchReason = mismatchReason
@@ -758,7 +758,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         }
         
         return await withCheckedContinuation { continuation in
-            let alert = UIAlertController(title: "警告：Anisette 服务器版本过旧", message: "检测到你正在使用较旧版本的 Anisette 服务器。使用该服务器更容易导致账号被锁定以及其他问题。确定要继续吗？", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "警告：Anisette 服务器版本过旧", message: "检测到你正在使用较旧版本的 Anisette 服务器。使用该服务器更容易导致账号被锁定以及其它问题。确定要继续吗？", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "继续", style: UIAlertAction.Style.destructive, handler: { action in
                 continuation.resume(returning: true)
             }))

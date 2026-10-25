@@ -91,7 +91,7 @@ final class PairingViewController: NSObject {
         alert.addAction(UIAlertAction(title: String(format: NSLocalizedString("切换到 %@", comment: ""), providedProtocol.rawValue), style: .default) { _ in
             onSwitch()
         })
-        alert.addAction(UIAlertAction(title: NSLocalizedString("选择其他文件", comment: ""), style: .default) { _ in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("选择其它文件", comment: ""), style: .default) { _ in
             onChooseOther()
         })
         alert.addAction(UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel) { _ in

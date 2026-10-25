@@ -370,7 +370,7 @@ struct IPAContentsView: View {
                 VStack(spacing: 16) {
                     ProgressView()
                         .scaleEffect(1.5)
-                    Text("正在解压 \(ipaURL.lastPathComponent)...")
+                    Text("正在解压 \(ipaURL.lastPathComponent)……")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -467,7 +467,7 @@ struct FullAppBundleView: View {
                 InfoRow(label: "Bundle ID", value: bundleID)
                 InfoRow(label: "版本", value: versionStr)
                 if let minOS = plist?["MinimumOSVersion"] as? String {
-                    InfoRow(label: "最低 iOS 版本", value: minOS)
+                    InfoRow(label: "最低 iOS", value: minOS)
                 }
                 if let exec = plist?["CFBundleExecutable"] as? String {
                     let execURL = bundleURL.appendingPathComponent(exec)

@@ -241,7 +241,7 @@ private struct PairingFileStep: View {
                         HStack(spacing: 8) {
                             Image(systemName: "square.and.arrow.down")
                             Text(hasPairingFile
-                                ? NSLocalizedString("选择其他文件", comment: "")
+                                ? NSLocalizedString("选择其它文件", comment: "")
                                 : NSLocalizedString("选择配对文件", comment: ""))
                         }
                         .font(.headline)

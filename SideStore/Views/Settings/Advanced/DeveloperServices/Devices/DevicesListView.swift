@@ -242,7 +242,7 @@ struct DevicesListView: View {
                                         selectedDeviceType = .iphone
                                     }
                                     #endif
-                                    viewModel.showToastMessage("已获取设备 UDID：\(foundUDID.prefix(8))...")
+                                    viewModel.showToastMessage("已获取设备 UDID：\(foundUDID.prefix(8))……")
                                 } else {
                                     viewModel.showToastMessage("当前设备 UDID 不可用")
                                 }

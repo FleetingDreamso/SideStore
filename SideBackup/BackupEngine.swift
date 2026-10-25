@@ -239,7 +239,7 @@ final class BackupEngine: NSObject, Sendable {
     
     private func performBackupCoordinated(temporaryAppBackupDirectory: URL, appBackupDirectory: URL, altstoreAppGroup: String, skipNonCopyable: Bool, progressHandler: (@Sendable (Int64, Int64) -> Void)?, logger: ConsoleLog) throws {
         do {
-            let mainGroupBackupDirectory = temporaryAppBackupDirectory.appendingPathComponent("应用")
+            let mainGroupBackupDirectory = temporaryAppBackupDirectory.appendingPathComponent("App")
             try FileManager.default.createDirectory(at: mainGroupBackupDirectory, withIntermediateDirectories: true, attributes: nil)
             
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -297,7 +297,7 @@ final class BackupEngine: NSObject, Sendable {
     }
     
     private func restoreBackupCoordinated(appBackupDirectory: URL, altstoreAppGroup: String, skipNonCopyable: Bool, progressHandler: (@Sendable (Int64, Int64) -> Void)?, logger: ConsoleLog) throws {
-        let mainGroupBackupDirectory = appBackupDirectory.appendingPathComponent("应用")
+        let mainGroupBackupDirectory = appBackupDirectory.appendingPathComponent("App")
         
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let backupDocumentsDirectory = mainGroupBackupDirectory.appendingPathComponent(documentsDirectory.lastPathComponent)

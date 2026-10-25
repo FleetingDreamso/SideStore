@@ -68,7 +68,7 @@ class ImportExport {
               let activeCert = CertificateManager.shared.activeCertificate,
               let identifier = AnisetteConfigManager.shared.anisetteIdentifier,
               let adiPB = AnisetteConfigManager.shared.anisetteAdiBlob else {
-            throw OperationError.invalidParameters("缺少账户或签名数据。")
+            throw OperationError.invalidParameters("缺少账号或签名数据。")
         }
         
         if let applePass = AuthManager.shared.password, password == applePass {

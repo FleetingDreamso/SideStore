@@ -168,7 +168,7 @@ final class ResignAppOperation: BasePipelineOperation<InstallAppOperationContext
         
         // Add app-specific exported UTI so we can check later if this app (extension) is installed or not.
         let installedAppUTI = ["UTTypeConformsTo": [],
-                               "UTTypeDescription": "AltStore 已安装应用",
+                               "UTTypeDescription": "AltStore Installed App",
                                "UTTypeIconFiles": [],
                                "UTTypeIdentifier": InstalledApp.installedAppUTI(forBundleIdentifier: profile.bundleIdentifier),
                                "UTTypeTagSpecification": [:]] as [String : Any]

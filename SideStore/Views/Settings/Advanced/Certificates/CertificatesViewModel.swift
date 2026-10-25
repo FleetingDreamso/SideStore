@@ -518,7 +518,7 @@ class CertificatesViewModel: ObservableObject {
             return grouped.keys.sorted().map { GroupedCertificates(name: $0, certificates: grouped[$0] ?? []) }
         case .type:
             let grouped = Dictionary(grouping: sorted) { cert -> String in
-                cert.certificateType ?? getBriefInfo(for: cert.data)?.type ?? "其他"
+                cert.certificateType ?? getBriefInfo(for: cert.data)?.type ?? "其它"
             }
             return grouped.keys.sorted().map { GroupedCertificates(name: $0, certificates: grouped[$0] ?? []) }
         case .creationDate:

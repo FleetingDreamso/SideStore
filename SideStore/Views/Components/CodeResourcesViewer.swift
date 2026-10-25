@@ -223,7 +223,7 @@ struct CodeResourcesViewer: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ProgressView("正在读取 CodeResources...")
+                ProgressView("正在读取 CodeResources……")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }

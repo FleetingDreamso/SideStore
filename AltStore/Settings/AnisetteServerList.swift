@@ -273,11 +273,11 @@ struct AnisetteServersView: View {
                             ProgressView()
                                 .scaleEffect(1.2)
 
-                            Text("正在获取 Anisette 服务器...")
+                            Text("正在获取 Anisette 服务器……")
                                 .font(.headline)
                                 .foregroundColor(.primary)
 
-                            Text("正在访问目录源“\(viewModel.source)”...")
+                            Text("正在访问目录源“\(viewModel.source)”……")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -311,7 +311,7 @@ struct AnisetteServersView: View {
                                 if viewModel.isLoading {
                                     HStack(spacing: 8) {
                                         ProgressView()
-                                        Text("正在重试...")
+                                        Text("正在重试……")
                                     }
                                     .font(.subheadline.weight(.medium))
                                 } else {

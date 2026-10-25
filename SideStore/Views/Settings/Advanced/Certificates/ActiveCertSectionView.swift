@@ -60,7 +60,7 @@ struct ActiveCertSectionView: View {
                                 Image(systemName: "exclamationmark.triangle.fill")
                                     .foregroundColor(.orange)
                                     .font(.footnote)
-                                Text("自定义第三方证书（其他团队）")
+                                Text("自定义第三方证书（其它团队）")
                                     .font(.caption)
                                     .foregroundColor(.orange)
                             }

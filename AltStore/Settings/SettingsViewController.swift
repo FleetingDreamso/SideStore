@@ -503,7 +503,7 @@ private extension SettingsViewController
         case .signIn:
             if isHeader
             {
-                settingsHeaderFooterView.primaryLabel.text = NSLocalizedString("账户", comment: "")
+                settingsHeaderFooterView.primaryLabel.text = NSLocalizedString("账号", comment: "")
             }
             else
             {
@@ -521,7 +521,7 @@ private extension SettingsViewController
             }
 
         case .account:
-            settingsHeaderFooterView.primaryLabel.text = NSLocalizedString("账户", comment: "")
+            settingsHeaderFooterView.primaryLabel.text = NSLocalizedString("账号", comment: "")
             
             settingsHeaderFooterView.button.setTitle(NSLocalizedString("退出登录", comment: ""), for: .normal)
             settingsHeaderFooterView.button.addTarget(self, action: #selector(SettingsViewController.signOut(_:)), for: .primaryActionTriggered)
@@ -544,7 +544,7 @@ private extension SettingsViewController
             }
             else
             {
-                settingsHeaderFooterView.secondaryLabel.text = NSLocalizedString("通过选择其他应用图标来个性化你的 SideStore 体验。", comment: "")
+                settingsHeaderFooterView.secondaryLabel.text = NSLocalizedString("通过选择其它应用图标来个性化你的 SideStore 体验。", comment: "")
             }
             
             
@@ -738,7 +738,7 @@ private extension SettingsViewController
                     guard UserDefaults.standard.recreateDatabaseOnNextStart else {
                         return
                     }
-                    let toast = ToastView(text: "数据库已安排在下次启动时删除", detailText: "应用将在 \(time) 秒后关闭...")
+                    let toast = ToastView(text: "数据库已安排在下次启动时删除", detailText: "应用将在 \(time) 秒后关闭……")
                     toast.tintColor = .altPrimary
                     toast.preferredDuration = 1
                     toast.show(in: self)

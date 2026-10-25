@@ -87,7 +87,7 @@ class FeaturedViewController: UICollectionViewController
         self.collectionView.directionalLayoutMargins.leading = 20
         self.collectionView.directionalLayoutMargins.trailing = 20
         
-        let storyboard = UIStoryboard(name: "主要", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.searchBrowseViewController = storyboard.instantiateViewController(identifier: "browseViewController") { coder in
             let browseViewController = BrowseViewController(coder: coder)
             return browseViewController

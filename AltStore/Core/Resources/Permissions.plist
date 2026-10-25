@@ -42,7 +42,7 @@
 			<key>name</key>
 			<string>App Clips - 关联标识符</string>
 			<key>description</key>
-			<string>允许应用与其他应用配合使用 App Clips。</string>
+			<string>允许应用与其它应用配合使用 App Clips。</string>
 			<key>key</key>
 			<string>com.apple.developer.associated-appclip-app-identifiers</string>
 			<key>symbol</key>
@@ -86,7 +86,7 @@
 			<key>name</key>
 			<string>CarPlay 通信</string>
 			<key>description</key>
-			<string>允许应用通过 CarPlay 拨打和接听电话、收发信息及进行其他通信。</string>
+			<string>允许应用通过 CarPlay 拨打和接听电话、收发信息及进行其它通信。</string>
 			<key>key</key>
 			<string>com.apple.developer.carplay-communication</string>
 			<key>symbol</key>
@@ -581,7 +581,7 @@
 			<key>name</key>
 			<string>App 组</string>
 			<key>description</key>
-			<string>允许应用与同一 App Group 中的其他应用和应用扩展共享文件。</string>
+			<string>允许应用与同一 App Group 中的其它应用和应用扩展共享文件。</string>
 			<key>key</key>
 			<string>com.apple.security.application-groups</string>
 			<key>symbol</key>
