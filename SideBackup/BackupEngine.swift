@@ -27,28 +27,28 @@ struct BackupErrorLocalizer {
     static func description(for context: BackupError.Context) -> String {
         switch context {
         case .createBackup:
-            return NSLocalizedString("Unable to create backup directory.", comment: "")
+            return NSLocalizedString("无法创建备份目录。", comment: "")
         case .createGroupBackup:
-            return NSLocalizedString("Unable to create app group backup directory.", comment: "")
+            return NSLocalizedString("无法创建 App Group 备份目录。", comment: "")
         case .accessBackup:
-            return NSLocalizedString("Unable to access backup.", comment: "")
+            return NSLocalizedString("无法访问备份。", comment: "")
         case .readGroupBackup:
-            return NSLocalizedString("Unable to read app group backup.", comment: "")
+            return NSLocalizedString("无法读取 App Group 备份。", comment: "")
         }
     }
     
     static func failureReason(for code: BackupError.Code) -> String {
         switch code {
         case .invalidBundleID:
-            return NSLocalizedString("The bundle identifier is invalid.", comment: "")
+            return NSLocalizedString("Bundle ID 无效。", comment: "")
         case .appGroupNotFound(let appGroup):
             if let appGroup = appGroup {
-                return String(format: NSLocalizedString("The app group “%@” could not be found.", comment: ""), appGroup)
+                return String(format: NSLocalizedString("找不到 App Group“%@”。", comment: ""), appGroup)
             } else {
-                return NSLocalizedString("The AltStore app group could not be found.", comment: "")
+                return NSLocalizedString("找不到 AltStore 的 App Group。", comment: "")
             }
         case .randomError:
-            return NSLocalizedString("A random error occurred.", comment: "")
+            return NSLocalizedString("发生了一个随机错误。", comment: "")
         }
     }
 }
@@ -114,7 +114,7 @@ struct BackupError: ALTLocalizedError {
     }
     
     var description: String {
-        return "\(errorTitle ?? "Unknown Error"): \(failureReason ?? "No reason available")"
+        return "\(errorTitle ?? "未知错误")：\(failureReason ?? "没有可用原因")"
     }
 
     init(_ code: Code, context: Context, file: String = #file, line: Int = #line) {
@@ -122,7 +122,7 @@ struct BackupError: ALTLocalizedError {
         self.failure = BackupErrorLocalizer.description(for: context)
         self.sourceFile = file
         self.sourceFileLine = line
-        self.errorTitle = NSLocalizedString("Backup Error", comment: "")
+        self.errorTitle = NSLocalizedString("备份错误", comment: "")
         self.errorFailure = self.failure
     }
 }
@@ -239,7 +239,7 @@ final class BackupEngine: NSObject, Sendable {
     
     private func performBackupCoordinated(temporaryAppBackupDirectory: URL, appBackupDirectory: URL, altstoreAppGroup: String, skipNonCopyable: Bool, progressHandler: (@Sendable (Int64, Int64) -> Void)?, logger: ConsoleLog) throws {
         do {
-            let mainGroupBackupDirectory = temporaryAppBackupDirectory.appendingPathComponent("App")
+            let mainGroupBackupDirectory = temporaryAppBackupDirectory.appendingPathComponent("应用")
             try FileManager.default.createDirectory(at: mainGroupBackupDirectory, withIntermediateDirectories: true, attributes: nil)
             
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -297,7 +297,7 @@ final class BackupEngine: NSObject, Sendable {
     }
     
     private func restoreBackupCoordinated(appBackupDirectory: URL, altstoreAppGroup: String, skipNonCopyable: Bool, progressHandler: (@Sendable (Int64, Int64) -> Void)?, logger: ConsoleLog) throws {
-        let mainGroupBackupDirectory = appBackupDirectory.appendingPathComponent("App")
+        let mainGroupBackupDirectory = appBackupDirectory.appendingPathComponent("应用")
         
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let backupDocumentsDirectory = mainGroupBackupDirectory.appendingPathComponent(documentsDirectory.lastPathComponent)
