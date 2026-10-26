@@ -3,6 +3,3 @@
 [submodule "Dependencies/SideSign"]
 	path = Dependencies/SideSign
 	url = git@github.com:FleetingDreamso/SideSign
-[submodule "Dependencies/minimuxer"]
-	path = Dependencies/minimuxer
-	url = git@github.com:FleetingDreamso/minimuxer
