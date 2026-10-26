@@ -62,7 +62,7 @@ struct DevicesListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "开发者门户上没有已注册的设备。" : "未找到匹配的设备。")
+                        Text(searchText.isEmpty ? "开发者后台中没有已注册的设备。" : "未找到匹配的设备。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -301,7 +301,7 @@ struct DevicesListView: View {
                         InfoRow(label: "类型", value: device.type.displayName)
                         InfoRow(label: "状态", value: device.status == "d" ? "已禁用" : "已激活", valueColor: device.status == "d" ? .red : .green)
                         if let devID = device.deviceID, !devID.isEmpty {
-                            InfoRow(label: "门户 ID", value: devID)
+                            InfoRow(label: "开发者后台 ID", value: devID)
                         }
                     }
 
@@ -356,7 +356,7 @@ struct DevicesListView: View {
                 .alert(isPresented: $showSheetDisableAlert) {
                     Alert(
                         title: Text("停用设备？"),
-                        message: Text("确定要在 Apple 开发者门户上停用“\(device.name)”吗？已停用的设备将不会包含在新生成的描述文件中。"),
+                        message: Text("确定要在 Apple 开发者后台中停用“\(device.name)”吗？已停用的设备将不会包含在新生成的描述文件中。"),
                         primaryButton: .default(Text("停用")) {
                             Task {
                                 let success = await viewModel.disableDevice(device, presentingViewController: presentingViewController)
@@ -371,7 +371,7 @@ struct DevicesListView: View {
                 .alert(isPresented: $showSheetDeleteAlert) {
                     Alert(
                         title: Text("删除设备？"),
-                        message: Text("确定要从 Apple 开发者门户删除“\(device.name)”（\(device.identifier)）吗？"),
+                        message: Text("确定要从 Apple 开发者后台删除“\(device.name)”（\(device.identifier)）吗？"),
                         primaryButton: .destructive(Text("删除")) {
                             Task {
                                 let success = await viewModel.deleteDevice(device, presentingViewController: presentingViewController)
@@ -390,7 +390,7 @@ struct DevicesListView: View {
             case .disable(let device):
                 return Alert(
                     title: Text("停用设备？"),
-                    message: Text("确定要在 Apple 开发者门户上停用“\(device.name)”吗？已停用的设备将不会包含在新生成的描述文件中。"),
+                    message: Text("确定要在 Apple 开发者后台中停用“\(device.name)”吗？已停用的设备将不会包含在新生成的描述文件中。"),
                     primaryButton: .default(Text("停用")) {
                         Task {
                             _ = await viewModel.disableDevice(device, presentingViewController: presentingViewController)
@@ -401,7 +401,7 @@ struct DevicesListView: View {
             case .delete(let device):
                 return Alert(
                     title: Text("删除设备？"),
-                    message: Text("确定要从 Apple 开发者门户删除“\(device.name)”（\(device.identifier)）吗？"),
+                    message: Text("确定要从 Apple 开发者后台删除“\(device.name)”（\(device.identifier)）吗？"),
                     primaryButton: .destructive(Text("删除")) {
                         Task {
                             _ = await viewModel.deleteDevice(device, presentingViewController: presentingViewController)

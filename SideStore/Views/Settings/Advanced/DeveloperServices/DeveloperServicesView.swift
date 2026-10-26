@@ -49,7 +49,7 @@ struct DeveloperServicesView: View {
                     }
                 }
 
-                Section(header: Text("开发者门户服务")) {
+                Section(header: Text("开发者服务")) {
                     NavigationLink(destination: AppIDsListView(viewModel: viewModel, presentingViewController: presentingViewController)) {
                         HStack(spacing: 14) {
                             Image(systemName: "app.badge.checkmark")
@@ -78,7 +78,7 @@ struct DeveloperServicesView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("描述文件")
                                     .font(.body)
-                                Text("门户上有 \(viewModel.profiles.count) 个有效")
+                                Text("后台有 \(viewModel.profiles.count) 个有效")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -96,7 +96,7 @@ struct DeveloperServicesView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("证书")
                                     .font(.body)
-                                Text("门户上已注册 \(viewModel.certificates.count) 个")
+                                Text("后台已注册 \(viewModel.certificates.count) 个")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -150,7 +150,7 @@ struct DeveloperServicesView: View {
             if viewModel.isLoading && viewModel.appIDs.isEmpty && viewModel.profiles.isEmpty {
                 Color.black.opacity(0.15)
                     .edgesIgnoringSafeArea(.all)
-                ProgressView("正在连接开发者门户……")
+                ProgressView("正在连接开发者后台……")
                     .padding()
                     #if !os(tvOS)
                     .background(Color(UIColor.secondarySystemGroupedBackground))
@@ -161,7 +161,7 @@ struct DeveloperServicesView: View {
                     .shadow(radius: 6)
             }
         }
-        .navigationTitle("开发者门户")
+        .navigationTitle("开发者后台")
         .onAppear {
             if viewModel.appIDs.isEmpty && viewModel.profiles.isEmpty {
                 Task {
@@ -174,7 +174,7 @@ struct DeveloperServicesView: View {
         }
         .alert(isPresented: $viewModel.showErrorAlert) {
             Alert(
-                title: Text("开发者门户错误"),
+                title: Text("开发者后台错误"),
                 message: Text(viewModel.errorMessage ?? "发生了未知错误。"),
                 dismissButton: .default(Text("好"))
             )

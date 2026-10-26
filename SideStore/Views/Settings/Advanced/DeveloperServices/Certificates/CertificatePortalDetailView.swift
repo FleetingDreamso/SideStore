@@ -71,7 +71,7 @@ struct CertificatePortalDetailView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "trash")
-                        Text("在门户上吊销证书")
+                        Text("在开发者后台中吊销证书")
                             .fontWeight(.semibold)
                         Spacer()
                     }
@@ -90,7 +90,7 @@ struct CertificatePortalDetailView: View {
         .alert(isPresented: $showRevokeAlert) {
             Alert(
                 title: Text("吊销证书？"),
-                message: Text("确定要在 Apple 开发者门户上吊销“\(certificate.name)”吗？此操作无法撤销。"),
+                message: Text("确定要在 Apple 开发者后台中吊销“\(certificate.name)”吗？此操作无法撤销。"),
                 primaryButton: .destructive(Text("吊销")) {
                     Task {
                         let success = await viewModel.revokeCertificate(certificate, presentingViewController: presentingViewController)

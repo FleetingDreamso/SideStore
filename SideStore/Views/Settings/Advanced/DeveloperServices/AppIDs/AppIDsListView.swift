@@ -44,7 +44,7 @@ struct AppIDsListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "开发者门户上没有已注册的 App ID。" : "未找到匹配的 App ID。")
+                        Text(searchText.isEmpty ? "开发者后台中没有已注册的 App ID。" : "未找到匹配的 App ID。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }

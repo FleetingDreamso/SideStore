@@ -33,7 +33,7 @@ struct ProfilesListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("描述文件（\(viewModel.profiles.count)）"), footer: Text("从开发者门户删除描述文件后，Apple 会签发一份全新的描述文件，其中包含更新后的证书和新生成的 UUID。")) {
+            Section(header: Text("描述文件（\(viewModel.profiles.count)）"), footer: Text("从开发者后台删除描述文件后，Apple 会签发一份全新的描述文件，其中包含更新后的证书和新生成的 UUID。")) {
                 if filteredProfiles.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -43,7 +43,7 @@ struct ProfilesListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "开发者门户上没有描述文件。" : "未找到匹配的描述文件。")
+                        Text(searchText.isEmpty ? "开发者后台中没有描述文件。" : "未找到匹配的描述文件。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -82,7 +82,7 @@ struct ProfilesListView: View {
                         HStack {
                             Spacer()
                             Image(systemName: "trash")
-                            Text("删除门户上的所有描述文件")
+                            Text("删除开发者后台中的所有描述文件")
                                 .fontWeight(.semibold)
                             Spacer()
                         }
@@ -115,7 +115,7 @@ struct ProfilesListView: View {
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
                 title: Text("删除描述文件？"),
-                message: Text("确定要从 Apple 开发者门户删除“\(profileToDelete?.name ?? "此描述文件")”吗？"),
+                message: Text("确定要从 Apple 开发者后台删除“\(profileToDelete?.name ?? "此描述文件")”吗？"),
                 primaryButton: .destructive(Text("删除")) {
                     if let target = profileToDelete {
                         Task {
@@ -134,7 +134,7 @@ struct ProfilesListView: View {
             }
             SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("这将在 Apple 开发者门户上永久删除团队“\(viewModel.team?.name ?? "")”的所有 \(viewModel.profiles.count) 个描述文件。SideStore 将在下次安装或刷新应用时自动生成新的描述文件。")
+            Text("这将在 Apple 开发者后台中永久删除团队“\(viewModel.team?.name ?? "")”的所有 \(viewModel.profiles.count) 个描述文件。SideStore 将在下次安装或刷新应用时自动生成新的描述文件。")
         }
         .developerServicesToast(viewModel: viewModel)
     }

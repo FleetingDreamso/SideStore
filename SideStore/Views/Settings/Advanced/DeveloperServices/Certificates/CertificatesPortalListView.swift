@@ -31,7 +31,7 @@ struct CertificatesPortalListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("证书（\(viewModel.certificates.count)）"), footer: Text("已在你的 Apple 开发者团队中注册的证书。吊销会使该证书在 Apple 门户上失效。")) {
+            Section(header: Text("证书（\(viewModel.certificates.count)）"), footer: Text("已在你的 Apple 开发者团队中注册的证书。吊销会使该证书在 Apple 开发者后台中失效。")) {
                 if filteredCertificates.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -41,7 +41,7 @@ struct CertificatesPortalListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "开发者门户上没有证书。" : "未找到匹配的证书。")
+                        Text(searchText.isEmpty ? "开发者后台中没有证书。" : "未找到匹配的证书。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -85,7 +85,7 @@ struct CertificatesPortalListView: View {
         .alert(isPresented: $showRevokeConfirmation) {
             Alert(
                 title: Text("吊销证书？"),
-                message: Text("确定要在 Apple 开发者门户上吊销“\(certificateToRevoke?.name ?? "此证书")”吗？此操作无法撤销。"),
+                message: Text("确定要在 Apple 开发者后台中吊销“\(certificateToRevoke?.name ?? "此证书")”吗？此操作无法撤销。"),
                 primaryButton: .destructive(Text("吊销")) {
                     if let cert = certificateToRevoke {
                         Task {

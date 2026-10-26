@@ -67,7 +67,7 @@ struct ProfilePortalDetailView: View {
                     InfoRow(label: "类型", value: rawType)
                 }
                 if let isTeam = profile.isTeamProfile {
-                    InfoRow(label: "管理者", value: isTeam ? "Xcode（团队描述文件）" : "手动（门户）")
+                    InfoRow(label: "管理者", value: isTeam ? "Xcode（团队描述文件）" : "手动（后台）")
                 }
                 InfoRow(label: "状态", value: isExpired ? "已过期" : (profile.status ?? "已激活"), valueColor: isExpired ? .red : .primary)
                 InfoRow(label: "到期日期", value: formatDate(profile.dateExpire), valueColor: isExpired ? .red : .primary)
@@ -286,7 +286,7 @@ struct ProfilePortalDetailView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "trash")
-                        Text("从门户删除描述文件")
+                        Text("从开发者后台删除描述文件")
                             .fontWeight(.semibold)
                         Spacer()
                     }
@@ -319,7 +319,7 @@ struct ProfilePortalDetailView: View {
         .alert(isPresented: $showDeleteAlert) {
             Alert(
                 title: Text("删除描述文件？"),
-                message: Text("确定要从 Apple 开发者门户删除“\(profile.name)”吗？"),
+                message: Text("确定要从 Apple 开发者后台删除“\(profile.name)”吗？"),
                 primaryButton: .destructive(Text("删除")) {
                     Task {
                         let success = await viewModel.deleteProfile(profile, presentingViewController: presentingViewController)

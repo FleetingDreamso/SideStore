@@ -556,7 +556,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         if error is OperationError {
             title = NSLocalizedString("设备注册错误", comment: "")
         } else {
-            title = NSLocalizedString("开发者门户错误", comment: "")
+            title = NSLocalizedString("开发者后台错误", comment: "")
         }
 
         return await withCheckedContinuation { continuation in
@@ -611,7 +611,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
     func resolveProvisioningError(_ error: Error) async -> ProvisioningErrorDecision {
         return await withCheckedContinuation { continuation in
             let alertController = UIAlertController(
-                title: NSLocalizedString("开发者门户错误", comment: ""),
+                title: NSLocalizedString("开发者后台错误", comment: ""),
                 message: error.localizedDescription,
                 preferredStyle: .alert
             )

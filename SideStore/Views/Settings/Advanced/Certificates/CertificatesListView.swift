@@ -87,7 +87,7 @@ struct CertificatesListView: View {
                     CertGroupHeaderView(group: group, viewModel: viewModel)
                 } footer: {
                     if group.id == viewModel.groupedCertificatesList.last?.id {
-                        Text("后缀（R）表示该证书已在 Apple 开发者门户上远程注册。")
+                        Text("后缀（R）表示该证书已在 Apple 开发者后台中远程注册。")
                     }
                 }
             }

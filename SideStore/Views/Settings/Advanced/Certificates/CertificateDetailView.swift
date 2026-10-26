@@ -100,7 +100,7 @@ struct CertificateDetailView: View {
                         detailRow(title: "自动轮换", value: autoRotation ? "已启用" : "已禁用")
                     }
                 } header: {
-                    Text("开发者门户信息")
+                    Text("开发者后台信息")
                 }
             }
             

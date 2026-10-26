@@ -38,7 +38,7 @@ final class ResignAltStoreViewController: UIViewController
             case .expired:
                 reasonText = NSLocalizedString("用于安装 SideStore 的签名证书已过期。", comment: "")
             case .revoked:
-                reasonText = NSLocalizedString("用于安装 SideStore 的签名证书已在 Apple 开发者门户中被吊销。", comment: "")
+                reasonText = NSLocalizedString("用于安装 SideStore 的签名证书已在 Apple 开发者后台中被吊销。", comment: "")
             case .freeAccountLimitRevoked:
                 reasonText = NSLocalizedString("免费开发者账号最多只能有 1 个有效签名证书。由于此设备上找不到该有效证书的私钥，SideStore 将创建新证书。此操作会自动吊销当前有效证书，可能导致其它设备上或通过 Xcode 进行的安装失效。", comment: "")
             case .differentAccount:

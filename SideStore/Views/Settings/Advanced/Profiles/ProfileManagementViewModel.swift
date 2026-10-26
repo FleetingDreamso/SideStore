@@ -118,7 +118,7 @@ final class ProfileManagementViewModel: ObservableObject, @unchecked Sendable {
                 _ = try await DeveloperPortalProxy.shared.deleteProvisioningProfile(profileID: profileID)
             } catch {
                 await MainActor.run {
-                    self.errorMessage = "已在本地删除，但无法从开发者门户删除：\(error.localizedDescription)"
+                    self.errorMessage = "已在本地删除，但无法从开发者后台删除：\(error.localizedDescription)"
                 }
             }
         }

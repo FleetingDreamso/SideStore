@@ -75,7 +75,7 @@ struct ProfileManagementView: View {
                         }
                         Spacer()
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("门户")
+                            Text("后台")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Text("\(viewModel.portalCount)")
@@ -153,7 +153,7 @@ struct ProfileManagementView: View {
                                             profileToEditOnPortal = listed
                                         }
                                     } label: {
-                                        Label("在开发者门户上编辑", systemImage: "pencil")
+                                        Label("在开发者后台中编辑", systemImage: "pencil")
                                     }
                                 }
                                 SwiftUI.Button {
@@ -295,8 +295,8 @@ struct ProfileManagementView: View {
                 secondaryButton: .cancel()
             )
         }
-        .alert("删除门户描述文件？", isPresented: $showPortalDeleteConfirmation) {
-            SwiftUI.Button("从门户和本地删除", role: .destructive) {
+        .alert("删除开发者后台中的描述文件？", isPresented: $showPortalDeleteConfirmation) {
+            SwiftUI.Button("从开发者后台和本地删除", role: .destructive) {
                 if let target = profileToDelete {
                     Task {
                         await viewModel.deleteProfile(target, alsoDeleteFromPortal: true)
@@ -312,7 +312,7 @@ struct ProfileManagementView: View {
             }
             SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("“\((profileToDelete?.name ?? "此描述文件"))”存在于 Apple 开发者门户上。你是要从 Apple 的服务器上删除它，还是仅删除本地缓存？")
+            Text("“\((profileToDelete?.name ?? "此描述文件"))”存在于 Apple 开发者后台中。你是要从 Apple 的服务器上删除它，还是仅删除本地缓存？")
         }
         .alert("错误", isPresented: $viewModel.showErrorAlert) {
             SwiftUI.Button("好", role: .cancel) { viewModel.errorMessage = nil }
@@ -323,7 +323,7 @@ struct ProfileManagementView: View {
             SwiftUI.Button("从“文件”导入") {
                 importProfileAction()
             }
-            SwiftUI.Button("在开发者门户上创建") {
+            SwiftUI.Button("在开发者后台中创建") {
                 Task {
                     await devServicesViewModel.loadAll(presentingViewController: presentingViewController)
                 }
@@ -444,7 +444,7 @@ private struct ProfileManagementRowView: View {
                     HStack(spacing: 3) {
                         Image(systemName: "cloud.fill")
                             .font(.system(size: 8))
-                        Text("门户")
+                        Text("后台")
                             .fontWeight(.medium)
                     }
                     .font(.caption2)

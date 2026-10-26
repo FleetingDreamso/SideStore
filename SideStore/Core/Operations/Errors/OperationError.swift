@@ -68,11 +68,11 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .certificateExpired(let appName):
             return "用于安装“\(appName)”的签名证书已过期。请重新签名或重新安装该应用。"
         case .certificateRevoked(let appName):
-            return "用于安装“\(appName)”的签名证书已在 Apple 开发者门户中被吊销。请重新签名或重新安装该应用。"
+            return "用于安装“\(appName)”的签名证书已在 Apple 开发者后台中被吊销。请重新签名或重新安装该应用。"
         case .customCertificateExpired(_, let activeTeam):
             return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已过期。\n\n如果你并不打算使用自定义证书，请在“设置 -> 高级 -> 证书”中重置它。"
         case .customCertificateRevoked(_, let activeTeam):
-            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已在开发者门户中被吊销。\n\n如果你并不打算使用自定义证书，请在“设置 -> 高级 -> 证书”中重置它。"
+            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已在开发者后台中被吊销。\n\n如果你并不打算使用自定义证书，请在“设置 -> 高级 -> 证书”中重置它。"
         case .forbidden(let reason, _, _):
             return reason
         case .invalidApp(let reason):

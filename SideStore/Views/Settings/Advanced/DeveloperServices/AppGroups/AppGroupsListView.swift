@@ -48,7 +48,7 @@ struct AppGroupsListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "开发者门户上没有 App 组。" : "未找到匹配的 App 组。")
+                        Text(searchText.isEmpty ? "开发者后台中没有 App 组。" : "未找到匹配的 App 组。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -225,7 +225,7 @@ struct AppGroupsListView: View {
                 .alert(isPresented: $showSheetDeleteConfirmation) {
                     Alert(
                         title: Text("删除 App 组？"),
-                        message: Text("确定要从 Apple 开发者门户删除“\(group.name)”（\(group.groupIdentifier)）吗？"),
+                        message: Text("确定要从 Apple 开发者后台删除“\(group.name)”（\(group.groupIdentifier)）吗？"),
                         primaryButton: .destructive(Text("删除")) {
                             Task {
                                 let success = await viewModel.deleteAppGroup(group, presentingViewController: presentingViewController)
@@ -242,7 +242,7 @@ struct AppGroupsListView: View {
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
                 title: Text("删除 App 组？"),
-                message: Text("确定要从 Apple 开发者门户删除“\(groupToDelete?.name ?? "此 App 组")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
+                message: Text("确定要从 Apple 开发者后台删除“\(groupToDelete?.name ?? "此 App 组")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
                 primaryButton: .destructive(Text("删除")) {
                     if let target = groupToDelete {
                         Task {
