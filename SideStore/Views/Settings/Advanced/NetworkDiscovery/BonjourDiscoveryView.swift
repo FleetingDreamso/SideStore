@@ -166,7 +166,7 @@ struct BonjourDiscoveryView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                 
-                Text("**设置 -> 应用 -> SideStore -> 本地网络访问 = 打开**")
+                Text("**设置 → 应用 → SideStore → 本地网络访问：打开**")
                     .font(.caption.bold())
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -374,7 +374,7 @@ struct ServiceTypesView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                 
-                Text("**设置 -> 应用 -> SideStore -> 本地网络访问 = 打开**")
+                Text("**设置 → 应用 → SideStore → 本地网络访问：打开**")
                     .font(.caption.bold())
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -620,7 +620,7 @@ struct ServiceInstancesView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                 
-                Text("**设置 -> 应用 -> SideStore -> 本地网络访问 = 打开**")
+                Text("**设置 → 应用 → SideStore → 本地网络访问：打开**")
                     .font(.caption.bold())
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)

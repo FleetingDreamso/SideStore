@@ -106,7 +106,7 @@ final class PipelineHandler: PipelineExecutionHandler,
                 firstSentence = NSLocalizedString("非开发者 Apple ID 每周最多只能创建 10 个 App ID。", comment: "")
             }
             
-            let message = firstSentence + " " + NSLocalizedString("是否移除此应用的扩展，使其不计入你的上限？共有 \(appBundle.appExtensions.count) 个扩展", comment: "")
+            let message = firstSentence + " " + NSLocalizedString("是否移除此应用的扩展，使其不计入你的上限？共有 \(appBundle.appExtensions.count) 个扩展。", comment: "")
             
             let alertController = UIAlertController(title: NSLocalizedString("应用包含扩展", comment: ""), message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: UIAlertAction.cancel.title, style: UIAlertAction.cancel.style, handler: { _ in

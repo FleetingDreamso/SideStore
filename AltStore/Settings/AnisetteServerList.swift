@@ -736,7 +736,7 @@ struct AnisetteServersView: View {
             }
             SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("这会用“\(pendingImportName ?? "selected file")”中的服务器替换你当前的服务器目录。是否继续？")
+            Text("这会用“\(pendingImportName ?? "所选文件")”中的服务器替换你当前的服务器目录。是否继续？")
         }
         .sheet(isPresented: $showingShareSheet) {
             if let fileURL = exportFileURL {

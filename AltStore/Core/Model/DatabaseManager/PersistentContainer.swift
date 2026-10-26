@@ -20,7 +20,7 @@ public enum DatabaseError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .migrationFailed:
             return NSLocalizedString("数据库迁移失败", comment: "")
         case .missingAppGroup:
-            return NSLocalizedString("无法访问 App Group 容器", comment: "")
+            return NSLocalizedString("无法访问 App 组容器", comment: "")
         }
     }
     
@@ -113,7 +113,7 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
         #if !os(tvOS)
         guard FileManager.default.altstoreSharedDirectory != nil else {
             throw DatabaseError.missingAppGroup(
-                reason: NSLocalizedString("无法访问共享的 App Group 容器。已拒绝创建或使用私有沙盒中的备用数据库。", comment: "")
+                reason: NSLocalizedString("无法访问共享的 App 组容器。已拒绝创建或使用私有沙盒中的备用数据库。", comment: "")
             )
         }
         #endif

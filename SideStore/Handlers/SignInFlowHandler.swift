@@ -134,7 +134,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
 
         case .trustedDevice:
             return try await promptCodeEntry(
-                title: NSLocalizedString("请输入发送到你 Apple 设备的 6 位验证码。", comment: ""),
+                title: NSLocalizedString("请输入发送到你的 Apple 设备的 6 位验证码。", comment: ""),
                 phoneNumbers: [],
                 activePhoneID: "",
                 currentDeliveryMode: nil,
@@ -208,7 +208,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
             let displayMessage = """
                 \(baseMessage)
 
-                \(NSLocalizedString("Warning: Repeatedly skipping this without completing required verification or terms may lead to your account being restricted by Apple over time.", comment: ""))
+                \(NSLocalizedString("警告：反复跳过此步骤、未完成必需的验证或条款，长期如此可能导致你的账号被 Apple 限制。", comment: ""))
                 """
 
             let alert = UIAlertController(
@@ -361,7 +361,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
 
         let isSMSDefault = (preferredMode == .sms)
         let smsTitle = isSMSDefault
-            ? NSLocalizedString("短信（SMS）（推荐）", comment: "")
+            ? NSLocalizedString("短信（SMS，推荐）", comment: "")
             : NSLocalizedString("短信（SMS）", comment: "")
         let smsAction = UIAlertAction(title: smsTitle, style: .default) { [weak self] _ in
             guard let self = self else {
@@ -662,7 +662,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         await withCheckedContinuation { continuation in
             let alertController = UIAlertController(
                 title: NSLocalizedString("已跳过证书设置", comment: ""),
-                message: NSLocalizedString("当前没有活跃的签名证书，且未能正确获取/设置。你可以稍后完成待处理的操作，或进入“设置 -> 证书管理”手动设置证书。", comment: ""),
+                message: NSLocalizedString("当前没有活跃的签名证书，且未能正确获取/设置。你可以稍后完成待处理的操作，或进入“设置 → 高级 → 证书”手动设置证书。", comment: ""),
                 preferredStyle: .alert
             )
             alertController.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default) { _ in

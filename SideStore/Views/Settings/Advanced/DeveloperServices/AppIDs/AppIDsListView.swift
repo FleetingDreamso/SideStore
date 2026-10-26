@@ -179,7 +179,7 @@ struct AppIDsListView: View {
 
     private var deleteAlertMessage: String {
         guard let appID = appIDToDelete else { return "" }
-        let name = appID.name.isEmpty ? "此 App ID" : "'\(appID.name)'"
+        let name = appID.name.isEmpty ? "此 App ID" : "“\(appID.name)”"
         let bundleID = appID.bundleIdentifier.isEmpty ? "" : " (\(appID.bundleIdentifier))"
 
         if viewModel.isPaidAccount {

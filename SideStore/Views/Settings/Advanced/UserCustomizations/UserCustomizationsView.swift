@@ -900,7 +900,7 @@ struct UserCustomizationsView: View {
                 
                 toggleRow(
                     title: "自动修正 App 组 ID",
-                    subtitle: isFreeAccount ? "免费开发者账号所必需" : "自动修正 App Group 大小写不一致",
+                    subtitle: isFreeAccount ? "免费开发者账号所必需" : "自动修正 App 组大小写不一致",
                     isOn: Binding(
                         get: { isFreeAccount ? true : autoFixAppGroupIDs },
                         set: { newValue in

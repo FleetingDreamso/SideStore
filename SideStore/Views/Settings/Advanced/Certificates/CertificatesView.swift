@@ -203,7 +203,7 @@ struct CertificatesView: View {
         }
         .alert("清除私钥", isPresented: $showClearKeyConfirmation) {
             if let cert = certificateToClearKeyFor {
-                SwiftUI.Button("清除密钥", role: .destructive) {
+                SwiftUI.Button("清除私钥", role: .destructive) {
                     viewModel.clearPrivateKey(for: cert)
                     certificateToClearKeyFor = nil
                 }

@@ -64,9 +64,9 @@ struct AppIDDetailView: View {
                 }
             }
 
-            Section(header: Text("关联的 App Group"), footer: Text("选择要与此 App ID 关联的 App Group，然后点按“保存”。")) {
+            Section(header: Text("关联的 App 组"), footer: Text("选择要与此 App ID 关联的 App 组，然后点按“保存”。")) {
                 if viewModel.appGroups.isEmpty {
-                    Text("此团队没有可用的 App Group。请先创建一个 App Group。")
+                    Text("此团队没有可用的 App 组。请先创建一个 App 组。")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 } else {
