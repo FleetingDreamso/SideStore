@@ -1850,13 +1850,13 @@ Settings by i cons from the Noun Project</string>
                     </tableView>
                     <navigationItem key="navigationItem" title="错误日志" largeTitleDisplayMode="never" id="a1p-3W-bSi">
                         <rightBarButtonItems>
-                            <barButtonItem title="trash" id="BnQ-Eh-1gC">
+                            <barButtonItem title="清除" id="BnQ-Eh-1gC">
                                 <imageReference key="image" image="trash" catalog="system" symbolScale="large"/>
                                 <connections>
                                     <action selector="clearLoggedErrors:" destination="g8a-Rf-zWa" id="faq-89-H5j"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="console" id="1cD-4y-vTJ" userLabel="Console Log Button">
+                            <barButtonItem title="控制台" id="1cD-4y-vTJ" userLabel="Console Log Button">
                                 <imageReference key="image" image="apple.terminal" catalog="system" symbolScale="large"/>
                                 <connections>
                                     <action selector="showConsoleLogs:" destination="g8a-Rf-zWa" id="V0f-0y-C6C"/>

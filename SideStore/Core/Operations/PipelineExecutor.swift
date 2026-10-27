@@ -300,7 +300,7 @@ final class PipelineExecutor: @unchecked Sendable {
         if UserDefaults.standard.isVerboseOperationsLoggingEnabled &&
            OperationsLoggingControl.isLoggingEnabled(for: loggerType.self)
         {
-            let resultStatus = (result is Error) ? "失败" : "成功"
+            let resultStatus = (result is Error) ? "FAILURE" : "SUCCESS"
             debugLog(
             """
             [PipelineExecutor] ====> OPERATION: .\(operation) completed with: \(resultStatus) <====

@@ -69,7 +69,7 @@ struct CertificateRowView: View {
                 
                 (
                     Text("密钥：").font(.system(size: 10))
-                    + Text(hasPrivateKey ? "公钥 + 私钥" : "public").font(.system(size: 10))
+                    + Text(hasPrivateKey ? "公钥 + 私钥" : "公钥").font(.system(size: 10))
                 )
                 .foregroundColor(.secondary)
             }

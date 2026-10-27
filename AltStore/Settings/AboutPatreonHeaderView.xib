@@ -60,13 +60,13 @@
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeG-e5-LJl">
                                     <rect key="frame" x="0.0" y="65" width="343" height="124"/>
                                     <color key="backgroundColor" white="1" alpha="0.13" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <string key="text">Thank you for using SideStore!
+                                    <string key="text">感谢使用 SideStore！
         
-Subscribing to the patreon supports us and makes sure we can continue developing SideStore for you.
+订阅 Patreon 就是支持我们，让我们能继续为你开发 SideStore。
     
-Following us on social media allows us to give quick updates and spread the word about sideloading!
+在社交媒体上关注我们，能让我们及时发布更新，也能帮我们把侧载传播出去！
         
--SideTeam</string>
+——SideTeam</string>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
