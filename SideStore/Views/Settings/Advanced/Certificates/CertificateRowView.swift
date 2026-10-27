@@ -221,8 +221,8 @@ private struct CertPrivateKeyMenuItems: View {
             
             AdaptiveMenu(title: "导出证书", systemImage: "square.and.arrow.up") {
                 SwiftUI.Button { onExportP12() } label: { Label("导出完整（.p12）", systemImage: "doc.zipper") }
-                SwiftUI.Button { CertificateExporter.sharePublicCertAsDER(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公开（.der）", systemImage: "doc.text") }
-                SwiftUI.Button { CertificateExporter.sharePublicCertAsPEM(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公开（.pem）", systemImage: "doc.text") }
+                SwiftUI.Button { CertificateExporter.sharePublicCertAsDER(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公钥（.der）", systemImage: "doc.text") }
+                SwiftUI.Button { CertificateExporter.sharePublicCertAsPEM(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公钥（.pem）", systemImage: "doc.text") }
             }
             
             SwiftUI.Button(role: .destructive) { onClearKey() } label: { Label("清除私钥", systemImage: "key.slash") }
@@ -254,8 +254,8 @@ private struct CertPublicKeyMenuItems: View {
             
             AdaptiveMenu(title: "导出证书", systemImage: "square.and.arrow.up") {
                 SwiftUI.Button { onExportP12() } label: { Label("导出完整（.p12）", systemImage: "doc.zipper") }
-                SwiftUI.Button { CertificateExporter.sharePublicCertAsDER(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公开（.der）", systemImage: "doc.text") }
-                SwiftUI.Button { CertificateExporter.sharePublicCertAsPEM(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公开（.pem）", systemImage: "doc.text") }
+                SwiftUI.Button { CertificateExporter.sharePublicCertAsDER(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公钥（.der）", systemImage: "doc.text") }
+                SwiftUI.Button { CertificateExporter.sharePublicCertAsPEM(cert, onShare: { viewModel.shareURL = $0 }) { viewModel.errorMessage = $0 } } label: { Label("导出公钥（.pem）", systemImage: "doc.text") }
             }
         }
     }

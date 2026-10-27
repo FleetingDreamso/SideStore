@@ -117,7 +117,7 @@ public let commonKnownServiceTypes: [String: String] = [
     "_device-info._tcp.":   "设备信息",
     "_touch-able._tcp.":    "遥控应用（Apple TV 遥控器）",
     "_srpl-tls._tcp.":      "空间远程播放链路 TLS",
-    "_trel._udp.":          "Thread 无线封装链路",
+    "_trel._udp.":          "Thread 射频封装链路",
     "_ipps._tcp.":          "安全互联网打印协议",
     "_webdav._tcp.":        "Web 分布式创作与版本管理（WebDAV）",
     "_webdavs._tcp.":       "安全 WebDAV",

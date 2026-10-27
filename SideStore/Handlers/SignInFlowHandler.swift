@@ -662,7 +662,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         await withCheckedContinuation { continuation in
             let alertController = UIAlertController(
                 title: NSLocalizedString("已跳过证书设置", comment: ""),
-                message: NSLocalizedString("当前没有活跃的签名证书，且未能正确获取/设置。你可以稍后完成待处理的操作，或进入“设置 → 高级 → 证书”手动设置证书。", comment: ""),
+                message: NSLocalizedString("当前没有活跃的签名证书，且未能正确获取/设置。你可以稍后完成待处理的操作，或进入“设置 → 高级设置 → 证书管理”手动设置证书。", comment: ""),
                 preferredStyle: .alert
             )
             alertController.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default) { _ in

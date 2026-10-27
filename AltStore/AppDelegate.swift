@@ -628,7 +628,7 @@ private extension AppDelegate {
                 case SIGBUS: signalName = "SIGBUS（总线错误）"
                 case SIGILL: signalName = "SIGILL（非法指令）"
                 case SIGFPE: signalName = "SIGFPE（浮点异常）"
-                case SIGTRAP: signalName = "SIGTRAP（陷阱）"
+                case SIGTRAP: signalName = "SIGTRAP（跟踪陷阱）"
                 default: signalName = "信号 \(signalNumber)"
                 }
                 

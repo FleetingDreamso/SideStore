@@ -874,7 +874,7 @@ struct DeveloperOptionsView: View {
             let toastView = ToastView(text: NSLocalizedString("已启动后台服务", comment: ""), detailText: "\(modeName) 保活正在运行。")
             toastView.show(in: top)
         } else {
-            let toastView = ToastView(text: NSLocalizedString("后台服务已禁用", comment: ""), detailText: "请在“用户自定义”中启用后台服务。")
+            let toastView = ToastView(text: NSLocalizedString("后台服务已禁用", comment: ""), detailText: "请在“设置 → 高级设置 → 用户自定义”中启用后台服务。")
             toastView.show(in: top)
         }
     }

@@ -295,7 +295,7 @@ extension AppBannerView
                     }
                     else
                     {
-                        let buttonTitle = NSLocalizedString("承诺", comment: "")
+                        let buttonTitle = NSLocalizedString("赞助", comment: "")
                         self.button.setTitle(buttonTitle.uppercased(), for: .normal)
                         self.button.accessibilityLabel = buttonTitle
                         self.button.accessibilityValue = buttonTitle

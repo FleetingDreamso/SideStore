@@ -52,7 +52,7 @@ struct DevicesListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("已注册设备（\(viewModel.devices.count)）"), footer: Text("在开发者团队中注册的设备可以运行开发签名的应用。点按任一设备可编辑其名称、停用或删除它。")) {
+            Section(header: Text("已注册设备（\(viewModel.devices.count)）"), footer: Text("在开发者团队中注册的设备可以运行开发签名的应用。点按任一设备可编辑其名称、禁用或删除它。")) {
                 if filteredDevices.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -116,7 +116,7 @@ struct DevicesListView: View {
                                 SwiftUI.Button {
                                     activeAlert = .disable(device)
                                 } label: {
-                                    Label("停用", systemImage: "slash.circle")
+                                    Label("禁用", systemImage: "slash.circle")
                                 }
                                 .tint(.orange)
                             }
@@ -148,7 +148,7 @@ struct DevicesListView: View {
                                 SwiftUI.Button {
                                     activeAlert = .disable(device)
                                 } label: {
-                                    Label("停用设备", systemImage: "slash.circle")
+                                    Label("禁用设备", systemImage: "slash.circle")
                                 }
                             }
                             SwiftUI.Button(role: .destructive) {
@@ -313,7 +313,7 @@ struct DevicesListView: View {
                                 HStack {
                                     Spacer()
                                     Image(systemName: "slash.circle")
-                                    Text("停用设备")
+                                    Text("禁用设备")
                                         .fontWeight(.semibold)
                                     Spacer()
                                 }
@@ -355,9 +355,9 @@ struct DevicesListView: View {
                 )
                 .alert(isPresented: $showSheetDisableAlert) {
                     Alert(
-                        title: Text("停用设备？"),
-                        message: Text("确定要在 Apple 开发者后台中停用“\(device.name)”吗？已停用的设备将不会包含在新生成的描述文件中。"),
-                        primaryButton: .default(Text("停用")) {
+                        title: Text("禁用设备？"),
+                        message: Text("确定要在 Apple 开发者后台中禁用“\(device.name)”吗？已禁用的设备将不会包含在新生成的描述文件中。"),
+                        primaryButton: .default(Text("禁用")) {
                             Task {
                                 let success = await viewModel.disableDevice(device, presentingViewController: presentingViewController)
                                 if success {
@@ -389,9 +389,9 @@ struct DevicesListView: View {
             switch alert {
             case .disable(let device):
                 return Alert(
-                    title: Text("停用设备？"),
-                    message: Text("确定要在 Apple 开发者后台中停用“\(device.name)”吗？已停用的设备将不会包含在新生成的描述文件中。"),
-                    primaryButton: .default(Text("停用")) {
+                    title: Text("禁用设备？"),
+                    message: Text("确定要在 Apple 开发者后台中禁用“\(device.name)”吗？已禁用的设备将不会包含在新生成的描述文件中。"),
+                    primaryButton: .default(Text("禁用")) {
                         Task {
                             _ = await viewModel.disableDevice(device, presentingViewController: presentingViewController)
                         }

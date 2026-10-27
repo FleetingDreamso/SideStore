@@ -59,7 +59,7 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .unableToConnectSideJIT:
             return "无法连接到 SideJITServer。请确认你与服务器处于同一 Wi-Fi，且服务器上的防火墙设置正确。"
         case .unableToRespondSideJITDevice:
-            return "SideJITServer 无法连接到你的 iDevice。请确认你已运行“SideJITServer -y”完成配对，或尝试在设置中重新启动 SideJITServer。"
+            return "SideJITServer 无法连接到你的 iDevice。请确认你已运行“SideJITServer -y”完成配对，或尝试在“设置 → 高级设置 → SideJITServer”中刷新设备缓存。"
         case .unknownResult:
             return "操作返回了未知结果。"
 
@@ -70,9 +70,9 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .certificateRevoked(let appName):
             return "用于安装“\(appName)”的签名证书已在 Apple 开发者后台中被吊销。请重新签名或重新安装该应用。"
         case .customCertificateExpired(_, let activeTeam):
-            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已过期。\n\n如果你并不打算使用自定义证书，请在“设置 → 高级 → 证书”中重置它。"
+            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已过期。\n\n如果你并不打算使用自定义证书，请在“设置 → 高级设置 → 证书管理”中重置它。"
         case .customCertificateRevoked(_, let activeTeam):
-            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已在开发者后台中被吊销。\n\n如果你并不打算使用自定义证书，请在“设置 → 高级 → 证书”中重置它。"
+            return "你当前使用的自定义/第三方签名证书（团队：\(activeTeam)）已在开发者后台中被吊销。\n\n如果你并不打算使用自定义证书，请在“设置 → 高级设置 → 证书管理”中重置它。"
         case .forbidden(let reason, _, _):
             return reason
         case .invalidApp(let reason):
@@ -100,7 +100,7 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .noConnection(let reason):
             return "网络连接错误：\n\(reason)\n\n请先连接 Wi-Fi 再尝试后续操作。"
         case .noDevice(let reason):
-            return "SideStore 无法连接设备端点：\n\(reason)\n\n请检查“设置”中的连接配置。"
+            return "SideStore 无法连接设备端点：\n\(reason)\n\n请检查“设置 → 高级设置 → 连接配置”。"
         case .noVPN(let reason):
             return "VPN 连接错误：\n\(reason)\n\n请确保 LocalDevVPN 已连接并正常运行。"
         case .notReachable(let reason):

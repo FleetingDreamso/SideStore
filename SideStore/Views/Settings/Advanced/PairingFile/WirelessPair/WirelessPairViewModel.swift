@@ -71,7 +71,7 @@ struct WirelessPairTarget: Identifiable, Hashable {
 final class WirelessPairViewModel: ObservableObject {
     // Server Advertising State
     @Published var statusText = "可以配对"
-    @Published var subStatusText = "点按“开始”以在本地网络上广播此设备。"
+    @Published var subStatusText = "点按“启动配对服务器”以在本地网络上广播此设备。"
     @Published var pinCode: String? = nil
     @Published var isAdvertising = false
     @Published var pairedDevice: MinimuxerPairedDevice? = nil
@@ -534,7 +534,7 @@ final class WirelessPairViewModel: ObservableObject {
         
         isAdvertising = false
         statusText = "可以配对"
-        subStatusText = "点按“开始”以在本地网络上广播此设备。"
+        subStatusText = "点按“启动配对服务器”以在本地网络上广播此设备。"
         pinCode = nil
         errorMessage = nil
         serviceID = nil

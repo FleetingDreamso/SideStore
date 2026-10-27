@@ -172,7 +172,7 @@ final class SignableCertificatesListViewController: UITableViewController {
         guard !signableCerts.isEmpty else {
             let alert = UIAlertController(
                 title: NSLocalizedString("没有签名证书", comment: ""),
-                message: NSLocalizedString("本地未找到带有私钥的有效签名证书。请先在“设置 → 高级 → 证书”中导入或创建证书。", comment: ""),
+                message: NSLocalizedString("本地未找到带有私钥的有效签名证书。请先在“设置 → 高级设置 → 证书管理”中导入或创建证书。", comment: ""),
                 preferredStyle: .alert
             )
             alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: ""), style: .default))
