@@ -15,7 +15,7 @@ struct CacheManagementView: View {
     var body: some View {
         ZStack {
             if viewModel.isLoading && viewModel.internalApps.isEmpty && viewModel.resignedApps.isEmpty {
-                ProgressView("正在加载缓存……")
+                ProgressView("正在加载缓存…")
                     .scaleEffect(1.1)
             } else {
                 List {

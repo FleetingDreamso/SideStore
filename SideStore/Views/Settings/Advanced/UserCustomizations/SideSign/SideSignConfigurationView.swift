@@ -96,7 +96,7 @@ class SideSignConfigurationViewModel: ObservableObject {
         let headers = buildHeadersFromState()
         await SideSignConfigManager.shared.saveConfig(headers)
         updateRawEditableJSON()
-        showToast(text: "已成功保存 SideSign 请求头。")
+        showToast(text: "SideSign 请求头已保存。")
     }
 
     func saveRawJSON() async {
@@ -109,7 +109,7 @@ class SideSignConfigurationViewModel: ObservableObject {
             let headers = try JSONDecoder().decode(SideSignHeaders.self, from: data)
             applyHeadersToState(headers)
             await SideSignConfigManager.shared.saveConfig(headers)
-            showToast(text: "SideSign JSON 配置已成功保存！")
+            showToast(text: "SideSign JSON 配置已保存！")
         } catch {
             showToast(text: "JSON 结构无效", error: error)
         }

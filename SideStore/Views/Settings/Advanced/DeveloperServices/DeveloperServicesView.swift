@@ -150,7 +150,7 @@ struct DeveloperServicesView: View {
             if viewModel.isLoading && viewModel.appIDs.isEmpty && viewModel.profiles.isEmpty {
                 Color.black.opacity(0.15)
                     .edgesIgnoringSafeArea(.all)
-                ProgressView("正在连接开发者后台……")
+                ProgressView("正在连接开发者后台…")
                     .padding()
                     #if !os(tvOS)
                     .background(Color(UIColor.secondarySystemGroupedBackground))

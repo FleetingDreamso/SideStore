@@ -23,7 +23,7 @@ enum PrivateKeyImportError: LocalizedError {
         switch self {
         case .isCertificate:    return "所选文件是证书，而不是私钥。"
         case .invalidKey:       return "输入内容中不包含有效的私钥。"
-        case .conversionFailed: return "无法将二进制私钥转换为 PEM 格式。"
+        case .conversionFailed: return "将二进制私钥转换为 PEM 格式失败。"
         }
     }
 }
@@ -312,7 +312,7 @@ class CertificatesViewModel: ObservableObject {
         defer { pending.url.stopAccessingSecurityScopedResource() }
 
         guard let certData = try? Data(contentsOf: pending.url) else {
-            failedImportsList.append("\(pending.filename)：无法读取文件数据。")
+            failedImportsList.append("\(pending.filename)：读取文件数据失败。")
             importFailedCount += 1
             showPasswordPromptForImport = false
             currentImportIndex += 1
@@ -433,7 +433,7 @@ class CertificatesViewModel: ObservableObject {
         do {
             try CertificateManager.shared.setActiveCertificate(signable)
             self.fetchActiveSerialNumber()
-            self.alertMessage = "已成功替换当前签名证书。"
+            self.alertMessage = "当前签名证书已替换。"
             self.showAlert    = true
         } catch {
             self.errorMessage = "激活证书失败：\(error.localizedDescription)"
@@ -647,7 +647,7 @@ class CertificatesViewModel: ObservableObject {
             let signable = ALTCertificate(x509: cert, privateKey: key)
             saveLocalCertificate(signable)
             self.loadCertificates(presentingViewController: nil)
-            self.alertMessage = "已成功为证书 \(cert.name) 添加私钥。"
+            self.alertMessage = "已为证书 \(cert.name) 添加私钥。"
             self.showAlert    = true
         } catch {
             self.errorMessage = error.localizedDescription
@@ -657,7 +657,7 @@ class CertificatesViewModel: ObservableObject {
     func clearPrivateKey(for cert: ALTX509Certificate) {
         CertificateManager.shared.saveX509Certificate(cert)
         self.loadCertificates(presentingViewController: nil)
-        self.alertMessage = "已成功从证书 \(cert.name) 移除私钥。"
+        self.alertMessage = "已从证书 \(cert.name) 移除私钥。"
         self.showAlert    = true
     }
     

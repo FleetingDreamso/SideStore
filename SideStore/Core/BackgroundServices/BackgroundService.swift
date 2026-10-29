@@ -29,7 +29,7 @@ public enum BackgroundServiceMode: String, CaseIterable, Sendable {
         case .audio:
             return "音频"
         case .location:
-            return "位置"
+            return "定位"
         }
     }
 

@@ -163,7 +163,7 @@ struct DeveloperOptionsView: View {
                     #if !os(tvOS)
                     let title = "小组件选项"
                     #else
-                    let title = "TOP SHELF 选项"
+                    let title = "Top Shelf 选项"
                     #endif
                     Text(title)
                         .font(.system(size: 13, weight: .semibold))
@@ -308,7 +308,7 @@ struct DeveloperOptionsView: View {
                 
                 // Section 3: WireGuard Configuration
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("WIREGUARD 配置")
+                    Text("WireGuard 配置")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)
@@ -714,7 +714,7 @@ struct DeveloperOptionsView: View {
                 do {
                     try await ImportExport.importAccountJSON(from: url)
                     let email = AuthManager.shared.currentAppleID ?? ""
-                    let toastView = ToastView(text: NSLocalizedString("已成功导入“\(email)”！", comment: ""), detailText: "SideStore 应已完全可用！")
+                    let toastView = ToastView(text: NSLocalizedString("已导入“\(email)”！", comment: ""), detailText: "SideStore 应已完全可用！")
                     toastView.show(in: top)
                 } catch {
                     let toastView = ToastView(text: NSLocalizedString("导入账号 JSON 失败！", comment: ""), detailText: error.localizedDescription)
@@ -735,7 +735,7 @@ struct DeveloperOptionsView: View {
                 do {
                     try await ImportExport.importAccountJSON(from: url)
                     let email = AuthManager.shared.currentAppleID ?? ""
-                    let toastView = ToastView(text: NSLocalizedString("已成功导入“\(email)”！", comment: ""), detailText: "SideStore 应已完全可用！")
+                    let toastView = ToastView(text: NSLocalizedString("已导入“\(email)”！", comment: ""), detailText: "SideStore 应已完全可用！")
                     toastView.show(in: top)
                 } catch {
                     let toastView = ToastView(text: NSLocalizedString("导入账号 JSON 失败！", comment: ""), detailText: error.localizedDescription)

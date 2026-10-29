@@ -138,7 +138,7 @@ final class WirelessPairViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.serviceID = serviceID
                 self.port = port
-                self.statusText = "正在广播服务器……"
+                self.statusText = "正在广播服务器…"
                 self.subStatusText = "请确保两台设备连接到同一 Wi-Fi。"
             }
         }
@@ -492,7 +492,7 @@ final class WirelessPairViewModel: ObservableObject {
         errorMessage = nil
         serviceID = nil
         port = nil
-        statusText = "正在等待连接……"
+        statusText = "正在等待连接…"
         subStatusText = "在你的 Apple TV / Vision Pro / 主机设备上打开“远程配对”以发现此服务器。"
         
         wirelessPairing.start(
@@ -515,7 +515,7 @@ final class WirelessPairViewModel: ObservableObject {
                     debugLog("[WirelessPairViewModel] startPairing() SUCCESS with device: name='\(device.name)', model='\(device.model)'")
                     self.pairedDevice = device
                     self.statusText = "成功！"
-                    self.subStatusText = "已成功与 \(device.name)（\(device.model)）配对！\n配对文件已保存到“文稿”。"
+                    self.subStatusText = "已与 \(device.name)（\(device.model)）配对成功！\n配对文件已保存到“文稿”。"
                     self.shareSheetURL = URL(fileURLWithPath: device.pairingFilePath)
                     self.isShareSheetPresented = true
                 case .failure(let error):
@@ -554,8 +554,8 @@ final class WirelessPairViewModel: ObservableObject {
         errorMessage = nil
         serviceID = nil
         port = nil
-        statusText = "正在连接设备……"
-        subStatusText = "正在 \(targetIp):\(targetPort) 上发起配对握手……"
+        statusText = "正在连接设备…"
+        subStatusText = "正在 \(targetIp):\(targetPort) 上发起配对握手…"
         
         wirelessPairing.trigger(
             targetIp: targetIp,
@@ -578,7 +578,7 @@ final class WirelessPairViewModel: ObservableObject {
                     debugLog("[WirelessPairViewModel] triggerPairing() SUCCESS with device: name='\(device.name)', model='\(device.model)'")
                     self.pairedDevice = device
                     self.statusText = "成功！"
-                    self.subStatusText = "已成功与 \(device.name)（\(device.model)）配对！\n配对文件已保存到“文稿”。"
+                    self.subStatusText = "已与 \(device.name)（\(device.model)）配对成功！\n配对文件已保存到“文稿”。"
                     self.shareSheetURL = URL(fileURLWithPath: device.pairingFilePath)
                     self.isShareSheetPresented = true
                 case .failure(let error):

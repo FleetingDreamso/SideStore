@@ -119,7 +119,7 @@ final class AnisetteViewModel: ObservableObject {
             } else if let urlErr = error as? URLError, urlErr.code == .timedOut {
                 msg = "连接到“\(self.source)”超时（限制 5 秒）。"
             } else {
-                msg = "无法从“\(self.source)”获取目录：\(error.localizedDescription)"
+                msg = "从“\(self.source)”获取目录失败：\(error.localizedDescription)"
             }
 
             self.isNoInternet = !isOnline
@@ -273,11 +273,11 @@ struct AnisetteServersView: View {
                             ProgressView()
                                 .scaleEffect(1.2)
 
-                            Text("正在获取 Anisette 服务器……")
+                            Text("正在获取 Anisette 服务器…")
                                 .font(.headline)
                                 .foregroundColor(.primary)
 
-                            Text("正在访问目录源“\(viewModel.source)”……")
+                            Text("正在访问目录源“\(viewModel.source)”…")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -311,7 +311,7 @@ struct AnisetteServersView: View {
                                 if viewModel.isLoading {
                                     HStack(spacing: 8) {
                                         ProgressView()
-                                        Text("正在重试……")
+                                        Text("正在重试…")
                                     }
                                     .font(.subheadline.weight(.medium))
                                 } else {

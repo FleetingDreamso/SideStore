@@ -340,7 +340,7 @@ public struct ConsoleLogView: View {
                         SwiftUI.Button(action: {
                             showFileImporter = true
                         }) {
-                            Label("导入日志……", systemImage: "square.and.arrow.down")
+                            Label("导入日志…", systemImage: "square.and.arrow.down")
                         }
                     } else {
                         SwiftUI.Button(role: .destructive, action: {
@@ -507,7 +507,7 @@ public struct ConsoleLogView: View {
                 SwiftUI.Button("已导入的日志（\(importedURL.lastPathComponent)）") { viewModel.setSource(.imported(url: importedURL)) }
             }
             if viewModel.importedURL == nil {
-                SwiftUI.Button("导入日志……") {
+                SwiftUI.Button("导入日志…") {
                     if let topVC = UIApplication.shared.topViewController() {
                         TVWebFileTransferManager.shared.startImport(acceptedExtensions: ["log", "txt"], title: "导入日志文件", presentingVC: topVC) { fileURL in
                             guard let fileURL = fileURL else { return }

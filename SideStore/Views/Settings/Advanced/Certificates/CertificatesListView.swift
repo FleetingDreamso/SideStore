@@ -24,7 +24,7 @@ struct CertificatesListView: View {
         if viewModel.certificates.isEmpty {
             Section(header: Text("所有证书")) {
                 if viewModel.isLoading {
-                    Text("正在获取证书……").foregroundColor(.secondary)
+                    Text("正在获取证书…").foregroundColor(.secondary)
                 } else {
                     Text("未找到本地证书。").foregroundColor(.secondary)
                 }

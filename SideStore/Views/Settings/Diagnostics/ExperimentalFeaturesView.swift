@@ -65,7 +65,7 @@ struct ExperimentalFeaturesView: View {
 
                 // Section 2: MINIMUXER
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("MINIMUXER")
+                    Text("Minimuxer")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)

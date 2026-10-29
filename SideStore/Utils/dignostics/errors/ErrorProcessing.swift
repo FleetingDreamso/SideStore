@@ -37,7 +37,7 @@ class ErrorProcessing {
             case -25299: // errSecDuplicateItem
                 return NSLocalizedString("钥匙串项目已存在。", comment: "")
             case -25293: // errSecAuthFailed
-                return NSLocalizedString("钥匙串验证失败。", comment: "")
+                return NSLocalizedString("钥匙串认证失败。", comment: "")
             default:
                 return NSLocalizedString("钥匙串安全错误。", comment: "")
             }

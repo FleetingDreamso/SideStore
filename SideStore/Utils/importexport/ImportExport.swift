@@ -88,7 +88,7 @@ class ImportExport {
         var salt = Data(count: 16)
         let result = salt.withUnsafeMutableBytes { SecRandomCopyBytes(kSecRandomDefault, 16, $0.baseAddress!) }
         guard result == errSecSuccess else {
-            throw OperationError.invalidParameters("无法生成随机盐值。")
+            throw OperationError.invalidParameters("生成随机盐值失败。")
         }
         
         let key = deriveKey(password: password, salt: salt)

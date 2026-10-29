@@ -149,7 +149,7 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
     private func validateMigrationCompatibility(metadata: [String: Any], configuration: String?) throws {
         guard let sourceModel = NSManagedObjectModel.mergedModel(from: Bundle.allBundles, forStoreMetadata: metadata) else {
             throw DatabaseError.databaseDowngradeDetected(
-                reason: NSLocalizedString("磁盘上的数据库是由更新版本的 SideStore 创建的。不支持降级数据库架构。请更新 SideStore 或重置数据库。", comment: "")
+                reason: NSLocalizedString("磁盘上的数据库由更新版本的 SideStore 创建。不支持降级数据库架构。请更新 SideStore 或重置数据库。", comment: "")
             )
         }
         
@@ -221,7 +221,7 @@ open class PersistentContainer: NSPersistentContainer, @unchecked Sendable {
         
         guard let sourceModel = NSManagedObjectModel.mergedModel(from: Bundle.allBundles, forStoreMetadata: sourceMetadata) else {
             throw DatabaseError.databaseDowngradeDetected(
-                reason: NSLocalizedString("磁盘上的数据库是由更新版本的 SideStore 创建的。不支持降级数据库架构。请更新 SideStore 或重置数据库。", comment: "")
+                reason: NSLocalizedString("磁盘上的数据库由更新版本的 SideStore 创建。不支持降级数据库架构。请更新 SideStore 或重置数据库。", comment: "")
             )
         }
         

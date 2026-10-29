@@ -108,7 +108,7 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .openAppFailed(let name):
             return "SideStore 没有启动 \(name) 的权限。"
         case .pairingNotComplete(let reason):
-            return "需要配对：\(reason)\n\n没有有效的配对文件，SideStore 的操作就无法连接到你的设备。请配对设备或导入有效的配对文件。"
+            return "需要配对：\(reason)\n\n没有有效的配对文件，SideStore 就无法连接到你的设备。请配对设备或导入有效的配对文件。"
         case .pledgeInactive(let appName):
             return "你的赞助已失效。请续订以继续正常使用 \(appName)。"
         case .SideJITIssue(let error):

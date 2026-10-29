@@ -103,7 +103,7 @@ final class StageBackupAppOperation: BasePipelineOperation<InstallAppOperationCo
         self.setProgress(90)
         guard let updatedBundle = ALTApplication(fileURL: unzippedAppBundleURL) else {
             debugLog("[StageBackupAppOperation] Error: Failed to reload ALTApplication for staged backup app at \(unzippedAppBundleURL.path)")
-            throw OperationError.missingAppBundle(reason: "无法为“\(unzippedAppBundleURL.lastPathComponent)”处的暂存备份应用重新加载 ALTApplication")
+            throw OperationError.missingAppBundle(reason: "为“\(unzippedAppBundleURL.lastPathComponent)”处的暂存备份应用重新加载 ALTApplication 失败")
         }
         context.targetAppBundle = updatedBundle
         debugLog("[StageBackupAppOperation] Successfully set context.appBundle to staged SideBackup app ('\(updatedBundle.bundleIdentifier)')")

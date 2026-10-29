@@ -112,7 +112,7 @@ func notifyJITSuccess(appName: String) async {
     let settings = await UNUserNotificationCenter.current().notificationSettings()
     if settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional {
         let content = UNMutableNotificationContent()
-        content.title = NSLocalizedString("JIT 已成功启用", comment: "")
+        content.title = NSLocalizedString("JIT 已启用", comment: "")
         content.subtitle = String(format: NSLocalizedString("已为 %@ 启用 JIT", comment: ""), appName)
         content.sound = .default
 
@@ -126,7 +126,7 @@ func notifyJITSuccess(appName: String) async {
     await MainActor.run {
         if let window = UIApplication.shared.connectedScenes
             .compactMap({ ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) }).first {
-            let toastView = ToastView(text: NSLocalizedString("JIT 已成功启用", comment: ""), detailText: appName)
+            let toastView = ToastView(text: NSLocalizedString("JIT 已启用", comment: ""), detailText: appName)
             toastView.show(in: window)
         }
     }

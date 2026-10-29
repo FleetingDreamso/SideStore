@@ -84,7 +84,7 @@ public class FileOutputStream: OutputStream {
                 lastFailureTime = nil
             } else {
                 lastFailureTime = Date()
-                throw NSError(domain: "FileOutputStream", code: 2, userInfo: [NSLocalizedDescriptionKey: "无法通过 provider 重建文件句柄"])
+                throw NSError(domain: "FileOutputStream", code: 2, userInfo: [NSLocalizedDescriptionKey: "通过 provider 重建文件句柄失败"])
             }
         }
     }

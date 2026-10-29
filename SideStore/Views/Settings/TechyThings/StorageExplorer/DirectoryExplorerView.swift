@@ -52,7 +52,7 @@ public struct DirectoryExplorerView: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .scaleEffect(1.2)
-                    Text("正在加载目录内容……")
+                    Text("正在加载目录内容…")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -143,7 +143,7 @@ public struct DirectoryExplorerView: View {
         case .confirmSingleDelete(let item):
             return Alert(
                 title: Text("删除“\(item.name)”？"),
-                message: Text("此项将被永久移除。"),
+                message: Text("此项目将被永久移除。"),
                 primaryButton: .destructive(Text("删除")) {
                     vm.delete(item: item)
                 },
@@ -162,7 +162,7 @@ public struct DirectoryExplorerView: View {
         case .rename(let item):
             return Alert(
                 title: Text("重命名“\(item.name)”"),
-                message: Text("请输入此项的新名称："),
+                message: Text("请输入此项目的新名称："),
                 primaryButton: .default(Text("重命名")) {
                     vm.rename(item: item, to: vm.renameInput)
                 },

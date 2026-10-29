@@ -23,7 +23,7 @@ public final class SideStoreTopShelfProvider: TVTopShelfContentProvider {
         let items: [TVTopShelfSectionedItem] = snapshot.activeApps.map { app in
             let item = TVTopShelfSectionedItem(identifier: app.bundleIdentifier)
             let daysLeft = max(0, Calendar.current.dateComponents([.day], from: Date(), to: app.expirationDate).day ?? 0)
-            item.title = "\(app.name) (\(daysLeft)d)"
+            item.title = "\(app.name)（剩余 \(daysLeft) 天）"
             item.imageShape = .square
 
             if let iconDir = FileManager.default.altstoreSharedDirectory?.appendingPathComponent("WidgetIcons", isDirectory: true) {

@@ -75,7 +75,7 @@ class ImportAccountAlertController: UIAlertController {
                     let account = try await ImportExport.importAccount(data, filePassword: password)
                     UserDefaults.standard.acctFileChecksum = checksum
                     let toastView = ToastView(
-                        text: NSLocalizedString("已成功导入“\(account.email)”！", comment: ""),
+                        text: NSLocalizedString("已导入“\(account.email)”！", comment: ""),
                         detailText: "SideStore 应已完全可用！"
                     )
                     toastView.show(in: presentingVC)

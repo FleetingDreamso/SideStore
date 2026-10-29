@@ -418,7 +418,7 @@ class DeveloperServicesViewModel: ObservableObject {
             if let idx = self.devices.firstIndex(where: { $0.identifier == device.identifier }) {
                 self.devices[idx] = disabled
             }
-            self.showToastMessage("已停用设备“\(device.name)”")
+            self.showToastMessage("已禁用设备“\(device.name)”")
             return true
         } catch {
             self.errorMessage = error.localizedDescription

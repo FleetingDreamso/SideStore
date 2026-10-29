@@ -124,7 +124,7 @@ final class AccountVerificationRow: InsetGroupTableViewCell {
         case .checking:
             self.titleLabel.text = NSLocalizedString("账号验证", comment: "")
             self.titleLabel.textColor = .white
-            self.subtitleLabel.text = NSLocalizedString("正在验证账号状态……", comment: "")
+            self.subtitleLabel.text = NSLocalizedString("正在验证账号状态…", comment: "")
             self.subtitleLabel.textColor = UIColor.white.withAlphaComponent(0.7)
             self.iconImageView.image = nil
             self.iconImageView.isHidden = true

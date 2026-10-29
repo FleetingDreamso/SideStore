@@ -32,7 +32,7 @@ class CoreDataHelper{
         guard let modelURL = bundle.url(forResource: STORE_XCMODELD_NAME, withExtension: "momd"),
               let _ = NSManagedObjectModel(contentsOf: modelURL) else {
             
-            let errorDescription = "无法从 AltStoreCore 资源包加载模型 \(STORE_XCMODELD_NAME)"
+            let errorDescription = "从 AltStoreCore 资源包加载模型 \(STORE_XCMODELD_NAME) 失败"
             throw getCoreDataError(code: 2, localizedDescription: errorDescription)
         }
         
@@ -77,7 +77,7 @@ class CoreDataHelper{
         
         // Check for load errors
         if let error = loadError {
-            let errorDescription = "无法加载持久化存储：\(error.localizedDescription)"
+            let errorDescription = "加载持久化存储失败：\(error.localizedDescription)"
             throw getCoreDataError(code: 3, localizedDescription: errorDescription)
         }
                 

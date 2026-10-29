@@ -123,7 +123,7 @@ class AppDetailCollectionViewController: UICollectionViewController
                 
                 configuration.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .callout)
                 configuration.textToSecondaryTextVerticalPadding = 8
-                configuration.secondaryText = NSLocalizedString("权限是授予应用访问特定系统服务的附加许可，其中可能包含敏感信息。", comment: "")
+                configuration.secondaryText = NSLocalizedString("权限是授予应用访问特定系统服务的附加许可，这些服务可能涉及敏感信息。", comment: "")
                 
             case .unknownEntitlements:
                 configuration.text = NSLocalizedString("其它权限", comment: "")

@@ -46,7 +46,7 @@ struct HealthCheckView: View {
                                 .multilineTextAlignment(.center)
                         }
                     } else {
-                        ProgressView("正在执行诊断检查……")
+                        ProgressView("正在执行诊断检查…")
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -71,7 +71,7 @@ struct HealthCheckView: View {
                     if !viewModel.isRPPairing {
                         if #available(iOS 26.4, *) {
                             DependencyRow(
-                                title: "IPSEC/IKEV2 隧道",
+                                title: "IPsec/IKEv2 隧道",
                                 subtitle: viewModel.ipsecSatisfied == nil ? "未知" : (viewModel.isIKEv2IPSecAvailable ? "已连接" : "未连接"),
                                 isSatisfied: viewModel.ipsecSatisfied
                             )

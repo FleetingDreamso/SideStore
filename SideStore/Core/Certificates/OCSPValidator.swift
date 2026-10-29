@@ -24,9 +24,9 @@ public enum OCSPValidationError: Error, LocalizedError {
         case .revoked:
             return "该证书已被 Apple 吊销。"
         case .invalidCertificate:
-            return "无法解析证书数据。"
+            return "解析证书数据失败。"
         case .missingIntermediateCertificate:
-            return "无法获取 Apple WWDR 中间证书。"
+            return "获取 Apple WWDR 中间证书失败。"
         case .ocspServerError(let message):
             return "OCSP 服务器错误：\(message)"
         }

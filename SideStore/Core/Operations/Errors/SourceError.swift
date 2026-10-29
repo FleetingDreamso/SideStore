@@ -82,7 +82,7 @@ struct SourceError: ALTLocalizedError
         case .unsupported: return String(format: NSLocalizedString("此版本的 SideStore 不支持源“%@”。", comment: ""), self.$source.name)
         case .duplicateBundleID:
             let bundleIDFragment = self.bundleID.map { String(format: NSLocalizedString("Bundle ID 为 %@", comment: ""), $0) } ?? NSLocalizedString("相同的 Bundle ID", comment: "")
-            let failureReason = String(format: NSLocalizedString("源“%@”中包含多个具有%@的应用。", comment: ""), self.$source.name, bundleIDFragment)
+            let failureReason = String(format: NSLocalizedString("源“%@”中包含多个具有 %@ 的应用。", comment: ""), self.$source.name, bundleIDFragment)
             return failureReason
             
         case .duplicateVersion:
@@ -102,7 +102,7 @@ struct SourceError: ALTLocalizedError
                 appFragment = NSLocalizedString("一个或多个应用", comment: "")
             }
             
-            let failureReason = String(format: NSLocalizedString("源“%@”中存在%@的%@。", comment: ""), self.$source.name, versionFragment, appFragment)
+            let failureReason = String(format: NSLocalizedString("源“%@”中存在 %@ 的 %@。", comment: ""), self.$source.name, versionFragment, appFragment)
             return failureReason
             
         case .blocked:
@@ -127,7 +127,7 @@ struct SourceError: ALTLocalizedError
             }
             
             let permissionType = permission.type.localizedName ?? NSLocalizedString("权限", comment: "")
-            let failureReason = String(format: NSLocalizedString("%@ 的%@“%@”缺少用途说明。", comment: ""), permissionType.lowercased(), permission.rawValue, appName)
+            let failureReason = String(format: NSLocalizedString("%@ 的 %@ 在“%@”中缺少用途说明。", comment: ""), permissionType.lowercased(), permission.rawValue, appName)
             return failureReason
             
         case .missingScreenshotSize:

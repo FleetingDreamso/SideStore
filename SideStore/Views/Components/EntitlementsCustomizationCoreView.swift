@@ -310,7 +310,7 @@ public struct EntitlementsCustomizationCoreView: View {
                 .foregroundColor(.secondary)
                 .font(.system(size: 14))
 
-            TextField("搜索权限……", text: $viewModel.searchQuery)
+            TextField("搜索权限…", text: $viewModel.searchQuery)
                 .font(.system(size: 14))
                 .textFieldStyle(PlainTextFieldStyle())
 

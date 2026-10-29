@@ -94,7 +94,7 @@ class AnisetteDataViewModel: ObservableObject {
         )
         await AnisetteConfigManager.shared.saveConfig(config)
         updateRawEditableJSON()
-        showToast(text: "已成功保存配置。")
+        showToast(text: "配置已保存。")
     }
     
     func saveRawJSON() async {
@@ -117,7 +117,7 @@ class AnisetteDataViewModel: ObservableObject {
             customXcodeVersion = config.customXcodeVersion ?? ""
             
             await AnisetteConfigManager.shared.saveConfig(config)
-            showToast(text: "JSON 配置已成功保存！")
+            showToast(text: "JSON 配置已保存！")
         } catch {
             showToast(text: "JSON 结构无效", error: error)
         }

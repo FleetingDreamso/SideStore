@@ -95,8 +95,8 @@ struct ActiveCertSectionView: View {
                 }
             } else {
                 Text(viewModel.team == nil
-                     ? "未找到当前本地证书。请导入 .p12 文件来为应用签名。"
-                     : "未找到当前本地证书。请创建新证书或导入 .p12 文件来为应用签名。")
+                     ? "未找到当前有效的本地证书。请导入 .p12 文件来为应用签名。"
+                     : "未找到当前有效的本地证书。请创建新证书或导入 .p12 文件来为应用签名。")
                     .foregroundColor(.secondary)
                     .font(.subheadline)
             }

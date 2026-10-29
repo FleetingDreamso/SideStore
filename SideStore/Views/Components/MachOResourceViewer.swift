@@ -160,7 +160,7 @@ struct MachOResourceViewer: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ProgressView("正在解析 Mach-O……")
+                ProgressView("正在解析 Mach-O…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
@@ -221,7 +221,7 @@ struct MachOResourceViewer: View {
         }
         let cdHashes = p.getCDHashes()
         if !cdHashes.isEmpty {
-            info += "CDHashes:\n"
+            info += "CDHashes：\n"
             for hash in cdHashes {
                 info += "  \(hash)\n"
             }

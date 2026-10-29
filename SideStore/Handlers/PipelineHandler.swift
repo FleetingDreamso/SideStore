@@ -53,7 +53,7 @@ final class PipelineHandler: PipelineExecutionHandler,
         }
         
         let title = NSLocalizedString("Bundle ID 不匹配", comment: "")
-        let message = String(format: NSLocalizedString("你要安装的应用的 Bundle ID（%@）与当前活跃的应用（%@）不匹配。是否继续？", comment: ""), targetID, activeEffectiveID)
+        let message = String(format: NSLocalizedString("要安装的应用（Bundle ID：%@）与当前活跃的应用（%@）不匹配。是否继续？", comment: ""), targetID, activeEffectiveID)
         
         return await withCheckedContinuation { continuation in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -36,7 +36,7 @@ final class CacheAppOperation: BasePipelineOperation<InstallAppOperationContext,
     @discardableResult
     static func cachePayload(for bundleURL: URL) throws -> (signature: String, targetFileURL: URL) {
         guard let signature = AppBundleFingerprint.compute(for: bundleURL) else {
-            throw OperationError.invalidApp(reason: "无法计算“\(bundleURL.lastPathComponent)”的应用包指纹")
+            throw OperationError.invalidApp(reason: "计算“\(bundleURL.lastPathComponent)”的应用包指纹失败")
         }
 
         let targetFileURL = InstalledApp.payloadURL(forSignature: signature)

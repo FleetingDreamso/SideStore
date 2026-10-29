@@ -559,7 +559,7 @@ private extension SettingsViewController
             }
             else
             {
-                settingsHeaderFooterView.secondaryLabel.text = NSLocalizedString("删除非必要的数据（例如临时文件和已卸载应用的备份）以释放磁盘空间。", comment: "")
+                settingsHeaderFooterView.secondaryLabel.text = NSLocalizedString("移除非必要的数据（例如临时文件和已卸载应用的备份）以释放磁盘空间。", comment: "")
             }
             
         case .credits:

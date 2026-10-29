@@ -362,7 +362,7 @@ struct ProfileManagementView: View {
         do {
             _ = try ProfileManager.shared.importProfile(data: profile.data)
             viewModel.loadProfiles(isPullToRefresh: false)
-            viewModel.showToast("已成功导入“\(profile.name)”")
+            viewModel.showToast("已导入“\(profile.name)”")
         } catch {
             viewModel.showToast("导入描述文件失败：\(error.localizedDescription)")
         }

@@ -370,7 +370,7 @@ struct IPAContentsView: View {
                 VStack(spacing: 16) {
                     ProgressView()
                         .scaleEffect(1.5)
-                    Text("正在解压 \(ipaURL.lastPathComponent)……")
+                    Text("正在解压 \(ipaURL.lastPathComponent)…")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }

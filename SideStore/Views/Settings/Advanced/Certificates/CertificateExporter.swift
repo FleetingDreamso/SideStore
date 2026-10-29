@@ -34,7 +34,7 @@ enum CertificateExporter {
             share(data: p12Data, filename: (cert.machineName ?? cert.name) + ".p12", onShare: onShare, onError: onError)
         } catch {
             debugLog("[CertificateExporter] Failed to build encrypted p12 data: \(error)")
-            onError("无法构建加密的 p12 数据：\(error.localizedDescription)")
+            onError("构建加密的 p12 数据失败：\(error.localizedDescription)")
         }
     }
     
@@ -61,7 +61,7 @@ enum CertificateExporter {
         do {
             try data.write(to: tempURL)
         } catch {
-            onError("无法写入临时导出文件：" + error.localizedDescription)
+            onError("写入临时导出文件失败：" + error.localizedDescription)
             return
         }
         if let onShare = onShare {

@@ -1322,7 +1322,7 @@ private extension MyAppsViewController
             } else {
                 title = NSLocalizedString("无法激活超过 3 个应用和应用扩展", comment: "")
                 let extCount = installedApp.appExtensions.count
-                let extText = extCount == 1 ? NSLocalizedString("应用扩展", comment: "") : NSLocalizedString("应用扩展", comment: "")
+                let extText = NSLocalizedString("应用扩展", comment: "")
                 message = String(format: NSLocalizedString("非开发者 Apple ID 最多只能拥有 3 个活跃的应用和应用扩展，而“%@”包含 %@ 个%@。请选择要停用的应用。", comment: ""), installedApp.name, NSNumber(value: extCount), extText)
             }
         } else {
@@ -1559,7 +1559,7 @@ private extension MyAppsViewController
                 toast = ToastView(error: error, opensLog: false)
                 break
             case .success:
-                toast = ToastView(text: "已成功为 \(installedApp.name) 导入备份",
+                toast = ToastView(text: "已为 \(installedApp.name) 导入备份",
                                   detailText: "使用“恢复备份”选项从此导入的备份中恢复数据")
             }
             DispatchQueue.main.async {

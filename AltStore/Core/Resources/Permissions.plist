@@ -20,7 +20,7 @@
 			<key>name</key>
 			<string>通过 Apple 登录</string>
 			<key>description</key>
-			<string>允许使用「通过 Apple 登录」。</string>
+			<string>允许使用“通过 Apple 登录”。</string>
 			<key>key</key>
 			<string>com.apple.developer.applesignin</string>
 			<key>symbol</key>
@@ -152,7 +152,7 @@
 			<key>name</key>
 			<string>自动设备注册</string>
 			<key>description</key>
-			<string>授予将设备添加到「自动设备注册」的权限。</string>
+			<string>授予将设备添加到“自动设备注册”的权限。</string>
 			<key>key</key>
 			<string>com.apple.developer.automated-device-enrollment.add-devices</string>
 			<key>symbol</key>
@@ -163,7 +163,7 @@
 			<key>name</key>
 			<string>ClassKit</string>
 			<key>description</key>
-			<string>授予访问 ClassKit 开发或生产环境的权限，供与「课堂」应用配合使用的教育类应用使用。</string>
+			<string>授予访问 ClassKit 开发或生产环境的权限，供与 Schoolwork 应用配合使用的教育类应用使用。</string>
 			<key>key</key>
 			<string>com.apple.developer.ClassKit-environment</string>
 			<key>symbol</key>
@@ -713,7 +713,7 @@
 			<key>name</key>
 			<string>凭证类型</string>
 			<key>description</key>
-			<string>允许应用检查「钱包」中的凭证。</string>
+			<string>允许应用检查“钱包”中的凭证。</string>
 			<key>key</key>
 			<string>com.apple.developer.pass-type-identifiers</string>
 			<key>symbol</key>

@@ -111,7 +111,7 @@ struct UserCustomizationsView: View {
 
                 // Section 1: ANISETTE
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("ANISETTE")
+                    Text("Anisette")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)
@@ -175,7 +175,7 @@ struct UserCustomizationsView: View {
 
                 // Section: SIDESIGN
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("SIDESIGN")
+                    Text("SideSign")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)
@@ -456,7 +456,7 @@ struct UserCustomizationsView: View {
                 useOnDeviceAnisette = UserDefaults.standard.useOnDeviceAnisette
             }
         } message: {
-            Text("更改 Anisette 配置将使当前已配置的 Anisette 数据失效，并且你会被登出。\n\n此操作需要重启，是否继续？")
+            Text("更改 Anisette 配置将使当前已配置的 Anisette 数据失效，并且你会退出登录。\n\n此操作需要重启，是否继续？")
         }
         .alert("需要重启", isPresented: $showEMPRestartConfirmation) {
             SwiftUI.Button("立即重启", role: .destructive) {
