@@ -161,7 +161,7 @@ private struct ActiveAppsWidgetView: View
                                 }
                                 else
                                 {
-                                    Text("剩余 \(daysRemaining) ") + (daysRemaining == 1 ? Text("天") : Text("天"))
+                                    Text("剩余 \(daysRemaining) ") + Text("天")
                                 }
                                 
                                 text
