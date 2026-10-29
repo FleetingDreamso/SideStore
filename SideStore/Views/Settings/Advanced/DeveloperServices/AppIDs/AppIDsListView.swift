@@ -186,16 +186,16 @@ struct AppIDsListView: View {
             return "确定要删除 \(name)\(bundleID) 吗？这还会移除所有关联的描述文件。"
         }
 
-        var expiryNotice = "在其通常 7 天有效期的剩余天数过后自动过期。"
+        var expiryNotice = "它会在通常 7 天有效期的剩余天数过后自动过期，在此之前无法使用。"
         if let expiration = appID.expirationDate {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.day], from: Date(), to: expiration)
             if let days = components.day, days > 0 {
-                expiryNotice = "在其通常 7 天有效期的剩余 \(days) 天后自动过期。"
+                expiryNotice = "它会在通常 7 天有效期的剩余 \(days) 天后自动过期，在此之前无法使用。"
             }
         }
 
-        return "警告：删除 \(name)\(bundleID) 不会释放 App ID 名额。\n\n此 App ID 将被保留，并\(expiryNotice)\n\n确定要删除它吗？"
+        return "警告：删除 \(name)\(bundleID) 不会释放 App ID 名额。\n\n此 App ID 将被保留。\(expiryNotice)\n\n确定要删除它吗？"
     }
 
     private func formatDate(_ date: Date) -> String {
