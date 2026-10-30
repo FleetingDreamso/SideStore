@@ -258,7 +258,7 @@ class AnisetteDataViewModel: ObservableObject {
         }
         
         await save()
-        showToast(text: "已将获取的数据载入覆盖值！")
+        showToast(text: "已将获取的数据加载到覆盖值中！")
     }
     
     func showToast(text: String, detailText: String? = nil, error: Error? = nil) {

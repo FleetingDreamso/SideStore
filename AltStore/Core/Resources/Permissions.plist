@@ -361,7 +361,7 @@
 			<key>name</key>
 			<string>iCloud 容器开发容器标识符</string>
 			<key>description</key>
-			<string>应用可以使用 iCloud 容器进行测试。</string>
+			<string>应用可以将 iCloud 容器用于测试环境。</string>
 			<key>key</key>
 			<string>com.apple.developer.icloud-container-development-container-identifiers</string>
 			<key>symbol</key>

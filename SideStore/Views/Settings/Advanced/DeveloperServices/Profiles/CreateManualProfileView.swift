@@ -188,7 +188,7 @@ struct CreateManualProfileView: View {
                                 }
                                 .font(.caption)
                             }
-                        }, footer: Text("选择已注册的测试设备，用于安装由该描述文件签名的应用。")) {
+                        }, footer: Text("选择已注册的测试设备，用于安装由此描述文件签名的应用。")) {
                             if filteredDevices.isEmpty {
                                 if viewModel.isLoading {
                                     HStack {

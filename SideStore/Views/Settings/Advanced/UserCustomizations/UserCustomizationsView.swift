@@ -466,7 +466,7 @@ struct UserCustomizationsView: View {
             }
             SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("更改 EMProxy 设置需要重启 SideStore。如果取消，更改不会保存。")
+            Text("更改 EMProxy 设置需要重启 SideStore。如果取消，更改将不会被保存。")
         }
         .alert("需要重启", isPresented: $showBackendRestartConfirmation) {
             SwiftUI.Button("立即重启", role: .destructive) {
@@ -478,7 +478,7 @@ struct UserCustomizationsView: View {
                 pendingBackendOption = nil
             }
         } message: {
-            Text("更改 Minimuxer 后端需要重启 SideStore。如果取消，更改不会保存。")
+            Text("更改 Minimuxer 后端需要重启 SideStore。如果取消，更改将不会被保存。")
         }
         .alert(pendingPreferIPAOngoing ? "优先使用重签 IPA" : "优先使用应用包", isPresented: $showPreferIPAToggleAlert) {
             SwiftUI.Button("切换") {

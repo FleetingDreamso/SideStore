@@ -1395,7 +1395,7 @@ private extension MyAppsViewController
         let appName = installedApp.name
         let title = String(format: NSLocalizedString("删除“%@”？", comment: ""), appName)
         
-        let message = String(format: NSLocalizedString("这会将“%@”从 SideStore 中移除，并清除该应用的所有备份数据。", comment: ""), appName)
+        let message = String(format: NSLocalizedString("这会将“%@”从 SideStore 中移除，并清除此应用的所有备份数据。", comment: ""), appName)
         
         let contentVC = DeleteAppAlertViewController()
         
@@ -1483,7 +1483,7 @@ private extension MyAppsViewController
         }
         else
         {
-            message = NSLocalizedString("这还会清除该应用的所有备份数据。", comment: "")
+            message = NSLocalizedString("这还会清除此应用的所有备份数据。", comment: "")
         }
 
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

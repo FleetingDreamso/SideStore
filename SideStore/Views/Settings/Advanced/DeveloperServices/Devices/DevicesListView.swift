@@ -356,7 +356,7 @@ struct DevicesListView: View {
                 .alert(isPresented: $showSheetDisableAlert) {
                     Alert(
                         title: Text("禁用设备？"),
-                        message: Text("确定要在 Apple 开发者后台中禁用“\(device.name)”吗？已禁用的设备不会包含在新生成的描述文件中。"),
+                        message: Text("确定要在 Apple 开发者后台中禁用“\(device.name)”吗？已禁用的设备将不会包含在新生成的描述文件中。"),
                         primaryButton: .default(Text("禁用")) {
                             Task {
                                 let success = await viewModel.disableDevice(device, presentingViewController: presentingViewController)
@@ -390,7 +390,7 @@ struct DevicesListView: View {
             case .disable(let device):
                 return Alert(
                     title: Text("禁用设备？"),
-                    message: Text("确定要在 Apple 开发者后台中禁用“\(device.name)”吗？已禁用的设备不会包含在新生成的描述文件中。"),
+                    message: Text("确定要在 Apple 开发者后台中禁用“\(device.name)”吗？已禁用的设备将不会包含在新生成的描述文件中。"),
                     primaryButton: .default(Text("禁用")) {
                         Task {
                             _ = await viewModel.disableDevice(device, presentingViewController: presentingViewController)

@@ -758,7 +758,7 @@ class SignInFlowHandler: AnyObject, SignInHandler, AnisetteServerHandler {
         }
         
         return await withCheckedContinuation { continuation in
-            let alert = UIAlertController(title: "警告：Anisette 服务器版本过旧", message: "检测到你正在使用较旧版本的 Anisette 服务器。使用该服务器更容易导致账号被锁定以及其它问题。确定要继续吗？", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "警告：Anisette 服务器版本过旧", message: "检测到你正在使用较旧版本的 Anisette 服务器。使用此服务器更容易导致账号被锁定以及其它问题。确定要继续吗？", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "继续", style: UIAlertAction.Style.destructive, handler: { action in
                 continuation.resume(returning: true)
             }))
