@@ -29,11 +29,11 @@ struct BackupErrorLocalizer {
         case .createBackup:
             return NSLocalizedString("无法创建备份目录。", comment: "")
         case .createGroupBackup:
-            return NSLocalizedString("无法创建 App 组备份目录。", comment: "")
+            return NSLocalizedString("无法创建 App 小组备份目录。", comment: "")
         case .accessBackup:
             return NSLocalizedString("无法访问备份。", comment: "")
         case .readGroupBackup:
-            return NSLocalizedString("无法读取 App 组备份。", comment: "")
+            return NSLocalizedString("无法读取 App 小组备份。", comment: "")
         }
     }
     
@@ -43,12 +43,12 @@ struct BackupErrorLocalizer {
             return NSLocalizedString("Bundle ID 无效。", comment: "")
         case .appGroupNotFound(let appGroup):
             if let appGroup = appGroup {
-                return String(format: NSLocalizedString("找不到 App 组“%@”。", comment: ""), appGroup)
+                return String(format: NSLocalizedString("找不到 App 小组“%@”。", comment: ""), appGroup)
             } else {
-                return NSLocalizedString("找不到 AltStore 的 App 组。", comment: "")
+                return NSLocalizedString("找不到 AltStore 的 App 小组。", comment: "")
             }
         case .randomError:
-            return NSLocalizedString("发生了一个随机错误。", comment: "")
+            return NSLocalizedString("发生了随机错误。", comment: "")
         }
     }
 }

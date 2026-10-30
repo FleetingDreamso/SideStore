@@ -288,7 +288,7 @@ struct UserCustomizationsView: View {
 
                 // Section 3: EMPROXY & WIREGUARD
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("EMPROXY 与 WIREGUARD")
+                    Text("EMProxy 与 WireGuard")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)
@@ -342,7 +342,7 @@ struct UserCustomizationsView: View {
 
                 // Section 5: MINIMUXER BACKEND
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("MINIMUXER 后端")
+                    Text("Minimuxer 后端")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color.white.opacity(0.6))
                         .padding(.horizontal, 16)
@@ -466,7 +466,7 @@ struct UserCustomizationsView: View {
             }
             SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("更改 EMProxy 设置需要重启 SideStore。如果取消，更改将不会被保存。")
+            Text("更改 EMProxy 设置需要重启 SideStore。如果取消，更改不会保存。")
         }
         .alert("需要重启", isPresented: $showBackendRestartConfirmation) {
             SwiftUI.Button("立即重启", role: .destructive) {
@@ -478,7 +478,7 @@ struct UserCustomizationsView: View {
                 pendingBackendOption = nil
             }
         } message: {
-            Text("更改 Minimuxer 后端需要重启 SideStore。如果取消，更改将不会被保存。")
+            Text("更改 Minimuxer 后端需要重启 SideStore。如果取消，更改不会保存。")
         }
         .alert(pendingPreferIPAOngoing ? "优先使用重签 IPA" : "优先使用应用包", isPresented: $showPreferIPAToggleAlert) {
             SwiftUI.Button("切换") {
@@ -899,8 +899,8 @@ struct UserCustomizationsView: View {
                 divider
                 
                 toggleRow(
-                    title: "自动修正 App 组 ID",
-                    subtitle: isFreeAccount ? "免费开发者账号所必需" : "自动修正 App 组大小写不一致",
+                    title: "自动修正 App 小组 ID",
+                    subtitle: isFreeAccount ? "免费开发者账号所必需" : "自动修正 App 小组大小写不一致",
                     isOn: Binding(
                         get: { isFreeAccount ? true : autoFixAppGroupIDs },
                         set: { newValue in

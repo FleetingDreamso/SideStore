@@ -102,7 +102,7 @@ public struct StorageExplorerView: View {
                    !seenGroupPaths.contains(groupURL.path) {
                     seenGroupPaths.insert(groupURL.path)
                     locs.append(StorageLocation(
-                        name: "App 组容器（\(groupID)）",
+                        name: "App 小组容器（\(groupID)）",
                         subtitle: groupURL.path,
                         iconName: "shippingbox",
                         url: groupURL

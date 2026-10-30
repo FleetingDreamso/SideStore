@@ -256,7 +256,7 @@ final class BonjourDiscoveryViewModel: ObservableObject {
                 
                 return "IPv4"
             }
-            let preferredOrder = ["IPv4", "IPv6", "IPv4 与 IPv6"]
+            let preferredOrder = ["IPv4", "IPv6", "IPv4 & IPv6"]
             let keys = grouped.keys.sorted { k1, k2 in
                 let idx1 = preferredOrder.firstIndex(of: k1) ?? 99
                 let idx2 = preferredOrder.firstIndex(of: k2) ?? 99

@@ -215,7 +215,7 @@ private struct PairingFileStep: View {
                     .font(.system(size: 28, weight: .bold))
 
                 Text(String(
-                    format: NSLocalizedString("SideStore 使用由你的电脑生成的配对文件（.mobiledevicepairing 或 .plist）与 %@ 的设备服务通信。", comment: ""),
+                    format: NSLocalizedString("SideStore 使用你电脑上生成的配对文件（.mobiledevicepairing 或 .plist）与 %@ 的设备服务通信。", comment: ""),
                     ProcessInfo.processInfo.platformName
                 ))
                 .font(.subheadline)

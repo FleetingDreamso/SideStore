@@ -90,7 +90,7 @@ public enum OperationError: LocalizedError, CustomNSError, Sendable, Equatable {
         case .missingAppBundle(let reason):
             return "找不到应用包：\(reason)"
         case .missingAppGroup(let name):
-            return "无法访问 SideStore 的共享 App 组“\(name)”。"
+            return "无法访问 SideStore 的共享 App 小组“\(name)”。"
         case .missingInfoPlist(let reason):
             return "找不到应用的 Info.plist：\(reason)"
         case .missingProvisioningProfile(let reason):

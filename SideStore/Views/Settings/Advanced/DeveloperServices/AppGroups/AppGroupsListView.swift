@@ -38,7 +38,7 @@ struct AppGroupsListView: View {
 
     var body: some View {
         List {
-            Section(header: Text("App 组（\(viewModel.appGroups.count)）"), footer: Text("App 组可在同一开发者团队内的多个应用和扩展之间共享数据。点按某个组可编辑其名称或将其删除。")) {
+            Section(header: Text("App 小组（\(viewModel.appGroups.count)）"), footer: Text("App 小组可在同一开发者团队内的多个应用和扩展之间共享数据。点按某个小组可编辑其名称或将其删除。")) {
                 if filteredGroups.isEmpty {
                     if viewModel.isLoading {
                         HStack {
@@ -48,7 +48,7 @@ struct AppGroupsListView: View {
                         }
                         .padding(.vertical, 8)
                     } else {
-                        Text(searchText.isEmpty ? "开发者后台中没有 App 组。" : "未找到匹配的 App 组。")
+                        Text(searchText.isEmpty ? "开发者后台中没有 App 小组。" : "未找到匹配的 App 小组。")
                             .foregroundColor(.secondary)
                             .font(.subheadline)
                     }
@@ -60,7 +60,7 @@ struct AppGroupsListView: View {
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
                                 HStack {
-                                    Text(group.name.isEmpty ? "App 组" : group.name)
+                                    Text(group.name.isEmpty ? "App 小组" : group.name)
                                         .font(.headline)
                                         .foregroundColor(.primary)
                                     Spacer()
@@ -72,7 +72,7 @@ struct AppGroupsListView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                                 HStack {
-                                    Text("组 ID：\(group.identifier)")
+                                    Text("小组 ID：\(group.identifier)")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                     Spacer()
@@ -125,11 +125,11 @@ struct AppGroupsListView: View {
         }
         #if !os(tvOS)
         .listStyle(InsetGroupedListStyle())
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索 App 组")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索 App 小组")
         #else
         .listStyle(GroupedListStyle())
         #endif
-        .navigationTitle("App 组")
+        .navigationTitle("App 小组")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 SwiftUI.Button {
@@ -147,14 +147,14 @@ struct AppGroupsListView: View {
         .sheet(isPresented: $showCreateSheet) {
             NavigationView {
                 Form {
-                    Section(header: Text("App 组详情"), footer: Text("组标识符必须以“group.”前缀开头（例如 group.com.example.shared）。")) {
+                    Section(header: Text("App 小组详情"), footer: Text("小组标识符必须以“group.”前缀开头（例如 group.com.example.shared）。")) {
                         TextField("名称（例如 Shared Storage）", text: $newGroupName)
-                        TextField("组标识符", text: $newGroupIdentifier)
+                        TextField("小组标识符", text: $newGroupIdentifier)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
                 }
-                .navigationTitle("创建 App 组")
+                .navigationTitle("创建 App 小组")
                 .navigationBarItems(
                     leading: SwiftUI.Button("取消") {
                         showCreateSheet = false
@@ -196,7 +196,7 @@ struct AppGroupsListView: View {
                             HStack {
                                 Spacer()
                                 Image(systemName: "trash")
-                                Text("移除 App 组")
+                                Text("移除 App 小组")
                                     .fontWeight(.semibold)
                                 Spacer()
                             }
@@ -224,7 +224,7 @@ struct AppGroupsListView: View {
                 )
                 .alert(isPresented: $showSheetDeleteConfirmation) {
                     Alert(
-                        title: Text("删除 App 组？"),
+                        title: Text("删除 App 小组？"),
                         message: Text("确定要从 Apple 开发者后台删除“\(group.name)”（\(group.groupIdentifier)）吗？"),
                         primaryButton: .destructive(Text("删除")) {
                             Task {
@@ -241,8 +241,8 @@ struct AppGroupsListView: View {
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
-                title: Text("删除 App 组？"),
-                message: Text("确定要从 Apple 开发者后台删除“\(groupToDelete?.name ?? "此 App 组")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
+                title: Text("删除 App 小组？"),
+                message: Text("确定要从 Apple 开发者后台删除“\(groupToDelete?.name ?? "此 App 小组")”（\(groupToDelete?.groupIdentifier ?? "")）吗？"),
                 primaryButton: .destructive(Text("删除")) {
                     if let target = groupToDelete {
                         Task {

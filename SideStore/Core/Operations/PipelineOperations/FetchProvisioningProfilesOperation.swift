@@ -317,7 +317,7 @@ private extension FetchProvisioningProfilesOperation{
         for group in applicationGroups {
             if group.contains("$(APP_GROUP_IDENTIFIER)") {
                 self.debugLog("[FetchProvisioningProfiles] Error: Application group contains raw placeholder '$(APP_GROUP_IDENTIFIER)': \(group)")
-                throw OperationError.invalidParameters("App 组“\(group)”包含未替换的占位符“$(APP_GROUP_IDENTIFIER)”。")
+                throw OperationError.invalidParameters("App 小组“\(group)”包含未替换的占位符“$(APP_GROUP_IDENTIFIER)”。")
             }
         }
         

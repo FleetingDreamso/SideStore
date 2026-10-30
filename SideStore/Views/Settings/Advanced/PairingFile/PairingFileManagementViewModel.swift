@@ -139,7 +139,7 @@ public final class PairingFileManagementViewModel: ObservableObject {
         let title = NSLocalizedString("协议不匹配", comment: "")
         let message = String(
             format: NSLocalizedString(
-                "你保存的首选项是 **%@**，但所提供的配对文件是 **%@**。\n\n是否要切换并将 **%@** 设为你的首选协议，还是在不更改首选项的情况下加载它？",
+                "你保存的首选项是 **%@**，但所提供的配对文件是 **%@**。\n\n是否要切换并将 **%@** 设为你的首选协议，还是保留首选项直接加载？",
                 comment: ""
             ),
             saved.rawValue,

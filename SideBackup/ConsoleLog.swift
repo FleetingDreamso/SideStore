@@ -15,11 +15,11 @@ enum SideBackupError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .appGroupNotConfigured(let expected):
-            return "未配置 App 组。应用包中没有任何包含“\(expected)”的 App 组权限。" +
-                   "SideBackup 可能未使用 SideStore 的 App 组权限重新签名。"
+            return "未配置 App 小组。应用包中没有任何包含“\(expected)”的 App 小组权限。" +
+                   "SideBackup 可能未使用 SideStore 的 App 小组权限重新签名。"
         case .appGroupContainerUnresolvable(let group):
-            return "无法解析 App 组“\(group)”的容器 URL。" +
-                   "描述文件可能缺少 App 组权限。"
+            return "无法解析 App 小组“\(group)”的容器 URL。" +
+                   "描述文件可能缺少 App 小组权限。"
         }
     }
 }

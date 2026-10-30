@@ -64,9 +64,9 @@ struct AppIDDetailView: View {
                 }
             }
 
-            Section(header: Text("关联的 App 组"), footer: Text("选择要与此 App ID 关联的 App 组，然后点按“保存”。")) {
+            Section(header: Text("关联的 App 小组"), footer: Text("选择要与此 App ID 关联的 App 小组，然后点按“保存”。")) {
                 if viewModel.appGroups.isEmpty {
-                    Text("此团队没有可用的 App 组。请先创建一个 App 组。")
+                    Text("此团队没有可用的 App 小组。请先创建一个 App 小组。")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 } else {
@@ -120,7 +120,7 @@ struct AppIDDetailView: View {
                                     ProgressView()
                                         .padding(.trailing, 8)
                                 }
-                                Text("保存组关联")
+                                Text("保存小组关联")
                                     .fontWeight(.semibold)
                                 Spacer()
                             }
@@ -180,7 +180,7 @@ struct AppIDDetailView: View {
 
     private func displayName(for feature: Feature) -> String {
         switch feature {
-        case .appGroups: return "App 组"
+        case .appGroups: return "App 小组"
         case .gameCenter: return "Game Center"
         case .inAppPurchase: return "App 内购买"
         case .pushNotifications: return "推送通知"

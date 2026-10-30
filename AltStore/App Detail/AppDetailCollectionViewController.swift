@@ -275,7 +275,7 @@ private extension AppDetailCollectionViewController
     
     func showUnknownEntitlementsAlert()
     {
-        let alertController = UIAlertController(title: NSLocalizedString("其它权限", comment: ""), message: NSLocalizedString("SideStore 没有关于这些权限的详细信息。", comment: ""), preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("其它权限", comment: ""), message: NSLocalizedString("SideStore 没有这些权限的详细信息。", comment: ""), preferredStyle: .alert)
         alertController.addAction(.ok)
         self.present(alertController, animated: true)
     }

@@ -456,8 +456,8 @@ final class PipelineHandler: PipelineExecutionHandler,
             return .correctAndProceed(correctedGroup)
         }
         
-        let title = NSLocalizedString("App 组不一致", comment: "")
-        let message = String(format: NSLocalizedString("App 组“%@”与应用 Bundle ID 的大小写不一致。是否要将其更正为“%@”？", comment: ""), originalGroup, correctedGroup)
+        let title = NSLocalizedString("App 小组不一致", comment: "")
+        let message = String(format: NSLocalizedString("App 小组“%@”与应用 Bundle ID 的大小写不一致。是否要将其更正为“%@”？", comment: ""), originalGroup, correctedGroup)
         
         return await withCheckedContinuation { continuation in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

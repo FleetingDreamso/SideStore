@@ -145,7 +145,7 @@ class DeveloperServicesViewModel: ObservableObject {
             if let idx = self.appIDs.firstIndex(where: { $0.identifier == appID.identifier }) {
                 self.appIDs[idx] = updated
             }
-            self.showToastMessage("已更新“\(appID.name)”的 App 组")
+            self.showToastMessage("已更新“\(appID.name)”的 App 小组")
             return true
         } catch {
             self.errorMessage = error.localizedDescription
@@ -322,7 +322,7 @@ class DeveloperServicesViewModel: ObservableObject {
             let newGroup = try await DeveloperPortalProxy.shared.addAppGroup(name: name, groupIdentifier: groupIdentifier)
             self.appGroups.append(newGroup)
             self.appGroups.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-            self.showToastMessage("已创建 App 组“\(newGroup.name)”")
+            self.showToastMessage("已创建 App 小组“\(newGroup.name)”")
             return true
         } catch {
             self.errorMessage = error.localizedDescription
@@ -336,7 +336,7 @@ class DeveloperServicesViewModel: ObservableObject {
         do {
             _ = try await DeveloperPortalProxy.shared.deleteAppGroup(group)
             self.appGroups.removeAll { $0.identifier == group.identifier || $0.groupID == group.groupID }
-            self.showToastMessage("已删除 App 组“\(group.name)”")
+            self.showToastMessage("已删除 App 小组“\(group.name)”")
             return true
         } catch {
             self.errorMessage = error.localizedDescription
@@ -355,7 +355,7 @@ class DeveloperServicesViewModel: ObservableObject {
                 self.appGroups[idx] = updated
             }
             self.appGroups.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-            self.showToastMessage("已更新 App 组“\(updated.name)”")
+            self.showToastMessage("已更新 App 小组“\(updated.name)”")
             return true
         } catch {
             self.errorMessage = error.localizedDescription

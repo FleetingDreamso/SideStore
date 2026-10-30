@@ -112,7 +112,7 @@ struct DeveloperServicesView: View {
                                 .frame(width: 28)
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("App 组")
+                                Text("App 小组")
                                     .font(.body)
                                 Text("已配置 \(viewModel.appGroups.count) 个")
                                     .font(.caption)

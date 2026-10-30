@@ -191,7 +191,7 @@ struct SideSignConfigurationView: View {
                 if viewModel.viewMode == 0 {
                     // SECTION 1: GRANDSLAM AUTH (gsa.apple.com)
                     VStack(alignment: .leading, spacing: 8) {
-                        sectionHeader("GRANDSLAM 认证（GSA）")
+                        sectionHeader("GrandSlam 认证（GSA）")
 
                         VStack(spacing: 0) {
                             headerFieldRow(
@@ -235,7 +235,7 @@ struct SideSignConfigurationView: View {
 
                     // SECTION 2: APPLE AUTH (idmsa.apple.com)
                     VStack(alignment: .leading, spacing: 8) {
-                        sectionHeader("APPLE 认证（IDMSA）")
+                        sectionHeader("Apple 认证（IDMSA）")
 
                         VStack(spacing: 0) {
                             headerFieldRow(

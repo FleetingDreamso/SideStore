@@ -237,7 +237,7 @@ struct CertificatesView: View {
                     }
                 }
             case .failure(let error):
-                let type = fileImportMode == .certificate ? "files" : "私钥"
+                let type = fileImportMode == .certificate ? "文件" : "私钥"
                 viewModel.errorMessage = "选择\(type)失败：" + error.localizedDescription
             }
         }

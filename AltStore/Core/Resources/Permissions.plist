@@ -579,9 +579,9 @@
 		<key>com.apple.security.application-groups</key>
 		<dict>
 			<key>name</key>
-			<string>App 组</string>
+			<string>App 小组</string>
 			<key>description</key>
-			<string>允许应用与同一 App Group 中的其它应用和应用扩展共享文件。</string>
+			<string>允许应用与同一 App 小组中的其它应用和应用扩展共享文件。</string>
 			<key>key</key>
 			<string>com.apple.security.application-groups</string>
 			<key>symbol</key>
@@ -614,7 +614,7 @@
 			<key>name</key>
 			<string>App Attest 环境</string>
 			<key>description</key>
-			<string>允许应用使用 App Attest 服务进行自我验证。</string>
+			<string>允许应用使用 App Attest 服务自我验证。</string>
 			<key>key</key>
 			<string>com.apple.developer.devicecheck.appattest-environment</string>
 			<key>symbol</key>
