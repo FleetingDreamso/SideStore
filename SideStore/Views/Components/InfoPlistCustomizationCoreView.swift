@@ -844,8 +844,8 @@ public struct InfoPlistCustomizationCoreView: View {
                         get: { rawEntries[targetIdx].value == "YES" },
                         set: { rawEntries[targetIdx].value = $0 ? "YES" : "NO" }
                     )) {
-                        Text("YES").tag(true)
-                        Text("NO").tag(false)
+                        Text("是").tag(true)
+                        Text("否").tag(false)
                     }
                     .pickerStyle(.segmented)
                 } else {
@@ -913,8 +913,8 @@ public struct InfoPlistCustomizationCoreView: View {
                 Section(header: Text("值")) {
                     if newKeyType == .boolean {
                         Picker("布尔值", selection: $newKeyValue) {
-                            Text("YES").tag("YES")
-                            Text("NO").tag("NO")
+                            Text("是").tag("YES")
+                            Text("否").tag("NO")
                         }
                         .pickerStyle(.segmented)
                     } else {

@@ -312,7 +312,7 @@ struct ProfileManagementView: View {
             }
             SwiftUI.Button("取消", role: .cancel) {}
         } message: {
-            Text("“\((profileToDelete?.name ?? "此描述文件"))”存在于 Apple 开发者后台中。你是要从 Apple 的服务器上删除它，还是仅删除本地缓存？")
+            Text("“\((profileToDelete?.name ?? "此描述文件"))”存在于 Apple 开发者后台中。你是否也要从 Apple 的服务器上删除它，还是仅删除本地缓存？")
         }
         .alert("错误", isPresented: $viewModel.showErrorAlert) {
             SwiftUI.Button("好", role: .cancel) { viewModel.errorMessage = nil }

@@ -657,7 +657,7 @@ private extension SettingsViewController
         
         let alertController = UIAlertController(
             title: NSLocalizedString("退出登录", comment: ""),
-            message: NSLocalizedString("确定要退出登录吗？退出登录后，你将无法安装或刷新应用。", comment: ""),
+            message: NSLocalizedString("确定要退出登录吗？退出登录后，你将无法再安装或刷新应用。", comment: ""),
             preferredStyle: .alert
         )
         
