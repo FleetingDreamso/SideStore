@@ -161,7 +161,7 @@ final class RemoveAppExtensionsOperation: BasePipelineOperation<InstallAppOperat
         let targetAppExNames  = targetAppEx.map { appEx in appEx.bundleIdentifier }
 
         guard let extensionsInExistingApp = localAppExtensions else {
-            let diagnosticsMsg = "RemoveAppExtensionsOperation：ExistingApp 为空，因此保留 targetAppBundle 中的所有应用扩展"
+            let diagnosticsMsg = "RemoveAppExtensionsOperation: ExistingApp is nil, Hence keeping all app extensions from targetAppBundle"
                                + "RemoveAppExtensionsOperation: ExistingAppEx: nil; targetAppBundleEx: \(targetAppExNames)"
             verboseLog(diagnosticsMsg)
             return Set()    // nothing is excess since we are keeping all, so returning empty
@@ -175,7 +175,7 @@ final class RemoveAppExtensionsOperation: BasePipelineOperation<InstallAppOperat
         }
     
         let isMatching = (targetAppEx.count == existingAppEx.count) && excessExtensionsInTargetApp.isEmpty
-        let diagnosticsMsg = "RemoveAppExtensionsOperation：localAppBundle 与 targetAppBundle 中的应用扩展是否匹配：\(isMatching)\n"
+        let diagnosticsMsg = "RemoveAppExtensionsOperation: App Extensions in localAppBundle and targetAppBundle are matching: \(isMatching)\n"
                             + "RemoveAppExtensionsOperation: \nlocalAppBundleEx: \(existingAppExNames); \ntargetAppBundleEx: \(String(describing: targetAppExNames))\n"
         verboseLog(diagnosticsMsg)
 
