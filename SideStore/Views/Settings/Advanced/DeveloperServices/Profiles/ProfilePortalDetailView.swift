@@ -30,24 +30,6 @@ struct ProfilePortalDetailView: View {
         profile.dateExpire < Date()
     }
 
-    /// 门户返回的 status 是 Apple 的原始英文值（"Active" / "Invalid" …），
-    /// 直接显示会把英文漏到界面上，这里按状态语义转成中文。
-    private var statusText: String {
-        if isExpired {
-            return "已过期"
-        }
-        guard let status = profile.status?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !status.isEmpty else {
-            return "有效"
-        }
-        switch status.lowercased() {
-        case "active":  return "有效"
-        case "invalid": return "无效"
-        case "expired": return "已过期"
-        default:        return status
-        }
-    }
-
     private var hasChanges: Bool {
         let nameChanged = !editedName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && editedName != profile.name
         let originalAppID = profile.appId?.appIdId ?? profile.appId?.identifier ?? ""
@@ -81,11 +63,13 @@ struct ProfilePortalDetailView: View {
                 }
                 if let profType = profile.profileType {
                     InfoRow(label: "类型", value: profType.displayName)
+                } else if let rawType = profile.type {
+                    InfoRow(label: "类型", value: rawType)
                 }
                 if let isTeam = profile.isTeamProfile {
                     InfoRow(label: "管理者", value: isTeam ? "Xcode（团队描述文件）" : "手动（后台）")
                 }
-                InfoRow(label: "状态", value: statusText, valueColor: isExpired ? .red : .primary)
+                InfoRow(label: "状态", value: isExpired ? "已过期" : (profile.status ?? "有效"), valueColor: isExpired ? .red : .primary)
                 InfoRow(label: "到期日期", value: formatDate(profile.dateExpire), valueColor: isExpired ? .red : .primary)
             }
 

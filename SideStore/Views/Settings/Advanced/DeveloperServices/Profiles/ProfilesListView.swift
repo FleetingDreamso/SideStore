@@ -184,7 +184,7 @@ private struct ProfileRow: View {
                 }
                 Spacer()
                 if let type = profile.profileType {
-                    Text(type.shortName)
+                    Text(type.rawValue.uppercased())
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 6)
