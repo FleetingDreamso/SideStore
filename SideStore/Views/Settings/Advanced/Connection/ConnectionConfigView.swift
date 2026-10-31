@@ -112,7 +112,7 @@ struct ConnectionConfigView: View {
                         }
                         if !config.overrideTunnelPeerIp.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             networkConfigRow(
-                                label: "已激活",
+                                label: "启用",
                                 text: Binding<String?>(get: { config.overrideTunnelPeerActive.rawValue }, set: { _ in }),
                                 editable: false,
                                 textColor: config.overrideTunnelPeerActive == .yes ? .green : .red

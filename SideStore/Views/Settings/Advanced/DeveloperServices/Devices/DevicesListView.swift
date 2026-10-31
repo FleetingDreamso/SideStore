@@ -299,7 +299,7 @@ struct DevicesListView: View {
 
                     Section(header: Text("设备详情")) {
                         InfoRow(label: "类型", value: device.type.displayName)
-                        InfoRow(label: "状态", value: device.status == "d" ? "已禁用" : "已激活", valueColor: device.status == "d" ? .red : .green)
+                        InfoRow(label: "状态", value: device.status == "d" ? "已禁用" : "已启用", valueColor: device.status == "d" ? .red : .green)
                         if let devID = device.deviceID, !devID.isEmpty {
                             InfoRow(label: "开发者后台 ID", value: devID)
                         }

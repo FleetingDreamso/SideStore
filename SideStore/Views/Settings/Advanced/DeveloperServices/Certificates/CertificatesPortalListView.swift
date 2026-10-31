@@ -130,7 +130,7 @@ private struct CertificatePortalRow: View {
                         .foregroundColor(.red)
                         .cornerRadius(6)
                 } else {
-                    Text("已激活")
+                    Text("有效")
                         .font(.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, 6)

@@ -73,7 +73,7 @@ final class VerifyCertificateOperation: BasePipelineOperation<InstallAppOperatio
                 // resigning branch
                 debugLog("[VerifyCertificateOperation] Running in signing mode (resigning) for '\(appName)'...")
                 
-                let certType = self.context.overrideSigningCertificate != nil ? "覆盖" : "已激活"
+                let certType = self.context.overrideSigningCertificate != nil ? "覆盖" : "当前"
                 guard let target = self.context.targetSigningCertificate else {
                     throw OperationError.invalidParameters("缺少 \(certType) 证书。")
                 }
