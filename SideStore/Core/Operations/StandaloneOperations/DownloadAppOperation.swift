@@ -129,7 +129,7 @@ final class DownloadAppOperation: BasePipelineOperation<InstallAppOperationConte
     
     private func download(@Managed _ app: AppProtocol) async throws -> ALTApplication {
         guard let sourceURL = self.sourceURL else {
-            throw OperationError.invalidParameters("Missing download URL for '\(self.appName)'.")
+            throw OperationError.invalidParameters("“\(self.appName)”缺少下载 URL。")
         }
         if let appVersion = app as? AppVersion {
             // All downloads go through this path, and `app` is
@@ -156,7 +156,7 @@ final class DownloadAppOperation: BasePipelineOperation<InstallAppOperationConte
         debugLog("[DownloadAppOperation] Moving bundle to destination succeeded")
         
         guard let movedAppBundle = ALTApplication(fileURL: self.destinationURL) else {
-            throw OperationError.missingAppBundle(reason: "Could not load moved app bundle at '\(self.destinationURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "无法加载“\(self.destinationURL.lastPathComponent)”处已移动的应用包")
         }
         self.setProgress(100)
         return movedAppBundle
@@ -180,7 +180,7 @@ final class DownloadAppOperation: BasePipelineOperation<InstallAppOperationConte
         }
         
         guard let resourceValues = try? fileURL.resourceValues(forKeys: [.isDirectoryKey]) else {
-            throw OperationError.missingAppBundle(reason: "File does not exist at '\(fileURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "“\(fileURL.lastPathComponent)”处的文件不存在")
         }
         
         try FileManager.default.createDirectory(at: self.temporaryDirectory, withIntermediateDirectories: true, attributes: nil)
@@ -190,7 +190,7 @@ final class DownloadAppOperation: BasePipelineOperation<InstallAppOperationConte
         if resourceValues.isDirectory == true {
             // Directory, so assuming this is .app bundle.
             guard ALTApplication(fileURL: fileURL) != nil else {
-                throw OperationError.missingAppBundle(reason: "Directory at '\(fileURL.lastPathComponent)' is not a valid bundle directory")
+                throw OperationError.missingAppBundle(reason: "“\(fileURL.lastPathComponent)”处的目录不是有效的应用包目录")
             }
             
             appBundleURL = self.temporaryDirectory.appendingPathComponent(fileURL.lastPathComponent)
@@ -207,7 +207,7 @@ final class DownloadAppOperation: BasePipelineOperation<InstallAppOperationConte
         }
         
         guard let appBundle = ALTApplication(fileURL: appBundleURL) else {
-            throw OperationError.missingAppBundle(reason: "Could not load unzipped app bundle at '\(appBundleURL.lastPathComponent)'")
+            throw OperationError.missingAppBundle(reason: "无法加载“\(appBundleURL.lastPathComponent)”处的已解压应用包")
         }
 
         // perform cleanup of the temp files
@@ -274,7 +274,7 @@ final class DownloadAppOperation: BasePipelineOperation<InstallAppOperationConte
             try FileManager.default.copyItem(at: fileURL, to: destinationURL, shouldReplace: true)
             return destinationURL
         } catch let error as NSError {
-            let localizedFailure = String(format: NSLocalizedString("The dependency '%@' could not be downloaded.", comment: ""), dependency.preferredFilename)
+            let localizedFailure = String(format: NSLocalizedString("无法下载依赖项“%@”。", comment: ""), dependency.preferredFilename)
             throw error.withLocalizedFailure(localizedFailure)
         }
     }
@@ -311,7 +311,7 @@ extension DownloadAppOperation {
             let path = try container.decodeIfPresent(String.self, forKey: .path)
             
             guard let downloadURL = URL(string: urlString) else {
-                throw DecodingError.dataCorruptedError(forKey: .downloadURL, in: container, debugDescription: "downloadURL is not a valid URL.")
+                throw DecodingError.dataCorruptedError(forKey: .downloadURL, in: container, debugDescription: "downloadURL 不是有效的 URL。")
             }
             
             self.downloadURL = downloadURL

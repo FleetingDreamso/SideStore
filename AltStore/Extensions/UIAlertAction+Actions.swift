@@ -10,10 +10,10 @@ import UIKit
 
 public extension UIAlertAction {
     static var ok: UIAlertAction {
-        return UIAlertAction(title: systemLocalizedString("OK"), style: .default, handler: nil)
+        return UIAlertAction(title: systemLocalizedString("好"), style: .default, handler: nil)
     }
 
     static var cancel: UIAlertAction {
-        return UIAlertAction(title: systemLocalizedString("Cancel"), style: .cancel, handler: nil)
+        return UIAlertAction(title: systemLocalizedString("取消"), style: .cancel, handler: nil)
     }
 }

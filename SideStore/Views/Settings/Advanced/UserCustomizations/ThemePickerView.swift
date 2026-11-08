@@ -42,7 +42,7 @@ struct ThemePickerView: View {
             .padding(.bottom, 32)
         }
         .background(Color(uiColor: .settingsBackground).ignoresSafeArea())
-        .navigationTitle("Theme Manager")
+        .navigationTitle("主题管理器")
         #if !os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -53,7 +53,7 @@ struct ThemePickerView: View {
 
     private var previewSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("LIVE INTERFACE PREVIEW")
+            Text("界面实时预览")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 16)
@@ -64,14 +64,14 @@ struct ThemePickerView: View {
                         Text("SideStore")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
-                        Text("v0.6.0 • Installed")
+                        Text("v0.6.0 • 已安装")
                             .font(.system(size: 13, weight: .medium))
                             .foregroundColor(Color.white.opacity(0.6))
                     }
                     Spacer()
                     
                     // Mock Pill Button
-                    Text("7 DAYS")
+                    Text("7 天")
                         .font(.system(size: 13, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.horizontal, 16)
@@ -93,7 +93,7 @@ struct ThemePickerView: View {
                 .frame(height: 6)
                 
                 HStack {
-                    Text("Active Theme Accent")
+                    Text("当前主题强调色")
                         .font(.system(size: 13, weight: .medium))
                         .foregroundColor(Color.white.opacity(0.7))
                     Spacer()
@@ -111,14 +111,14 @@ struct ThemePickerView: View {
     #if !os(tvOS)
     private var colorWheelSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("COLOR SELECTION & WHEEL")
+            Text("颜色选择与色轮")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 16)
 
             VStack(spacing: 0) {
                 HStack {
-                    Text("Full Spectrum Color Wheel")
+                    Text("全色谱色轮")
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(.white)
                     Spacer()
@@ -140,7 +140,7 @@ struct ThemePickerView: View {
 
     private var presetsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("PRESET THEMES")
+            Text("预设主题")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 16)
@@ -210,17 +210,17 @@ struct ThemePickerView: View {
         let hsl = uiColor.hslComponents
 
         return VStack(alignment: .leading, spacing: 8) {
-            Text("PRECISE COLOR METRICS")
+            Text("精确颜色指标")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(Color.white.opacity(0.6))
                 .padding(.horizontal, 16)
 
             VStack(spacing: 0) {
-                metricRow(label: "HEX Code", value: uiColor.hexString)
+                metricRow(label: "HEX 代码", value: uiColor.hexString)
                 Rectangle().fill(Color.settingsDivider).frame(height: 0.5).padding(.horizontal, 16)
-                metricRow(label: "RGB Format", value: "R: \(rgb.r)  G: \(rgb.g)  B: \(rgb.b)")
+                metricRow(label: "RGB 格式", value: "R：\(rgb.r)  G：\(rgb.g)  B：\(rgb.b)")
                 Rectangle().fill(Color.settingsDivider).frame(height: 0.5).padding(.horizontal, 16)
-                metricRow(label: "HSL Format", value: "H: \(hsl.h)°  S: \(hsl.s)%  L: \(hsl.l)%")
+                metricRow(label: "HSL 格式", value: "H：\(hsl.h)°  S：\(hsl.s)%  L：\(hsl.l)%")
             }
             .background(Color.settingsRowBackground)
             .cornerRadius(14)
@@ -234,7 +234,7 @@ struct ThemePickerView: View {
         }) {
             HStack {
                 Spacer()
-                Text("Reset to SideStore Classic")
+                Text("重置为 SideStore 经典")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.red)
                 Spacer()

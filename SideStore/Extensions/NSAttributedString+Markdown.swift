@@ -70,7 +70,7 @@ public extension NSAttributedString {
         baseAttributes: [NSAttributedString.Key: Any],
         styleAttributes: [MarkdownStyleKey: [NSAttributedString.Key: Any]]? = nil
     ) {
-        assert(baseAttributes[.font] != nil, "A font attribute is required")
+        assert(baseAttributes[.font] != nil, "需要字体属性")
         
         let result = NSMutableAttributedString(string: markdownString, attributes: baseAttributes)
         

@@ -197,7 +197,7 @@ final class AppManager: ObservableObject, @unchecked Sendable
     }
     
     func add(@AsyncManaged _ source: Source,
-             message: String? = NSLocalizedString("Make sure to only add sources that you trust.", comment: ""),
+             message: String? = NSLocalizedString("请只添加你信任的源。", comment: ""),
              presentingViewController: UIViewController) async throws
     {
         let (sourceName, sourceURL) = await $source.perform { ($0.name, $0.sourceURL) }
@@ -205,8 +205,8 @@ final class AppManager: ObservableObject, @unchecked Sendable
         let context = DatabaseManager.shared.persistentContainer.newBackgroundContext()
         async let fetchedSource = try await self.fetchSource(sourceURL: sourceURL, managedObjectContext: context) // Fetch source async while showing alert.
 
-        let title = String(format: NSLocalizedString("Would you like to add the source “%@”?", comment: ""), sourceName)
-        let action = await UIAlertAction(title: NSLocalizedString("Add Source", comment: ""), style: .default)
+        let title = String(format: NSLocalizedString("是否要添加源“%@”？", comment: ""), sourceName)
+        let action = await UIAlertAction(title: NSLocalizedString("添加源", comment: ""), style: .default)
         try await presentingViewController.presentConfirmationAlert(title: title, message: message ?? "", primaryAction: action)
 
         // Wait for fetch to finish before saving context to make
@@ -227,12 +227,12 @@ final class AppManager: ObservableObject, @unchecked Sendable
     {
         let (sourceName, sourceID) = await $source.perform { ($0.name, $0.identifier) }
         guard sourceID != Source.altStoreIdentifier else {
-            throw OperationError.forbidden(failureReason: NSLocalizedString("The default SideStore source cannot be removed.", comment: ""))
+            throw OperationError.forbidden(failureReason: NSLocalizedString("无法移除默认的 SideStore 源。", comment: ""))
         }
         
-        let title = String(format: NSLocalizedString("Are you sure you want to remove the source “%@”?", comment: ""), sourceName)
-        let message = NSLocalizedString("Any apps you've installed from this source will remain, but they'll no longer receive any app updates.", comment: "")
-        let action = await UIAlertAction(title: NSLocalizedString("Remove Source", comment: ""), style: .destructive)
+        let title = String(format: NSLocalizedString("确定要移除源“%@”吗？", comment: ""), sourceName)
+        let message = NSLocalizedString("你从此源安装的应用会保留，但将不再收到任何应用更新。", comment: "")
+        let action = await UIAlertAction(title: NSLocalizedString("移除源", comment: ""), style: .destructive)
         try await presentingViewController.presentConfirmationAlert(title: title, message: message, primaryAction: action)
         
         let context = DatabaseManager.shared.persistentContainer.newBackgroundContext()
@@ -313,7 +313,7 @@ final class AppManager: ObservableObject, @unchecked Sendable
                     case .success(let fetchedObjectID):
                         fetchedSources.insert(managedObjectContext.object(with: fetchedObjectID) as! Source)
                     case .failure(let nsError as NSError):
-                        let title = String(format: NSLocalizedString("Unable to Refresh “%@” Source", comment: ""), source.name)
+                        let title = String(format: NSLocalizedString("无法刷新“%@”源", comment: ""), source.name)
                         let error = nsError.withLocalizedTitle(title)
                         errors[source] = error
                         source.error = error.sanitizedForSerialization()
@@ -430,7 +430,7 @@ final class AppManager: ObservableObject, @unchecked Sendable
             {
                 if error.localizedTitle == nil
                 {
-                    error = error.withLocalizedTitle(NSLocalizedString("Unable to Refresh Store", comment: ""))
+                    error = error.withLocalizedTitle(NSLocalizedString("无法刷新商店", comment: ""))
                 }
                 
                 DispatchQueue.main.async {
@@ -501,11 +501,11 @@ final class AppManager: ObservableObject, @unchecked Sendable
             } while reader.goToNextFile()
 
             guard let data = plistData else {
-                throw OperationError.invalidApp(reason: "Archive missing valid Payload/*.app/Info.plist")
+                throw OperationError.invalidApp(reason: "归档中缺少有效的 Payload/*.app/Info.plist")
             }
             let parser = try InfoPlistParser(data: data)
             guard let bundleIdentifier = parser.bundleIdentifier, !bundleIdentifier.isEmpty else {
-                throw OperationError.invalidApp(reason: "Archive missing valid bundle identifier in Info.plist")
+                throw OperationError.invalidApp(reason: "归档的 Info.plist 中缺少有效的 Bundle ID")
             }
             let appName = parser.displayName ?? parser.bundleName ?? url.deletingPathExtension().lastPathComponent
             return (bundleIdentifier, appName)
@@ -513,7 +513,7 @@ final class AppManager: ObservableObject, @unchecked Sendable
         case .app:
             let parser = try InfoPlistParser(bundleURL: url)
             guard let bundleIdentifier = parser.bundleIdentifier, !bundleIdentifier.isEmpty else {
-                throw OperationError.invalidApp(reason: "Invalid Info.plist in app directory")
+                throw OperationError.invalidApp(reason: "应用目录中的 Info.plist 无效")
             }
             let appName = parser.displayName ?? parser.bundleName ?? url.lastPathComponent
             return (bundleIdentifier, appName)
@@ -532,7 +532,7 @@ final class AppManager: ObservableObject, @unchecked Sendable
             return Progress.discreteProgress(totalUnitCount: 1)
         }
         guard appVersion as AnyObject !== installedApp else {
-            completionHandler(.failure(OperationError.invalidParameters("Make sure we never accidentally 'update' to already installed app.")))
+            completionHandler(.failure(OperationError.invalidParameters("确保我们不会意外“更新”到已安装的应用。")))
             return Progress.discreteProgress(totalUnitCount: 1)
         }
         let pipelineHandler = self.makePipelineHandler(presentingViewController: presentingViewController)
@@ -669,7 +669,7 @@ final class AppManager: ObservableObject, @unchecked Sendable
                         appName = installedApp.name
                     }
                     if appName.isEmpty { appName = installedApp.name }
-                    let localizedTitle = String(format: NSLocalizedString("Failed to Enable JIT for %@", comment: ""), appName)
+                    let localizedTitle = String(format: NSLocalizedString("为 %@ 启用 JIT 失败", comment: ""), appName)
                     let mappedError = (error as NSError).withLocalizedTitle(localizedTitle)
                     self.log(error, operation: .enableJIT, app: installedApp)
                     completionHandler(.failure(mappedError))
@@ -826,7 +826,7 @@ extension AppManager: PipelineProgress, PipelineExecutionContext, PipelineErrorL
                     appName = app.name
                 }
             } else {
-                appName = NSLocalizedString("Unknown App", comment: "")
+                appName = NSLocalizedString("未知应用", comment: "")
             }
         } else {
             appName = operation.app.name
@@ -835,17 +835,17 @@ extension AppManager: PipelineProgress, PipelineExecutionContext, PipelineErrorL
         let localizedTitle: String
         switch operation
         {
-            case .install:    localizedTitle = String(format: NSLocalizedString("Failed to Install %@",        comment: ""), appName)
-            case .reinstall:  localizedTitle = String(format: NSLocalizedString("Failed to Reinstall %@",      comment: ""), appName)
-            case .refresh:    localizedTitle = String(format: NSLocalizedString("Failed to Refresh %@",        comment: ""), appName)
-            case .update:     localizedTitle = String(format: NSLocalizedString("Failed to Update %@",         comment: ""), appName)
-            case .activate:   localizedTitle = String(format: NSLocalizedString("Failed to Activate %@",       comment: ""), appName)
-            case .deactivate: localizedTitle = String(format: NSLocalizedString("Failed to Deactivate %@",     comment: ""), appName)
-            case .deleteApp:  localizedTitle = String(format: NSLocalizedString("Failed to Deactivate %@",     comment: ""), appName)
-            case .backup:     localizedTitle = String(format: NSLocalizedString("Failed to Backup %@",         comment: ""), appName)
-            case .restore:    localizedTitle = String(format: NSLocalizedString("Failed to Restore %@ Backup", comment: ""), appName)
-            case .resign:     localizedTitle = String(format: NSLocalizedString("Failed to Resign %@",         comment: ""), appName)
-            case .removeApp, .removeDeactivatedApp: localizedTitle = String(format: NSLocalizedString("Failed to Remove %@", comment: ""), appName)
+            case .install:    localizedTitle = String(format: NSLocalizedString("安装 %@ 失败",        comment: ""), appName)
+            case .reinstall:  localizedTitle = String(format: NSLocalizedString("重新安装 %@ 失败",      comment: ""), appName)
+            case .refresh:    localizedTitle = String(format: NSLocalizedString("刷新 %@ 失败",        comment: ""), appName)
+            case .update:     localizedTitle = String(format: NSLocalizedString("更新 %@ 失败",         comment: ""), appName)
+            case .activate:   localizedTitle = String(format: NSLocalizedString("激活 %@ 失败",       comment: ""), appName)
+            case .deactivate: localizedTitle = String(format: NSLocalizedString("停用 %@ 失败",     comment: ""), appName)
+            case .deleteApp:  localizedTitle = String(format: NSLocalizedString("停用 %@ 失败",     comment: ""), appName)
+            case .backup:     localizedTitle = String(format: NSLocalizedString("备份 %@ 失败",         comment: ""), appName)
+            case .restore:    localizedTitle = String(format: NSLocalizedString("恢复 %@ 的备份失败", comment: ""), appName)
+            case .resign:     localizedTitle = String(format: NSLocalizedString("重签 %@ 失败",         comment: ""), appName)
+            case .removeApp, .removeDeactivatedApp: localizedTitle = String(format: NSLocalizedString("移除 %@ 失败", comment: ""), appName)
         }
         
         let nsError = error as NSError

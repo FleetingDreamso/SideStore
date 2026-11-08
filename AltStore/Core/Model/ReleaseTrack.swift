@@ -104,7 +104,7 @@ public class ReleaseTrack: BaseEntity, Decodable
             let releases = try container.decode([AppVersion].self, forKey: .releases)
             guard releases.count > 0 else
             {
-                throw DecodingError.dataCorruptedError(forKey: .releases, in: container, debugDescription: "At least one version is required in key: releases")
+                throw DecodingError.dataCorruptedError(forKey: .releases, in: container, debugDescription: "键 releases 中至少需要一个版本。")
             }
             self._releases = NSOrderedSet(array: releases)
         }

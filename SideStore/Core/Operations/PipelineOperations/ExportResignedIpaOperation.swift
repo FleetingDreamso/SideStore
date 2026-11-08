@@ -27,7 +27,7 @@ final class ExportResignedIpaOperation: BasePipelineOperation<InstallAppOperatio
         }
 
         guard let resignedAppBundle = self.context.resignedAppBundle else {
-            throw OperationError.invalidParameters("ExportResignedIpaOperation: context.resignedAppBundle is nil")
+            throw OperationError.invalidParameters("ExportResignedIpaOperation：context.resignedAppBundle 为空")
         }
 
         guard let sourceURL = self.context.ipaURL else {

@@ -28,7 +28,7 @@ final class CreateIpaOperation: BasePipelineOperation<InstallAppOperationContext
         }
 
         guard let resignedAppBundle = self.context.resignedAppBundle else {
-            throw OperationError.invalidParameters("CreateIpaOperation: context.resignedAppBundle is nil")
+            throw OperationError.invalidParameters("CreateIpaOperation：context.resignedAppBundle 为空")
         }
 
         let appURL = resignedAppBundle.fileURL

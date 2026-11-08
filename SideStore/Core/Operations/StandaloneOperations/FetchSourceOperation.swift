@@ -100,7 +100,7 @@ final class FetchSourceOperation: BaseStandaloneOperation<StandaloneOperationCon
                 } else if let data = data, let response = response {
                     continuation.resume(returning: (data, response))
                 } else {
-                    continuation.resume(throwing: OperationError.invalidResponse(reason: "\(URLError(.badServerResponse).localizedDescription): Server returned no data or response."))
+                    continuation.resume(throwing: OperationError.invalidResponse(reason: "\(URLError(.badServerResponse).localizedDescription): 服务器未返回任何数据或响应。"))
                 }
             }
             dataTask.resume()
@@ -131,7 +131,7 @@ final class FetchSourceOperation: BaseStandaloneOperation<StandaloneOperationCon
                 return date
             }
             
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Date is in invalid format.")
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "日期格式无效。")
         })
         
         decoder.managedObjectContext = childContext
@@ -148,16 +148,16 @@ final class FetchSourceOperation: BaseStandaloneOperation<StandaloneOperationCon
             let codingPath: [CodingKey]
             switch error {
             case .typeMismatch(let type, let context):
-                debugDescription = "Type mismatch for type \(type). \(context.debugDescription)"
+                debugDescription = "类型不匹配（\(type)）。\(context.debugDescription)"
                 codingPath = context.codingPath
             case .valueNotFound(let type, let context):
-                debugDescription = "Value of type \(type) not found. \(context.debugDescription)"
+                debugDescription = "未找到类型为 \(type) 的值。\(context.debugDescription)"
                 codingPath = context.codingPath
             case .keyNotFound(let key, let context):
-                debugDescription = "Key '\(key.stringValue)' not found. \(context.debugDescription)"
+                debugDescription = "未找到键“\(key.stringValue)”。\(context.debugDescription)"
                 codingPath = context.codingPath + [key]
             case .dataCorrupted(let context):
-                debugDescription = "Data corrupted. \(context.debugDescription)"
+                debugDescription = "数据已损坏。\(context.debugDescription)"
                 codingPath = context.codingPath
             @unknown default:
                 debugDescription = error.localizedDescription
@@ -165,7 +165,7 @@ final class FetchSourceOperation: BaseStandaloneOperation<StandaloneOperationCon
             }
             
             let pathDescription = codingPath.map { $0.intValue?.description ?? $0.stringValue }.joined(separator: " > ")
-            let detailedMessage = "Decoding failed: \(debugDescription) at path: \(pathDescription)"
+            let detailedMessage = "解码失败：\(debugDescription)，路径：\(pathDescription)"
             
             throw NSError(domain: "io.sidestore.SideStore.DecodingError", code: 0, userInfo: [
                 NSLocalizedDescriptionKey: detailedMessage,

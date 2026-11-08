@@ -37,41 +37,41 @@ final class SetProfileAlertViewController: UIViewController {
         } else if let signingCert = CertificateManager.shared.getSigningCertificate(for: installedApp) {
             currentCertName = signingCert.name
         } else {
-            currentCertName = "Active Developer Cert"
+            currentCertName = "活跃开发者证书"
         }
 
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .none
 
-        let currentProfileName = currentProfile?.name ?? "Default (Apple ID Managed)"
+        let currentProfileName = currentProfile?.name ?? "默认（Apple ID 管理）"
         let currentProfileBundleID = currentProfile?.bundleIdentifier ?? installedApp.bundleIdentifier
         let currentProfileExpiry = currentProfile != nil ? formatter.string(from: currentProfile!.expirationDate) : formatter.string(from: installedApp.expirationDate)
 
         let targetProfileName = targetProfile.name
         let targetProfileBundleID = targetProfile.bundleIdentifier
         let targetProfileExpiry = formatter.string(from: targetProfile.expirationDate)
-        let targetCertName = targetCertificate?.name ?? "None"
+        let targetCertName = targetCertificate?.name ?? "无"
         let targetCertSerial = targetCertificate?.serialNumber ?? "N/A"
-        let targetTeam = "\(targetProfile.teamName) (\(targetProfile.teamIdentifier))"
+        let targetTeam = "\(targetProfile.teamName)（\(targetProfile.teamIdentifier)）"
 
         let details = """
-          • App: \(installedApp.name)
-          • Bundle ID: \(installedApp.resignedBundleIdentifier)
+          • 应用：\(installedApp.name)
+          • Bundle ID：\(installedApp.resignedBundleIdentifier)
 
-        [CURRENT PROVISIONING PROFILE]
-          • Name: \(currentProfileName)
-          • Bundle ID: \(currentProfileBundleID)
-          • Expires: \(currentProfileExpiry)
-          • Signer: \(currentCertName)
+        [当前描述文件]
+          • 名称：\(currentProfileName)
+          • Bundle ID：\(currentProfileBundleID)
+          • 到期时间：\(currentProfileExpiry)
+          • 签名者：\(currentCertName)
 
-        [TARGET PROVISIONING PROFILE]
-          • Name: \(targetProfileName)
-          • Bundle ID: \(targetProfileBundleID)
-          • Expires: \(targetProfileExpiry)
-          • Team: \(targetTeam)
-          • Signer: \(targetCertName)
-          • Serial: \(targetCertSerial)
+        [目标描述文件]
+          • 名称：\(targetProfileName)
+          • Bundle ID：\(targetProfileBundleID)
+          • 到期时间：\(targetProfileExpiry)
+          • 团队：\(targetTeam)
+          • 签名者：\(targetCertName)
+          • 序列号：\(targetCertSerial)
         """
 
         let detailsLabel = UILabel()

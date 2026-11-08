@@ -32,7 +32,7 @@ final class UserCustomizationOperation: BasePipelineOperation<InstallAppOperatio
         let handler = context.handler.userCustomizationHandler
 
         guard let targetAppBundle = context.targetAppBundle else {
-            throw OperationError.invalidParameters("UserCustomizationOperation: context.targetAppBundle is nil")
+            throw OperationError.invalidParameters("UserCustomizationOperation：context.targetAppBundle 为空")
         }
 
         if UserDefaults.standard.customizeInfoPlist {
@@ -41,7 +41,7 @@ final class UserCustomizationOperation: BasePipelineOperation<InstallAppOperatio
             debugLog("[UserCustomizationOperation] targetBundleIdentifier='\(context.targetBundleIdentifier)', authTeamID='\(teamID)', appendTeamID=\(context.appendTeamID)")
             guard !teamID.isEmpty else {
                 debugLog("[UserCustomizationOperation] FAILED: authTeamID is empty")
-                throw OperationError.invalidParameters("Active developer team identifier is missing.")
+                throw OperationError.invalidParameters("缺少当前活跃开发者团队的标识符。")
             }
 
             // Fetch installed apps to detect existing installations by authoritative bundle ID

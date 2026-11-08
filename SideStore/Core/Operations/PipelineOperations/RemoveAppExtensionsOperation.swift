@@ -21,13 +21,13 @@ public enum AppExtensionCustomization: String, CaseIterable, Identifiable, Senda
     public var displayName: String {
         switch self {
         case .promptUser:
-            return "Prompt User"
+            return "询问用户"
         case .removeAll:
-            return "Remove All"
+            return "全部移除"
         case .keepAll:
-            return "Keep All"
+            return "全部保留"
         case .useMainProfile:
-            return "Use Main Profile"
+            return "使用主描述文件"
         }
     }
 
@@ -65,7 +65,7 @@ final class RemoveAppExtensionsOperation: BasePipelineOperation<InstallAppOperat
         self.setProgress(10)
         
         guard let targetAppBundle = context.targetAppBundle else {
-            throw OperationError.invalidParameters("RemoveAppExtensionsOperation: context.appBundle is nil")
+            throw OperationError.invalidParameters("RemoveAppExtensionsOperation：context.appBundle 为空")
         }
         
         // target App Bundle doesn't contain extensions so don't bother

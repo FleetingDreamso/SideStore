@@ -24,7 +24,7 @@ final class RemoveBackupDataOperation: BasePipelineOperation<InstallAppOperation
         self.setProgress(10)
         
         guard let installedApp = self.context.installedApp else {
-            throw OperationError.invalidParameters("RemoveBackupDataOperation.main: self.context.installedApp is nil")
+            throw OperationError.invalidParameters("RemoveBackupDataOperation.main：self.context.installedApp 为空")
         }
         
         self.setProgress(30)

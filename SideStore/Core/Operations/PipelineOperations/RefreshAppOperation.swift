@@ -22,11 +22,11 @@ final class RefreshAppOperation: BasePipelineOperation<InstallAppOperationContex
         try await super.executePreconditionCheck(parentProgress: parentProgress)
         
         guard let profiles = self.context.provisioningProfiles else {
-            throw OperationError.invalidParameters("RefreshAppOperation.execute: self.context.provisioningProfiles is nil")
+            throw OperationError.invalidParameters("RefreshAppOperation.execute：self.context.provisioningProfiles 为空")
         }
         
         guard let appBundle = self.context.targetAppBundle else {
-            throw OperationError.invalidParameters("RefreshAppOperation: context.targetAppBundle is nil")
+            throw OperationError.invalidParameters("RefreshAppOperation：context.targetAppBundle 为空")
         }
         self.setProgress(10)
         
@@ -40,7 +40,7 @@ final class RefreshAppOperation: BasePipelineOperation<InstallAppOperationContex
             ))
             self.setProgress(85)
             guard let app = self.context.installedApp else {
-                throw OperationError.invalidParameters("RefreshAppOperation: context.installedApp is nil")
+                throw OperationError.invalidParameters("RefreshAppOperation：context.installedApp 为空")
             }
             return app
         }
@@ -72,7 +72,7 @@ final class RefreshAppOperation: BasePipelineOperation<InstallAppOperationContex
         
         guard let mainApp = self.context.installedApp,
               let installedApp = dbContext.object(with: mainApp.objectID) as? InstalledApp else {
-            throw OperationError.invalidParameters("Could not find installed database record for '\(appBundle.name)'")
+            throw OperationError.invalidParameters("找不到“\(appBundle.name)”的已安装数据库记录")
         }
         installedApp.update(provisioningProfile: profiles.values.first!)
         

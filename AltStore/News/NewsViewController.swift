@@ -111,7 +111,7 @@ class NewsViewController: UICollectionViewController
         
         self.retryButton = UIButton(type: .system)
         self.retryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        self.retryButton.setTitle(NSLocalizedString("Try Again", comment: ""), for: .normal)
+        self.retryButton.setTitle(NSLocalizedString("重试", comment: ""), for: .normal)
         self.retryButton.addTarget(self, action: #selector(NewsViewController.updateSources), for: .primaryActionTriggered)
         self.placeholderView.stackView.addArrangedSubview(self.retryButton)
         
@@ -254,7 +254,7 @@ private extension NewsViewController
             self.placeholderView.textLabel.isHidden = true
             self.placeholderView.detailTextLabel.isHidden = false
             
-            self.placeholderView.detailTextLabel.text = NSLocalizedString("Loading...", comment: "")
+            self.placeholderView.detailTextLabel.text = NSLocalizedString("正在加载…", comment: "")
             
             self.retryButton.isHidden = true
             self.placeholderView.activityIndicatorView.startAnimating()
@@ -263,7 +263,7 @@ private extension NewsViewController
             self.placeholderView.textLabel.isHidden = false
             self.placeholderView.detailTextLabel.isHidden = false
             
-            self.placeholderView.textLabel.text = NSLocalizedString("Unable to Fetch News", comment: "")
+            self.placeholderView.textLabel.text = NSLocalizedString("无法获取新闻", comment: "")
             self.placeholderView.detailTextLabel.text = error.localizedDescription
             
             self.retryButton.isHidden = false

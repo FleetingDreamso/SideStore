@@ -32,7 +32,7 @@ struct PrivateKeyTextInputView: View {
                         .padding(.horizontal)
                 }
                 
-                Text("Paste your PEM-formatted private key below, or import it from a text file.")
+                Text("在下方粘贴 PEM 格式的私钥，或从文本文件导入。")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .padding(.horizontal)
@@ -57,7 +57,7 @@ struct PrivateKeyTextInputView: View {
                         if let topVC = UIApplication.shared.topViewController() {
                             TVWebFileTransferManager.shared.startImport(
                                 acceptedExtensions: ["pem", "key", "txt"],
-                                title: "Import PEM Private Key File",
+                                title: "导入 PEM 私钥文件",
                                 presentingVC: topVC
                             ) { fileURL in
                                 guard let fileURL = fileURL else { return }
@@ -67,13 +67,13 @@ struct PrivateKeyTextInputView: View {
                                     isEditing = false
                                     errorMessage = nil
                                 } catch {
-                                    errorMessage = "Failed to read file: \(error.localizedDescription)"
+                                    errorMessage = "读取文件失败：\(error.localizedDescription)"
                                 }
                             }
                         }
                         #endif
                     } label: {
-                        Label("Import from File", systemImage: "doc.badge.plus")
+                        Label("从文件导入", systemImage: "doc.badge.plus")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 8)
                     }
@@ -92,7 +92,7 @@ struct PrivateKeyTextInputView: View {
                             }
                         }
                     } label: {
-                        Text("Add PEM Key")
+                        Text("添加 PEM 密钥")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 8)
                     }
@@ -102,14 +102,14 @@ struct PrivateKeyTextInputView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
-            .navigationTitle("Add Private Key")
+            .navigationTitle("添加私钥")
             #if !os(tvOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     if isEditing {
-                        SwiftUI.Button("Done") {
+                        SwiftUI.Button("完成") {
                             isEditing = false
                         }
                     } else {
@@ -138,20 +138,20 @@ struct PrivateKeyTextInputView: View {
                             isEditing = false
                             errorMessage = nil
                         } catch {
-                            errorMessage = "Failed to read file: \(error.localizedDescription)"
+                            errorMessage = "读取文件失败：\(error.localizedDescription)"
                         }
                     }
                 case .failure(let error):
-                    errorMessage = "Failed to select file: \(error.localizedDescription)"
+                    errorMessage = "选择文件失败：\(error.localizedDescription)"
                 }
             }
             #endif
-            .alert("Key Added", isPresented: $showSuccessAlert) {
-                SwiftUI.Button("OK") {
+            .alert("已添加密钥", isPresented: $showSuccessAlert) {
+                SwiftUI.Button("好") {
                     onCancel()
                 }
             } message: {
-                Text("Key was added to certificate \(cert.name) (SN: \(cert.serialNumber)).")
+                Text("密钥已添加到证书 \(cert.name)（序列号：\(cert.serialNumber)）。")
             }
         }
     }

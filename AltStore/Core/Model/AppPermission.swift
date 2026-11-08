@@ -124,7 +124,7 @@ internal struct AppPermissions: Decodable
                 
                 let entitlements = try rawEntitlements.compactMap { (dictionary) -> AppPermission? in
                     guard let name = dictionary[CodingKeys.name.rawValue] else {
-                        let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Legacy entitlements must have `name` key.")
+                        let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "旧版 entitlements 必须包含 `name` 键。")
                         throw DecodingError.keyNotFound(CodingKeys.name, context)
                     }
                     
@@ -166,7 +166,7 @@ internal struct AppPermissions: Decodable
             
             let permissions = try rawPermissions.compactMap { (dictionary) -> AppPermission? in
                 guard let name = dictionary[CodingKeys.name.rawValue] else {
-                    let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Legacy privacy permissions must have `name` key.")
+                    let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "旧版隐私权限必须包含 `name` 键。")
                     throw DecodingError.keyNotFound(CodingKeys.name, context)
                 }
                 

@@ -20,7 +20,7 @@ final class RemoveAppOperation: BasePipelineOperation<InstallAppOperationContext
         }
         try await super.executePreconditionCheck(parentProgress: parentProgress)
         guard let installedApp = self.context.installedApp else {
-            throw OperationError.invalidParameters("RemoveAppOperation: self.context.installedApp is nil")
+            throw OperationError.invalidParameters("RemoveAppOperation：self.context.installedApp 为空")
         }
         
         let backgroundContext = self.context.dbBackgroundContext
